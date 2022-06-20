@@ -45,7 +45,15 @@
                     </div>
                     <div class="row">
                         <div class="col">
-                            <span class="fw-small text-muted text-capitalize">{{ explode(" ", $l->peminjam)[0].' '.explode(" ", $l->peminjam)[1].' ('.$l->divisi.')'}} </span>
+                            @php
+                                $user = explode(" ", $l->peminjam);;
+                                if(count($user) < 2){
+                                    $peminjam = $user[0];
+                                } else {
+                                    $peminjam = $user[0]." ".$user[1];
+                                }
+                            @endphp
+                            <span class="fw-small text-muted text-capitalize">{{ $peminjam.' ('.$l->divisi.')'}} </span>
                         </div>
                         <div class="col">
                             <span class="fw-small text-muted">{{ ($l->perusahaan == '')? '-' : $l->perusahaan }}</span>

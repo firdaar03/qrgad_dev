@@ -68,11 +68,7 @@
                 $.ajax({
                     type:"post",
                     url:"{{ url('/lokasi') }}",
-                    data : [
-                        "nama="+ name,
-                        "nama="+ name,
-                        "nama="+ name,
-                    ],
+                    data :"nama="+ name,
                     success:function(data){
                         $('.close').click();
                         read();

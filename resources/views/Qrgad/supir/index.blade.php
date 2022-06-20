@@ -45,7 +45,7 @@
                                                 <i class="fa fa-edit"></i>
                                             </a>
                                             
-                                            <a href="" type="button" data-value="{{ $s->id }}" data-toggle="modal" data-target="#modalDelete" rel="tooltip" title="Delete" onclick="$('#modalDelete #formDelete').attr('action', '/supir/{{ $s->id }}')" class="delete-modal btn btn-lg btn-link btn-danger">
+                                            <a href="" type="button" data-value="{{ $s->id }}" data-toggle="modal" data-target="#modalDelete" rel="tooltip" title="Delete" onclick="$('#modalDelete #formDelete').attr('action', '{{ url('/supir/'. $s->id) }}')" class="delete-modal btn btn-lg btn-link btn-danger">
                                                 <i class="fa fa-times"></i>
                                             </a>
 

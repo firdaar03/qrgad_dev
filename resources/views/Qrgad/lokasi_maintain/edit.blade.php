@@ -2,7 +2,7 @@
     <h5 class="modal-title">
         Edit Lokasi Maintain
     </h5>
-    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
       <span aria-hidden="true">&times;</span>
     </button>
 </div>
@@ -18,7 +18,7 @@
 <div class="modal-footer">
     <div class="inline">
         <button class="btn btn-warning float-right" onclick="update('{{ $lokasi_maintain->id }}')">Edit</button>
-        <button class="btn btn-secondary float-right mr-1" data-bs-dismiss="modal">Batal</button>
+        <button class="btn btn-secondary float-right mr-1" data-dismiss="modal">Batal</button>
     </div>
 </div>
 
