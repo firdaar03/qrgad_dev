@@ -76,7 +76,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/jadwal-ruangan-validate-date', [JadwalRuanganController::class, 'validateDate']);
     Route::get('/jadwal-ruangan-history', [JadwalRuanganController::class, 'history']);
     Route::get('/jadwal-ruangan-ticket/{id}', [JadwalRuanganController::class, 'ticket']);
-    // Route::get('/wa', [JadwalRuanganController::class, 'testWa']);
+    Route::get('/wa', [JadwalRuanganController::class, 'testWa']);
     
     // perusahaan
     Route::resource('/perusahaan', PerusahaanController::class);
@@ -139,7 +139,6 @@ Route::middleware('auth')->group(function () {
     // trip
     Route::resource('/trip', TripController::class);
     Route::get('/trip-schedule',[TripController::class,'schedule']);
-    Route::get('/trip-schedule/{id}',[TripController::class,'showSchedule']);
     Route::post('/trip-read',[TripController::class,'read']);
     Route::post('/trip-read-schedule',[TripController::class,'readSchedule']);
     Route::get('/trip-confirm-approve/{id}',[TripController::class,'confirmApprove']);
@@ -160,7 +159,9 @@ Route::middleware('auth')->group(function () {
     // Route::get('/trip-view/{id}',[TripController::class,'viewTrip']);
     Route::post('/trip-check-out',[TripController::class,'checkOut']);
     Route::post('/trip-check-in',[TripController::class,'checkIn']);
+    Route::get('/trip-schedule-show/{id}',[TripController::class,'showSchedule']);
     
+
 });
 
 

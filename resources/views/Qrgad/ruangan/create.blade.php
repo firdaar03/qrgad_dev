@@ -80,7 +80,7 @@
                                             <td class="fit text-center">
                                                 <input type='hidden' id='idf[]' name='idf[]' value='{{ $f->id }}'>
                                                 <div class="form-group d-flex justify-content-center">
-                                                    <input type='number' id='jumlah[]' name='jumlah[]' class="form-control col-sm-3 shadow" value="{{ old('jumlah.'.$loop->iteration-1, 0 )}}" min="0">
+                                                    <input type='number' id='jumlah[]' name='jumlah[]' class="form-control col-sm-3 shadow" value="{{ old('jumlah.'.$loop->index, 0 )}}" min="0">
                                                 </div>
                                             </td>
                                           </tr>

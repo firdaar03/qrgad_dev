@@ -8,6 +8,7 @@ use App\Models\Table\Qrgad\MsFasilitasRuangan;
 use App\Models\Table\Qrgad\MsLokasi;
 use App\Models\Table\Qrgad\MsRuangan;
 use App\Models\Table\Qrgad\TbJadwalRuangan;
+use App\Models\View\Qrgad\VwJadwalRuangan;
 use App\Models\View\Qrgad\VwRuanganLokasi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -358,9 +359,8 @@ class RuanganController extends Controller
 
             $start = date("Y-m-d",time()). ' 00:00:00';
             $end = date("Y-m-d",time()). ' 23:59:59';
-            // $list = TbJadwalRuangan::getByIdDate($id, $start, $end);
-            $list = TbJadwalRuangan::select("SELECT * FROM `vw_jadwal_ruangans` WHERE id_ruangan = '".$id."' AND start >='".$start."' AND end <= '".$end."'");
-            
+            $list = VwJadwalRuangan::where('id_ruangan', '=', $id)->where('start', '>=', $start)->where('end', '<=', $end)->get();
+
             $data = array(
                 // "actionmenu" => $this->permissionActionMenu('aplikasi-management')
             );

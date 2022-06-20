@@ -29,7 +29,7 @@ class TbJadwalRuangan extends Model
 
     public static function idOtomatis()
     {
-        $kode = TbJadwalRuangan::max('id');
+        $kode = DB::table('tb_jadwal_ruangans')->max('id');
     	$addNol = '';
     	$kode = str_replace("JR", "", $kode);
     	$kode = (int) $kode + 1;
@@ -80,9 +80,9 @@ class TbJadwalRuangan extends Model
         return $isValid;
     }
 
-    // public static function getByIdDate($id, $start, $end){
-    //     $list = DB::select("SELECT * FROM `vw_jadwal_ruangans` WHERE id_ruangan = '".$id."' AND start >='".$start."' AND end <= '".$end."'");
-    //     return $list;
-    // }
+    public static function getByIdDate($id, $start, $end){
+        $list = DB::select("SELECT * FROM `vw_jadwal_ruangans` WHERE id_ruangan = '".$id."' AND start >='".$start."' AND end <= '".$end."'");
+        return $list;
+    }
     
 }

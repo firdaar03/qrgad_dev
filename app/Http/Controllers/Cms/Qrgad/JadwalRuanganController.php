@@ -227,27 +227,27 @@ class JadwalRuanganController extends Controller
 
                 
 
-                $headers = [
-                    'Content-Type' => 'application/json',
-                    'AccessToken' => 'key',
-                    'Authorization' => 'Bearer EAANZBWZCFRFLsBAN2AeHBZAC51CRQacggzaBLy3A9RVZCC2CZCrrVsR8w3wpZCKX7cqKSxED0VF7TeKTvhZAo0nKzZBZBPat7FSFsuEdqEZATljlFAH1qMOZCLhwZAB92bdpsFtDZCUv7FgIuTkCXp5Mu3PRF7LeK4Wlx4ndStawL9HLsLGHz37y9XNDOONSTYEH1vZC1HJ4XSTUx1ZBQZDZD',
-                ];
+                // $headers = [
+                //     'Content-Type' => 'application/json',
+                //     'AccessToken' => 'key',
+                //     'Authorization' => 'Bearer EAANZBWZCFRFLsBAN2AeHBZAC51CRQacggzaBLy3A9RVZCC2CZCrrVsR8w3wpZCKX7cqKSxED0VF7TeKTvhZAo0nKzZBZBPat7FSFsuEdqEZATljlFAH1qMOZCLhwZAB92bdpsFtDZCUv7FgIuTkCXp5Mu3PRF7LeK4Wlx4ndStawL9HLsLGHz37y9XNDOONSTYEH1vZC1HJ4XSTUx1ZBQZDZD',
+                // ];
                 
-                $client = new Client([
-                    'header' => $headers
-                ]);
+                // $client = new Client([
+                //     'header' => $headers
+                // ]);
 
-                $response = $client->request('POST', 'https://graph.facebook.com/v13.0/103151642415253/messages', [
-                    'query' => [
-                        "messaging_product"=> "whatsapp", 
-                        "to"=> "628972178381", 
-                        "type"=> "template", 
-                        "template"=> [ 
-                            "name"=> "jadwal_ruangan_confirm", 
-                            "language"=> [ "code"=> "id" ]
-                        ] 
-                    ]
-                ]);
+                // $response = $client->request('POST', 'https://graph.facebook.com/v13.0/103151642415253/messages', [
+                //     'query' => [
+                //         "messaging_product"=> "whatsapp", 
+                //         "to"=> "628972178381", 
+                //         "type"=> "template", 
+                //         "template"=> [ 
+                //             "name"=> "jadwal_ruangan_confirm", 
+                //             "language"=> [ "code"=> "id" ]
+                //         ] 
+                //     ]
+                // ]);
 
 
                 // $response = Http::post('');

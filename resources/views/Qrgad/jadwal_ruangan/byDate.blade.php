@@ -81,16 +81,7 @@
                     </div>
                     <div class="row">
                         <div class="col">
-                            @php
-                                $user = explode(" ", $jadwal->peminjam);;
-                                if(count($user) < 2){
-                                    $peminjam = $user[0];
-                                } else {
-                                    $peminjam = $user[0]." ".$user[1];
-                                }
-                            @endphp 
-                           
-                            <span class="fw-small text-muted text-capitalize">{{ $peminjam }} </span>
+                            <span class="fw-small text-muted text-capitalize">{{ explode(" ", $jadwal->peminjam)[0].'  ('.$jadwal->divisi.')'}} </span>
                         </div>
                         <div class="col">
                             <span class="fw-small text-muted">{{ ($jadwal->perusahaan == '')? '-' : $jadwal->perusahaan }}</span>
