@@ -27,7 +27,7 @@
                             <select name="kategori_konsumable" id="kategori_konsumable" class="form-control @error('kategori_konsumable') is-invalid @enderror">
                                 <option value="">--Pilih kategori konsumable--</option>
                                 @foreach ($kategori_konsumable as $kk)  
-                                    <option value="{{ $kk->id }}" {{ (old('kategori_konsumable', $k->kategori_konsumable) == $kk->id) ? 'selected' : '' }}>{{ $kk->nama_kategori_konsumable }}</option>  
+                                    <option value="{{ $kk->id }}" {{ (old('kategori_konsumable', $k->kategori_konsumable) == $kk->id) ? 'selected' : '' }}>{{ $kk->nama }}</option>  
                                 @endforeach
                             </select>
                             @error('kategori_konsumable')

@@ -49,7 +49,7 @@
                                             <a href="{{ url('/konsumable') }}/{{ $ti->id_konsumable }}/edit" type="button" data-toggle="tooltip" title="" class="btn btn-link btn-warning btn-lg" data-original-title="Ubah">
                                                 <i class="fa fa-edit"></i>
                                             </a>
-                                            <a href="{{ '#' }}" type="button" data-value="{{ $ti->id_konsumable }}" data-toggle="modal" data-target="#modalDelete" rel="tooltip" onclick="$('#modalDelete #formDelete').attr('action', '/konsumable/{{ $ti->id_konsumable }}')" class="delete-modal btn btn-link btn-danger" data-original-title="Hapus">
+                                            <a href="{{ '#' }}" type="button" data-value="{{ $ti->id_konsumable }}" data-toggle="modal" data-target="#modalDelete" rel="tooltip" onclick="$('#modalDelete #formDelete').attr('action','{{ url('/konsumable/'. $ti->id_konsumable) }}' )" class="delete-modal btn btn-link btn-danger" data-original-title="Hapus">
                                                 <i class="fa fa-times"></i>
                                             </a>
                                             <a href="{{ url('/inventory-tambah') }}/{{ $ti->id_konsumable }}" type="button" data-toggle='tooltip' title="" class="btn btn-link btn-success btn-lg" data-original-title="Tambah Inventory">

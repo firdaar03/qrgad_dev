@@ -27,7 +27,7 @@ class MsRuangan extends Model
     
     public static function idOtomatis()
     {
-        $kode = MsRuangan::max('id');
+        $kode = DB::table('ms_ruangans')->max('id');
     	$addNol = '';
     	$kode = str_replace("RG", "", $kode);
     	$kode = (int) $kode + 1;

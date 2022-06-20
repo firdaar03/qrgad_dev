@@ -32,7 +32,7 @@
 	<link rel="stylesheet" href="{{ URL::asset('assets/Atlantis-Lite-master/plugins/chosen/chosen.css') }} ">
   
   <!-- Ajax Jquery -->
-  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
 
 </head>
   <body data-background-color="bg3">

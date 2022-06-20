@@ -46,7 +46,7 @@
                                                 <i class="fa fa-edit"></i>
                                             </a>
 
-                                            <a href="" type="button" data-value="{{ $sk->id }}" data-toggle="modal" rel="tooltip" title="Delete" data-target="#modalDelete" onclick="$('#modalDelete #formDelete').attr('action', '/sub-kategori-konsumable/{{ $sk->id }}')" class="delete-modal btn btn-link btn-warning btn-lg btn-link btn-danger">
+                                            <a href="" type="button" data-value="{{ $sk->id }}" data-toggle="modal" rel="tooltip" title="Delete" data-target="#modalDelete" onclick="$('#modalDelete #formDelete').attr('action', '{{ url('/sub-kategori-konsumable/'.$sk->id ) }}')" class="delete-modal btn btn-link btn-warning btn-lg btn-link btn-danger">
                                                 <i class="fa fa-times"></i>
                                             </a>
 

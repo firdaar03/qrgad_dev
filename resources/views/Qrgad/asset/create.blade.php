@@ -22,7 +22,7 @@
 
                     <div class="d-flex float-right mt-5 mb-5">
                         <div class="d-inline mr-2">
-                            <a href="{{ url('/aset') }}" class="btn btn-secondary float-right">Batal</a>
+                            <a href="{{ url('/sub-kategori-konsumable') }}" class="btn btn-secondary float-right">Batal</a>
                         </div>
                         <div class="d-inline">
                             <button type="submit" class="btn btn-primary float-right mr-3">Simpan</button>
