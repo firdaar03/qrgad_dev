@@ -160,13 +160,8 @@ class InventoryController extends Controller
             } else {
                 $alert = 'danger-add-inventory';
             }
-
-            $data = array(
-                "alert" => $alert,
-                // "actionmenu" => $this->permissionActionMenu('aplikasi-management')
-            );
     
-            return redirect('/inventory')->with('data', $data);
+            return redirect('/inventory')->with('alert', $alert);
 
         // } else {
         //     return redirect("/")->with("error_msg", "Akses ditolak");
@@ -190,10 +185,8 @@ class InventoryController extends Controller
                     $tabelinventory = VwTabelInventory::whereBetween('last_entry',[$start_date,$end_date])->get();
                 } else {
                     $alert = 'danger-tanggalgagal- ';
-                    $data = array(
-                        "alert" => $alert,
-                    );
-                    return redirect('/report-inventory')->with('data', $data);
+                    
+                    return redirect('/report-inventory')->with('alert', $alert);
                 }
             } else {
                 $tabelinventory = VwTabelInventory::all();

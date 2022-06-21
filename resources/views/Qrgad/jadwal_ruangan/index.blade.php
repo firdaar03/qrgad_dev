@@ -46,21 +46,21 @@
 
 @section('script')
 
-  @if (session()->has('data'))
-  @php
-      $data = session()->get('data');
-      $state = explode('-', $data['alert'])[0];
-      $action = explode('-', $data['alert'])[1];
-      $menu = explode('-', $data['alert'])[2];
-  @endphp
+  @if (session()->has('alert'))
+    @php
+        $alert = session()->get('alert');
+        $state = explode('-', $alert)[0];
+        $action = explode('-', $alert)[1];
+        $menu = explode('-', $alert)[2];
+    @endphp
 
-  <script>
-      var state = @json($state);
-      var action = @json($action);
-      var menu = @json($menu);
+    <script>
+        var state = @json($state);
+        var action = @json($action);
+        var menu = @json($menu);
 
-      getAlert(state, action, menu);
-  </script>
+        getAlert(state, action, menu);
+    </script>
   @endif  
 
     <script>

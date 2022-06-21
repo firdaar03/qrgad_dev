@@ -130,12 +130,7 @@ class AsetController extends Controller
             $alert = 'danger-add-asset';
         }
 
-        $data = array(
-            "alert" => $alert,
-            // "actionmenu" => $this->permissionActionMenu('aplikasi-management')
-        );
-
-        return redirect('/aset')->with('data', $data);
+        return redirect('/aset')->with('alert', $alert);
     }
 
 

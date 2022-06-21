@@ -11,16 +11,6 @@
                     <form action="{{ url('/inventory') }}" method="post" enctype="multipart/form-data">
                         @csrf
 
-                        @if (session()->has('data'))
-                            @php 
-                            $data = session()->get('data');
-                            $id = $data["id"];
-                            $konsumable = $data["konsumable"];
-                            @endphp
-                        @else
-                            
-                        @endif
-
                         <input name="konsumable" id="konsumable" type="text" class="form-control @error('konsumable') is-invalid @enderror"
                         value="{{ old('konsumable', $id ) }}" placeholder="Nama Konsumable" hidden>
 

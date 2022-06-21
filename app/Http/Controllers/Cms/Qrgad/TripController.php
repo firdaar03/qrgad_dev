@@ -478,12 +478,7 @@ class TripController extends Controller
                 $alert = 'danger-add-peminjaman kendaraan';
             }
     
-            $data = array(
-                "alert" => $alert,
-                // "actionmenu" => $this->permissionActionMenu('aplikasi-management')
-            );
-            
-            return redirect('/trip')->with('data', $data);
+            return redirect('/trip')->with('alert', $alert);
             
         // } else {
         //     return redirect("/")->with("error_msg", "Akses ditolak");
@@ -514,13 +509,8 @@ class TripController extends Controller
             } else {
                 $alert = 'danger-add-check out';
             }
-    
-            $data = array(
-                "alert" => $alert,
-                // "actionmenu" => $this->permissionActionMenu('aplikasi-management')
-            );
             
-            return redirect('/trip-schedule')->with('data', $data);
+            return redirect('/trip-schedule')->with('alert', $alert);
 
         // } else {
         //     return redirect("/")->with("error_msg", "Akses ditolak");
@@ -556,13 +546,8 @@ class TripController extends Controller
             } else {
                 $alert = 'danger-add-check in';
             }
-    
-            $data = array(
-                "alert" => $alert,
-                // "actionmenu" => $this->permissionActionMenu('aplikasi-management')
-            );
             
-            return redirect('/trip-schedule')->with('data', $data);
+            return redirect('/trip-schedule')->with('alert', $alert);
 
         // } else {
         //     return redirect("/")->with("error_msg", "Akses ditolak");
@@ -952,12 +937,7 @@ class TripController extends Controller
                 $alert = 'danger-add-set perjalanan';
             }
 
-            $data = array(
-                "alert" => $alert,
-                // "actionmenu" => $this->permissionActionMenu('aplikasi-management')
-            );
-
-            session()->flash('data', $data);
+            session()->flash('alert', $alert);
 
             return response()->json([
                 'status'=>true,

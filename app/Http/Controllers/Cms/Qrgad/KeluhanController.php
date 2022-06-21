@@ -293,13 +293,8 @@ class KeluhanController extends Controller
             } else {
                 $alert = 'danger-add-keluhan';
             }
-    
-            $data = array(
-                "alert" => $alert,
-                // "actionmenu" => $this->permissionActionMenu('aplikasi-management')
-            );
             
-            return redirect('/keluhan')->with('data', $data);
+            return redirect('/keluhan')->with('alert', $alert);
             
         // } else {
         //     return redirect("/")->with("error_msg", "Akses ditolak");
@@ -362,11 +357,8 @@ class KeluhanController extends Controller
 
                 }
             } else {
-                $data = array(
-                    "alert" => 'warning-add-, item konsumable harus dipilih!',
-                    // "actionmenu" => $this->permissionActionMenu('aplikasi-management')
-                );
-                return back()->with('data', $data);
+                $alert = 'warning-add-, item konsumable harus dipilih!';
+                return back()->with('alert', $alert);
             }
 
             
@@ -377,13 +369,8 @@ class KeluhanController extends Controller
             } else {
                 $alert = 'danger-add-konsumable out';
             }
-    
-            $data = array(
-                "alert" => $alert,
-                // "actionmenu" => $this->permissionActionMenu('aplikasi-management')
-            );
             
-            return redirect('/keluhan-dashboard')->with('data', $data);
+            return redirect('/keluhan-dashboard')->with('alert', $alert);
             
         // } else {
         //     return redirect("/")->with("error_msg", "Akses ditolak");
@@ -452,12 +439,7 @@ class KeluhanController extends Controller
                 $alert = 'danger-add-respon keluhan dan close keluhan';
             }
     
-            $data = array(
-                "alert" => $alert,
-                // "actionmenu" => $this->permissionActionMenu('aplikasi-management')
-            );
-            
-            return redirect('/keluhan-dashboard')->with('data', $data);
+            return redirect('/keluhan-dashboard')->with('alert', $alert);
             
         // } else {
         //     return redirect("/")->with("error_msg", "Akses ditolak");

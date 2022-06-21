@@ -154,12 +154,7 @@ class RuanganController extends Controller
                 $alert = 'danger-add-ruangan';
             }
 
-            $data = array(
-                "alert" => $alert,
-                // "actionmenu" => $this->permissionActionMenu('aplikasi-management')
-            );
-    
-            return redirect('/ruangan')->with('data', $data);
+            return redirect('/ruangan')->with('alert', $alert);
 
         // } else {
         //     return redirect("/")->with("error_msg", "Akses ditolak");
@@ -290,13 +285,8 @@ class RuanganController extends Controller
             } else {
                 $alert = 'danger-edit-ruangan';
             }
-
-            $data = array(
-                "alert" => $alert,
-                // "actionmenu" => $this->permissionActionMenu('aplikasi-management')
-            );
     
-            return redirect('/ruangan')->with('data', $data);
+            return redirect('/ruangan')->with('alert', $alert);
 
         // } else {
         //     return redirect("/")->with("error_msg", "Akses ditolak");
@@ -327,12 +317,7 @@ class RuanganController extends Controller
                 $alert = 'danger-delete-ruangan';
             }
 
-            $data = array(
-                "alert" => $alert,
-                // "actionmenu" => $this->permissionActionMenu('aplikasi-management')
-            );
-    
-            return redirect('/ruangan')->with('data', $data);
+            return redirect('/ruangan')->with('alert', $alert);
 
         // } else {
         //     return redirect("/")->with("error_msg", "Akses ditolak");

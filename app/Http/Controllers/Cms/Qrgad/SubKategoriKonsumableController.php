@@ -132,12 +132,7 @@ class SubKategoriKonsumableController extends Controller
                 $alert = 'danger-add-sub kategori konsumable';
             }
     
-            $data = array(
-                "alert" => $alert,
-                // "actionmenu" => $this->permissionActionMenu('aplikasi-management')
-            );
-            
-            return redirect('/sub-kategori-konsumable')->with('data', $data);
+            return redirect('/sub-kategori-konsumable')->with('alert', $alert);
             
         // } else {
         //     return redirect("/")->with("error_msg", "Akses ditolak");
@@ -227,13 +222,8 @@ class SubKategoriKonsumableController extends Controller
             } else {
                 $alert = 'danger-edit-sub kategori konsumable';
             }
-    
-            $data = array(
-                "alert" => $alert,
-                // "actionmenu" => $this->permissionActionMenu('aplikasi-management')
-            );
             
-            return redirect('/sub-kategori-konsumable')->with('data', $data);
+            return redirect('/sub-kategori-konsumable')->with('alert', $alert);
             
         // } else {
         //     return redirect("/")->with("error_msg", "Akses ditolak");
@@ -265,12 +255,7 @@ class SubKategoriKonsumableController extends Controller
                 $alert = 'danger-delete-sub kategori konsumable';
             }
     
-            $data = array(
-                "alert" => $alert,
-                // "actionmenu" => $this->permissionActionMenu('aplikasi-management')
-            );
-            
-            return redirect('/sub-kategori-konsumable')->with('data', $data);
+            return redirect('/sub-kategori-konsumable')->with('alert', $alert);
             
         // } else {
         //     return redirect("/")->with("error_msg", "Akses ditolak");

@@ -235,11 +235,6 @@ class JadwalRuanganController extends Controller
                     $alert = 'danger-add-jadwal ruangan';
                 }
 
-                $data = array(
-                    "alert" => $alert,
-                    // "actionmenu" => $this->permissionActionMenu('aplikasi-management')
-                );
-
                 // $headers = [
                 //     'Content-Type' => 'application/json',
                 //     'AccessToken' => 'key',
@@ -264,7 +259,7 @@ class JadwalRuanganController extends Controller
 
                 // $response = Http::post('');
 
-                return redirect('/jadwal-ruangan')->with('data', $data);
+                return redirect('/jadwal-ruangan')->with('alert', $alert);
                 
            } else {
                 return back()->withInput($request->input())->with('errorDate', 'error date');

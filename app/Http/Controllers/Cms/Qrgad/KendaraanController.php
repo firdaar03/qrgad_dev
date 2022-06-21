@@ -127,13 +127,8 @@ class KendaraanController extends Controller
             } else {
                 $alert = 'danger-add-kendaraan';
             }
-
-            $data = array(
-                "alert" => $alert,
-                // "actionmenu" => $this->permissionActionMenu('aplikasi-management')
-            );
     
-            return redirect('/kendaraan')->with('data', $data);
+            return redirect('/kendaraan')->with('alert', $alert);
             
 
         // } else {
@@ -213,13 +208,8 @@ class KendaraanController extends Controller
             } else {
                 $alert = 'danger-edit-kendaraan';
             }
-
-            $data = array(
-                "alert" => $alert,
-                // "actionmenu" => $this->permissionActionMenu('aplikasi-management')
-            );
     
-            return redirect('/kendaraan')->with('data', $data);
+            return redirect('/kendaraan')->with('alert', $alert);
 
         // } else {
         //     return redirect("/")->with("error_msg", "Akses ditolak");
@@ -247,13 +237,8 @@ class KendaraanController extends Controller
             } else {
                 $alert = 'danger-delete-kendaraan';
             }
-
-            $data = array(
-                "alert" => $alert,
-                // "actionmenu" => $this->permissionActionMenu('aplikasi-management')
-            );
     
-            return redirect('/kendaraan')->with('data', $data);
+            return redirect('/kendaraan')->with('alert', $alert);
 
         // } else {
         //     return redirect("/")->with("error_msg", "Akses ditolak");

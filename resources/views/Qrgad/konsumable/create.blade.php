@@ -128,3 +128,24 @@
 
 @endsection
 
+@section('script')
+
+    @if (session()->has('alert'))
+        @php
+            $alert = session()->get('alert');
+            $state = explode('-', $alert)[0];
+            $action = explode('-', $alert)[1];
+            $menu = explode('-', $alert)[2];
+        @endphp
+
+        <script>
+            var state = @json($state);
+            var action = @json($action);
+            var menu = @json($menu);
+
+            getAlert(state, action, menu);
+        </script>
+    @endif  
+    
+@endsection
+
