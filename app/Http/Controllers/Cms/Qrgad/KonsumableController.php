@@ -231,9 +231,9 @@ class KonsumableController extends Controller
             $alert = '';
 
             if($deletekonsumable){
-                $alert = 'success-delete-ruangan';
+                $alert = 'success-delete-konsumable';
             } else {
-                $alert = 'danger-delete-ruangan';
+                $alert = 'danger-delete-konsumable';
             }
     
             return redirect('/inventory')->with('alert', $alert);
