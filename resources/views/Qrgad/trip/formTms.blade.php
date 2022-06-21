@@ -12,10 +12,10 @@
                     @csrf
 
                     <div class="form-group">
-                        <label for="agenda" class="mandatory">Agenda</label>
-                        <textarea name="agenda" id="agenda" type="text" rows="3" class="form-control @error('agenda') is-invalid @enderror"
-                        placeholder="Agenda">{{ old('agenda') }}</textarea>
-                        @error('agenda')
+                        <label for="keperluan" class="mandatory">Keperluan</label>
+                        <textarea name="keperluan" id="keperluan" type="text" rows="3" class="form-control @error('keperluan') is-invalid @enderror"
+                        placeholder="Keperluan">{{ old('keperluan') }}</textarea>
+                        @error('keperluan')
                             <div class="invalid-feedback">
                                 {{ $message }}
                             </div>
@@ -47,25 +47,12 @@
                         </div>
                     </div>
 
-
-                    <div class="form-group">
-                        <label for="keperluan">Keperluan</label>
-                        <textarea name="keperluan" id="keperluan" type="text" rows="3" class="form-control @error('keperluan') is-invalid @enderror"
-                        placeholder="Keperluan">{{ old('keperluan') }}</textarea>
-                        @error('keperluan')
-                            <div class="invalid-feedback">
-                                {{ $message }}
-                            </div>
-                        @enderror
-                    </div>
-
                     <div class="form-group">
                         <label for="jenis_perjalanan" class="mandatory">Jenis Perjalanan</label>
                         <select name="jenis_perjalanan" id="jenis_perjalanan" onchange="checkJenisPerjalanan()" class="form-control @error('jenis_perjalanan') is-invalid @enderror">
                             <option value="">--pilih jenis perjalanan--</option>
                             <option value="1" {{ old('jenis_perjalanan') == 1 ? 'selected' : '' }}>One Way</option>
                             <option value="2" {{ old('jenis_perjalanan') == 2 ? 'selected' : '' }}>Round Trip</option>
-                            <option value="3" {{ old('jenis_perjalanan') == 3 ? 'selected' : '' }}>Shuttle</option>
                         </select>
                         @error('jenis_perjalanan')
                             <div class="invalid-feedback">

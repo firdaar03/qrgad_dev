@@ -118,7 +118,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('/konsumable', KonsumableController::class);
     Route::get('/konsumable-filter/{id}', [KonsumableController::class, 'filterSubKategori']);
 
-      // inventory
+    // inventory
     Route::resource('/inventory', InventoryController::class);
     Route::get('/inventory-tambah/{id}', [InventoryController::class, 'tambah']);
     Route::get('/inventory-report', [InventoryController::class, 'report']);

@@ -33,7 +33,7 @@
 
                     <div class="form-group">
                         <label for="agenda" class="mandatory">Agenda</label>
-                        <textarea type="text" rows="3" name="agenda" class="form-control @error('agenda') is-invalid @enderror" placeholder="Agenda pertemuan" >{{ old('agenda') }}</textarea>
+                        <textarea type="text" rows="3" name="agenda" class="form-control @error('agenda') is-invalid @enderror" placeholder="Agenda" >{{ old('agenda') }}</textarea>
                         @error('agenda')
                             <div class="invalid-feedback">
                                 {{ $message }}
@@ -125,15 +125,6 @@
                                 @enderror
                             </div>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="kebutuhan">Kebutuhan</label>
-                        <textarea type="text" rows="3" name="kebutuhan" class="form-control @error('kebutuhan') is-invalid @enderror" placeholder="Kebutuhan pertemuan" >{{ old('kebutuhan') }}</textarea>
-                        @error('kebutuhan')
-                            <div class="invalid-feedback">
-                                {{ $message }}
-                            </div>
-                        @enderror
                     </div>
                     <div class="form-group">
                         <label for="color">Warna</label>

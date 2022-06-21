@@ -3,7 +3,7 @@
     <li class="nav-item {{ Request::is('dashboard') || Request::is('/') ? 'active' : '' }}">
         <a href="{{ url('/dashboard') }}" class="collapsed" aria-expanded="false">
           <i class="fas fa-home"></i>
-          <p>Dashboardd</p>
+          <p>Dashboard</p>
         </a>
     </li>
     

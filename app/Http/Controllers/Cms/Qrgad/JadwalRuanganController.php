@@ -167,7 +167,6 @@ class JadwalRuanganController extends Controller
             ]);
     
             $validated['perusahaan'] = $request->perusahaan;
-            $validated['kebutuhan'] = $request->kebutuhan;
             if($request->color == null || $request->color == ''){
                 $validated['color'] = '#7771D2';
             } else {
@@ -223,7 +222,6 @@ class JadwalRuanganController extends Controller
                     "ruangan" => $validated['ruangan'],
                     "start" => $start,
                     "end" => $end,
-                    "kebutuhan" => $validated['kebutuhan'],
                     "color" => $validated['color']
                 ]);
 

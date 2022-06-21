@@ -2,15 +2,6 @@
 @extends('Qrgad/layout/qrgad-admin')
 
 @section('content')
-	<div class="card shadow">
-		<div class="card-body">
-			<div class="d-flex justify-content-center">
-				<div class="">
-					{!! $qrcode !!}
-				</div>
-			</div>
-		</div>
-	</div>
     <div class="card shadow">
         <div class="">
             <div class="card-header d-flex flex-inline">
@@ -20,6 +11,7 @@
             </div>
             <div class="card-body">
 				<ol class="activity-feed">
+
 					{{-- status --}}
 					{{-- 0 - rejected --}}
 					{{-- 1 - Waiting Head --}}
@@ -148,6 +140,16 @@
 										@endif
 									</div>
 								</div>
+								<a href="/trip-ticket/{{ $trip->id_trip }}" class="my-2 btn btn-info">
+									<div class="d-flex">
+										<div>
+											<i class="fas fa-ticket-alt"></i>
+										</div>
+										<div class="ml-2">
+											Lihat Tiket
+										</div>
+									</div>
+								</a>
 							</span>
 						</li>
 					@endif
@@ -202,8 +204,8 @@
 									</div>
 									<br>
 									<div>
-										<h4 class="fw-bold">Agenda</h4>
-										<span>{{ $trip->agenda }}</span>
+										<h4 class="fw-bold">Keperluan</h4>
+										<span>{{ $trip->keperluan }}</span>
 									</div>
 									<br>
 									<div>
@@ -256,7 +258,7 @@
 					</li>
 				</ol>
 
-				<div class="d-flex float-right mt-5">
+				<div class="d-flex float-right my-3">
 					<div class="d-inline mr-2">
 						<a href="{{ url('/trip') }}" class="btn btn-secondary float-right">Kembali</a>
 					</div>

@@ -47,10 +47,6 @@
                             <span class="status-specification fw-light pl-5">{{ date("d M Y H:i",strtotime($jadwal->end)) }}</span>
                         </li>
                         <li>
-                            <span class="name-specification fw-bold">Kebutuhan</span>
-                            <span class="status-specification fw-light pl-5">{{ ($jadwal->kebutuhan == '')? '-' : $jadwal->kebutuhan }}</span>
-                        </li>
-                        <li>
                             <span class="name-specification fw-bold">Peminjam</span>
                             <span class="status-specification fw-light pl-5">{{ $jadwal->peminjam }}</span>
                         </li>

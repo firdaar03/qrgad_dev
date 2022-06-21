@@ -22,7 +22,7 @@ class TbTripRequest extends Model
         "tujuan",
         "pemohon",
         "wilayah",
-        "agenda",
+        "keperluan",
         "waktu_berangkat",
         "waktu_pulang",
         "penumpang",

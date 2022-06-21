@@ -23,8 +23,8 @@
 								</div>
 								<br>
 								<div>
-									<h4 class="fw-bold">Agenda</h4>
-									<span>{{ $trip->agenda }}</span>
+									<h4 class="fw-bold">Keperluan</h4>
+									<span>{{ $trip->keperluan }}</span>
 								</div>
 								
 								<br>
