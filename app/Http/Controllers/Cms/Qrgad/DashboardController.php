@@ -75,7 +75,6 @@ class DashboardController extends Controller
         // dd($arr_emp);
 
         $data = array(
-            "error_msg" => 'ini error',
             // "actionmenu" => $this->permissionActionMenu('aplikasi-management')
         );
 

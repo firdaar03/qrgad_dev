@@ -40,57 +40,59 @@
                 </div>
             </div>
         </div>
-    @elseif($jadwals == null)
-        <span class="text-muted">Belum ada jadwal</span>
-    @endif
-
-    @foreach ($jadwals as $jadwal)
-        {{-- <p>{{ $jadwal->agenda }}</p> --}}
-        <div class="card shadow mt-3">
-            <div class="d-flex align-items-center">
-                <div class="my-auto ml-3">
-                    <span class="stamp stamp-sm" style="background-color: {{ $jadwal->color }}"></span>
-                </div>
-                <div class="container my-2">
-                    <div class="row">
-                        <div class="col">
-                            <h5 class="fw-bold">
-                               
-                                @if (date("Y-m-d",strtotime($jadwal->start)) == $tanggal)
-                                    {{ date("H:i",strtotime($jadwal->start)) }}
-                                @else
-                                    {{ date("d M Y H:i",strtotime($jadwal->start)) }}
-                                @endif
-
-                                <span class="fw-bold"> - </span>
-
-                                @if (date("Y-m-d",strtotime($jadwal->end)) == $tanggal)
-                                    {{ date("H:i",strtotime($jadwal->end)) }}
-                                @else
-                                    {{ date("d M Y H:i",strtotime($jadwal->end)) }}
-                                @endif
-                                {{-- d M Y H:i --}}
-                                {{-- {{ date("H:i",strtotime($jadwal->start)) }} - {{ date("H:i",strtotime($jadwal->end)) }} --}}
-                            </h5>
-                            
-                            
-                        </div>
-                        <div class="col">
-                            <h5 class="fw-bold">{{ $jadwal->ruangan }}</h5>
-                        </div>
+    @elseif($jadwals != null && $jadwals != '[]')
+        @foreach ($jadwals as $jadwal)
+            {{-- <p>{{ $jadwal->agenda }}</p> --}}
+            <div class="card shadow mt-3">
+                <div class="d-flex align-items-center">
+                    <div class="my-auto ml-3">
+                        <span class="stamp stamp-sm" style="background-color: {{ $jadwal->color }}"></span>
                     </div>
-                    <div class="row">
-                        <div class="col">
-                            <span class="fw-small text-muted text-capitalize">{{ explode(" ", $jadwal->peminjam)[0].'  ('.$jadwal->divisi.')'}} </span>
+                    <div class="container my-2">
+                        <div class="row">
+                            <div class="col">
+                                <h5 class="fw-bold">
+                                
+                                    @if (date("Y-m-d",strtotime($jadwal->start)) == $tanggal)
+                                        {{ date("H:i",strtotime($jadwal->start)) }}
+                                    @else
+                                        {{ date("d M Y H:i",strtotime($jadwal->start)) }}
+                                    @endif
+
+                                    <span class="fw-bold"> - </span>
+
+                                    @if (date("Y-m-d",strtotime($jadwal->end)) == $tanggal)
+                                        {{ date("H:i",strtotime($jadwal->end)) }}
+                                    @else
+                                        {{ date("d M Y H:i",strtotime($jadwal->end)) }}
+                                    @endif
+                                    {{-- d M Y H:i --}}
+                                    {{-- {{ date("H:i",strtotime($jadwal->start)) }} - {{ date("H:i",strtotime($jadwal->end)) }} --}}
+                                </h5>
+                                
+                                
+                            </div>
+                            <div class="col">
+                                <h5 class="fw-bold">{{ $jadwal->ruangan }}</h5>
+                            </div>
                         </div>
-                        <div class="col">
-                            <span class="fw-small text-muted">{{ ($jadwal->perusahaan == '')? '-' : $jadwal->perusahaan }}</span>
+                        <div class="row">
+                            <div class="col">
+                                <span class="fw-small text-muted text-capitalize">{{ explode(" ", $jadwal->peminjam)[0].'  ('.$jadwal->divisi.')'}} </span>
+                            </div>
+                            <div class="col">
+                                <span class="fw-small text-muted">{{ ($jadwal->perusahaan == '')? '-' : $jadwal->perusahaan }}</span>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    @endforeach
+        @endforeach
+    @else
+        <span class="text-muted">Belum ada jadwal</span>
+    @endif
+
+    
    
     
   </div>

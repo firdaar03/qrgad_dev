@@ -111,26 +111,15 @@ class KonsumableController extends Controller
             $validated['id'] = $kode;
             $create = TbKonsumable::create($validated);
 
-            $alert = '';
-
             if($create){
-                $alert = 'success-add-konsumable';
-            } else {
-                $alert = 'danger-add-konsumable';
-            }
-
-            $data = array(
-                "alert" => $alert,
-                "konsumable" => $request->nama,
-                "id" => $kode
-                // "actionmenu" => $this->permissionActionMenu('aplikasi-management')
-            );
-
-            if($create){
-                return redirect('/inventory/create')->with('data', $data);
+                return redirect('/inventory/create', [
+                    "konsumable" => $request->nama,
+                    "id" => $kode
+                ])->with('alert', 'success-add-konsumable');
 
             } else{
-                return redirect('/konsumable/create')->with('data', $data);
+
+                return back()->withInput($request->input())->with('alert', 'danger-add-konsumable');
             }
     }
 
@@ -214,20 +203,13 @@ class KonsumableController extends Controller
             
             $alert = '';
             
-            // dd($create);
             if($update){
                 $alert = 'success-edit-konsumable';
             } else {
                 $alert = 'danger-edit-konsumable';
             }
-
-            $data = array(
-                "alert" => $alert,
-                // "actionmenu" => $this->permissionActionMenu('aplikasi-management')
-            );
-            // dd($alert);
             
-            return redirect('/inventory')->with('data', $data);
+            return redirect('/inventory')->with('alert', $alert);
 
         // } else {
         //     return redirect("/")->with("error_msg", "Akses ditolak");
@@ -253,13 +235,8 @@ class KonsumableController extends Controller
             } else {
                 $alert = 'danger-delete-ruangan';
             }
-
-            $data = array(
-                "alert" => $alert,
-                // "actionmenu" => $this->permissionActionMenu('aplikasi-management')
-            );
     
-            return redirect('/inventory')->with('data', $data);
+            return redirect('/inventory')->with('alert', $alert);
 
         // } else {
         //     return redirect("/")->with("error_msg", "Akses ditolak");

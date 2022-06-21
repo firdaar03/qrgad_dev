@@ -128,12 +128,7 @@ class SupirController extends Controller
                 $alert = 'danger-add-driver';
             }
 
-            $data = array(
-                "alert" => $alert,
-                // "actionmenu" => $this->permissionActionMenu('aplikasi-management')
-            );
-    
-            return redirect('/supir')->with('data', $data);
+            return redirect('/supir')->with('alert', $alert);
             
 
         // } else {
@@ -214,12 +209,7 @@ class SupirController extends Controller
                 $alert = 'danger-edit-driver';
             }
 
-            $data = array(
-                "alert" => $alert,
-                // "actionmenu" => $this->permissionActionMenu('aplikasi-management')
-            );
-    
-            return redirect('/supir')->with('data', $data);
+            return redirect('/supir')->with('alert', $alert);
             
 
         // } else {
@@ -249,12 +239,7 @@ class SupirController extends Controller
                 $alert = 'danger-delete-driver';
             }
 
-            $data = array(
-                "alert" => $alert,
-                // "actionmenu" => $this->permissionActionMenu('aplikasi-management')
-            );
-    
-            return redirect('/supir')->with('data', $data);
+            return redirect('/supir')->with('alert', $alert);
 
         // } else {
         //     return redirect("/")->with("error_msg", "Akses ditolak");

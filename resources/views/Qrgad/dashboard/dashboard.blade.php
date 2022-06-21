@@ -89,22 +89,27 @@
             </div>
         </div>
     </div>
-
-    {{-- Error msg --}}
-
-    @if ( session()->has('data'))
-        <h1>{{ session($data['error_msg']) }}</h1>
-    @endif
     
 @endsection
 
 @section('script')
 
-    {{-- @if ( session()->has('addWhatsapp'))
-    <script>
-        $('#modal').modal('show');
-    </script>
-    @endif --}}
+    @if (session()->has('alert'))
+        @php
+            $alert = session()->get('alert');
+            $state = explode('-', $alert)[0];
+            $action = explode('-', $alert)[1];
+            $menu = explode('-', $alert)[2];
+        @endphp
+
+        <script>
+            var state = @json($state);
+            var action = @json($action);
+            var menu = @json($menu);
+
+            getAlert(state, action, menu);
+        </script>
+    @endif  
 
     <script>
         var addWhatsapp = @json($addWhatsapp); 
@@ -142,23 +147,6 @@
                 }
             
                 
-            }
-            
-            function detilRuangan(id){
-                    $.ajax({
-                    type:'get',
-                    url: "{{ url('/ruangan-dashboard-get-by-day') }}/"+id,
-                    data : 'id='+id,
-                    success:function(data){
-                        $('#body').html(data);
-                        $('#myModal').modal('show');
-                    },
-                    error: function(xhr, status, error) {
-                        var err = eval("(" + xhr.responseText + ")");
-                        $('.close').click();
-                        // showAlert('danger', 'Gagal menambahkan data');
-                    }
-                });
             }
     </script>
 @endsection
