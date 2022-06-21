@@ -75,7 +75,7 @@
         <li class="nav-item {{ Request::is('aset*')? 'active' : '' }}">
           <a data-toggle="collapse" href="#aset" class="collapsed" aria-expanded="false">
             <i class="fas fa-hand-holding-usd"></i>
-            <p>Asset</p>
+            <p>Aset</p>
             <span class="caret"></span>
           </a>
           <div id="aset" class="collapse {{ Request::is('aset*')  || Request::is('table-aset')? 'show' : '' }}">
@@ -152,7 +152,7 @@
         <li class="nav-item {{ Request::is('inventory*') || Request::is('kategori-konsumable') || Request::is('sub-kategori-konsumable*') || Request::is('konsumable*')  ? 'active' : '' }}">
           <a data-toggle="collapse" href="#inventory" class="collapsed" aria-expanded="false">
             <i class="fas fa-cubes"></i>
-            <p>Inventory</p>
+            <p>Inventori</p>
             <span class="caret"></span>
           </a>
 
@@ -172,7 +172,7 @@
                 @if (Auth::user()->level == "LV00000001" || Auth::user()->level == "LV00000002" )
                     <li class="{{ Request::is('kategori-konsumable*')? 'active' : '' }}">
                     <a href="{{ url('/kategori-konsumable') }}">
-                        <span class="sub-item ">Kategori Konsumable</span>
+                        <span class="sub-item ">Kategori Consumable</span>
                     </a>
                     </li>
                 @endif
@@ -181,7 +181,7 @@
                 @if (Auth::user()->level == "LV00000001" || Auth::user()->level == "LV00000002")
                     <li class="{{ Request::is('sub-kategori-konsumable*')? 'active' : '' }}">
                         <a href="{{ url('/sub-kategori-konsumable') }}">
-                        <span class="sub-item ">Sub Kategori Konsumable</span>
+                        <span class="sub-item ">Sub Kategori Consumable</span>
                         </a>
                     </li>
                 @endif
@@ -190,7 +190,7 @@
                 @if (Auth::user()->level == "LV00000001" || Auth::user()->level == "LV00000002" )
                     <li class="{{ Request::is('konsumable/create')? 'active' : '' }}">
                         <a href="{{ url('/konsumable/create') }}">
-                        <span class="sub-item ">Tambah Konsumable</span>
+                        <span class="sub-item ">Tambah Consumable</span>
                         </a>
                     </li>
                 @endif
@@ -199,7 +199,7 @@
                 @if (Auth::user()->level == "LV00000001" || Auth::user()->level == "LV00000002")
                     <li class="{{ Request::is('inventory-report*')? 'active' : '' }}">
                         <a href="{{ url('/inventory-report') }}">
-                            <span class="sub-item ">Report Inventory</span>
+                            <span class="sub-item ">Inventory Report</span>
                         </a>
                     </li>
                 @endif
