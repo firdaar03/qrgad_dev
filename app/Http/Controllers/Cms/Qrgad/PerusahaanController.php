@@ -20,6 +20,17 @@ class PerusahaanController extends Controller
         //     }
         //     return $next($request);
         // });
+
+        $this->middleware(function ($request, $next) {
+            
+            $level = Auth::user()->level;
+            if($level != "LV00000001" && $level != "LV00000002" && $level != "LV00000004" ) {
+                return redirect("/dashboard")->with("data", [
+                    "alert" => "danger-notallowed-Anda tidak memiliki akses"
+                ]);
+            }
+            return $next($request);
+        });
     }
 
     /**

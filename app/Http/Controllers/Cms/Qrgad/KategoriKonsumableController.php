@@ -20,9 +20,12 @@ class KategoriKonsumableController extends Controller
         // });
 
         $this->middleware(function ($request, $next) {
+            
             $level = Auth::user()->level;
-            if($level != "LV00000001" && $level != "LV00000002") {
-                return redirect("/dashboard")->with("error_msg", "Anda tidak memiliki akses");
+            if($level != "LV00000001" && $level != "LV00000002" ) {
+                return redirect("/dashboard")->with("data", [
+                    "alert" => "danger-notallowed-Anda tidak memiliki akses"
+                ]);
             }
             return $next($request);
         });
@@ -38,7 +41,10 @@ class KategoriKonsumableController extends Controller
     {
         // if($this->permissionActionMenu('aplikasi-management')->r==1){
             $breadcrumb = [
-                'menu' => "Kategori Konsumable",
+                [
+                    'nama' => "Kategori Konsumable",
+                    'url' => "/kategori-konsumable"
+                ],
             ];
 
             $data = array(

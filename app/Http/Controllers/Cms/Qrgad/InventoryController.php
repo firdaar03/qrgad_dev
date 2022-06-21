@@ -24,9 +24,12 @@ class InventoryController extends Controller
         // });
 
         $this->middleware(function ($request, $next) {
+            
             $level = Auth::user()->level;
-            if($level != "LV00000001" && $level != "LV00000002") {
-                return redirect("/dashboard")->with("error_msg", "Anda tidak memiliki akses");
+            if($level != "LV00000001" && $level != "LV00000002" ) {
+                return redirect("/dashboard")->with("data", [
+                    "alert" => "danger-notallowed-Anda tidak memiliki akses"
+                ]);
             }
             return $next($request);
         });
@@ -42,7 +45,10 @@ class InventoryController extends Controller
         // if($this->permissionActionMenu('aplikasi-management')->r==1){
             $tabelinventory = VwTabelInventory::all();
             $breadcrumb = [
-                'menu' => "Tabel Inventory"
+                [
+                    'nama' => "Table Inventory",
+                    'url' => "/inventory"
+                ],
             ];
 
             $data = array(
@@ -68,8 +74,14 @@ class InventoryController extends Controller
     {
         // if($this->permissionActionMenu('aplikasi-management')->c==1){
             $breadcrumb = [
-                "menu" => "Inventory",
-                "sub-menu" => "Tambah"
+                [
+                    'nama' => "Table Inventory",
+                    'url' => "/inventory"
+                ],
+                [
+                    'nama' => "Tambah",
+                    'url' => "/inventory/create"
+                ],
             ];
 
             $data = array(
@@ -91,8 +103,14 @@ class InventoryController extends Controller
             
             $konsumable = TbKonsumable::findOrFail($id);
             $breadcrumb = [
-                "menu" => "Inventory",
-                "sub-menu" => "Tambah"
+                [
+                    'nama' => "Table Inventory",
+                    'url' => "/inventory"
+                ],
+                [
+                    'nama' => "Tambah",
+                    'url' => "/inventory-tambah/".$id
+                ],
             ];
 
             $data = array(
@@ -159,7 +177,10 @@ class InventoryController extends Controller
     {
         // if($this->permissionActionMenu('aplikasi-management')->r==1){
             $breadcrumb = [
-                'menu' => "Report Inventory"
+                [
+                    'nama' => "Report Inventory",
+                    'url' => "/inventory-report"
+                ],
             ];
 
             if (request()->start_date != "" || request()->end_date != ""){

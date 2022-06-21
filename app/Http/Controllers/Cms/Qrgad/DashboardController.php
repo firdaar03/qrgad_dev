@@ -22,11 +22,15 @@ class DashboardController extends Controller
         //     }
         //     return $next($request);
         // });
+
     }
 
     public function index(){
         $breadcrumb = [
-            "menu" => "Dashboard"
+            [
+                'nama' => "Dashboard",
+                'url' => "/dashboard"
+            ],
         ];
 
         // resources\file\emp.json
@@ -52,7 +56,10 @@ class DashboardController extends Controller
 
     public function admin(){
         $breadcrumb = [
-            "menu" => "Dashboard"
+            [
+                'nama' => "Dashboard",
+                'url' => "/dashboard"
+            ],
         ];
 
         // $old_emp = json_decode(file_get_contents(URL::asset('resources/file/emp.json')));

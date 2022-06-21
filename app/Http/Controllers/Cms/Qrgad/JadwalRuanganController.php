@@ -7,6 +7,9 @@ use App\Models\Table\Qrgad\MsPerusahaan;
 use App\Models\Table\Qrgad\MsRuangan;
 use App\Models\View\Qrgad\VwJadwalRuangan;
 use App\Models\Table\Qrgad\TbJadwalRuangan;
+use App\Models\View\Qrgad\VwKeluhan;
+use App\Models\View\Qrgad\VwTabelInventory;
+use App\Models\View\Qrgad\VwTrip;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Route;
@@ -27,9 +30,12 @@ class JadwalRuanganController extends Controller
         // });
 
         $this->middleware(function ($request, $next) {
+            
             $level = Auth::user()->level;
-            if($level != "LV00000001" && $level != "LV00000002") {
-                return redirect("/dashboard")->with("error_msg", "Anda tidak memiliki akses");
+            if($level != "LV00000001" && $level != "LV00000002" && $level != "LV00000004" ) {
+                return redirect("/dashboard")->with("data", [
+                    "alert" => "danger-notallowed-Anda tidak memiliki akses"
+                ]);
             }
             return $next($request);
         });
@@ -50,8 +56,12 @@ class JadwalRuanganController extends Controller
             $jadwal_arr = array();
             $jadwals =VwJadwalRuangan::all();
             $breadcrumb = [
-                'menu' => "Jadwal Peminjaman Ruangan",
+                [
+                    'nama' => "Jadwal Peminjaman Ruangan",
+                    'url' => "/jadwal-ruangan"
+                ]
             ];
+
             $data = array(
                 // "actionmenu" => $this->permissionActionMenu('aplikasi-management')
             );
@@ -64,10 +74,10 @@ class JadwalRuanganController extends Controller
                     'backgroundColor' => $jadwal->color,
                 ];
             }
-    
+
             return view('Qrgad/jadwal_ruangan/index', [
                 'jadwals' => $jadwal_arr,
-                'breadcrumbs' => $breadcrumb
+                'breadcrumbs' => $breadcrumb,
             ])->with('data', $data);
 
         // } else {
@@ -81,12 +91,10 @@ class JadwalRuanganController extends Controller
         // if($this->permissionActionMenu('aplikasi-management')->r==1){
 
             $date = $_GET['date'];
-            // $jadwals = VwJadwalRuangan::getByDate($date);
             $jadwals = VwJadwalRuangan::where('start', 'like', '%' . $date . '%')->orWhere('end', 'like', '%' . $date . '%')->get();
             $data = array(
                 // "actionmenu" => $this->permissionActionMenu('aplikasi-management')
             );
-            // return print_r($jadwals);
             
             return view('Qrgad/jadwal_ruangan/byDate', [
                 'tanggal' => $date,
@@ -112,9 +120,16 @@ class JadwalRuanganController extends Controller
         // if($this->permissionActionMenu('aplikasi-management')->r==1){
             
             $breadcrumb = [
-                'menu' => "Jadwal Peminjaman Ruangan",
-                'sub_menu' => "Tambah"
+                [
+                    'nama' => "Jadwal Peminjaman Ruangan",
+                    'url' => "/jadwal-ruangan"
+                ],
+                [
+                    'nama' => "Tambah",
+                    'url' => "/jadwal-ruangan/create"
+                ],
             ];
+
             $data = array(
                 // "actionmenu" => $this->permissionActionMenu('aplikasi-management')
             );
@@ -225,8 +240,6 @@ class JadwalRuanganController extends Controller
                     // "actionmenu" => $this->permissionActionMenu('aplikasi-management')
                 );
 
-                
-
                 // $headers = [
                 //     'Content-Type' => 'application/json',
                 //     'AccessToken' => 'key',
@@ -249,7 +262,6 @@ class JadwalRuanganController extends Controller
                 //     ]
                 // ]);
 
-
                 // $response = Http::post('');
 
                 return redirect('/jadwal-ruangan')->with('data', $data);
@@ -266,7 +278,7 @@ class JadwalRuanganController extends Controller
 
     public function testWa(Request $request){
 
-        $token = 'EAAdL407EfqUBABd31kNkm0ZBnF61lLsmU81nwc7gMMkI4v25rZAlLHllfXrkRwuN1QGLvzOrl4LOC6HScKR17F32tuCTpCF3uwtWQOQKN65TkEy1ovNDyZA46HBJeT8KRSS4ypmUX0azGbxun59RKhOHLVTi2b32kb5g9DoKodgcD6bvgNL';
+        // $token = 'EAAdL407EfqUBABd31kNkm0ZBnF61lLsmU81nwc7gMMkI4v25rZAlLHllfXrkRwuN1QGLvzOrl4LOC6HScKR17F32tuCTpCF3uwtWQOQKN65TkEy1ovNDyZA46HBJeT8KRSS4ypmUX0azGbxun59RKhOHLVTi2b32kb5g9DoKodgcD6bvgNL';
         // $headers = [
         //     'Content-Type' => 'application/json',
         //     'AccessToken' => 'key',
@@ -279,18 +291,18 @@ class JadwalRuanganController extends Controller
 
         // dd($client);
 
-        $response = Http::withHeaders([
-            'Authorization' => 'Bearer '. $token,
-            'Content-Type' => 'application/json'
-        ])->post('https://graph.facebook.com/v13.0/109548925100001/messages', [
-            "messaging_product"=> "whatsapp", 
-            "to"=> "628972178381", 
-            "type"=> "template", 
-            "template"=> [ 
-                "name"=> "hello_world", 
-                "language"=> [ "code"=> "en_US" ]
-            ]
-        ]);
+        // $response = Http::withHeaders([
+        //     'Authorization' => 'Bearer '. $token,
+        //     'Content-Type' => 'application/json'
+        // ])->post('https://graph.facebook.com/v13.0/109548925100001/messages', [
+        //     "messaging_product"=> "whatsapp", 
+        //     "to"=> "628972178381", 
+        //     "type"=> "template", 
+        //     "template"=> [ 
+        //         "name"=> "hello_world", 
+        //         "language"=> [ "code"=> "en_US" ]
+        //     ]
+        // ]);
 
         // $sid    = "ACcebc7393626c9d66491b468c07601b75"; 
         // $token  = "[AuthToken]"; 
@@ -332,7 +344,7 @@ class JadwalRuanganController extends Controller
         //     // ]
         // ]);
 
-        return $response;
+        // return $response;
 
         // return $response;
         // return Http::get('https://graph.facebook.com/v13.0/103151642415253/messages?messaging_product=whatsapp&to=628972178381&type=template&template%5Bname%5D=jadwal_ruangan_confirm&template%5Blanguage%5D%5Bcode%5D=id');
@@ -410,9 +422,16 @@ class JadwalRuanganController extends Controller
         // if($this->permissionActionMenu('aplikasi-management')->r==1){
 
             $jadwals = VwJadwalRuangan::all()->where('username', Auth::user()->username);
+            
             $breadcrumb = [
-                'menu' => "Jadwal Peminjaman Ruangan",
-                'sub_menu' => "Riwayat"
+                [
+                    'nama' => "Jadwal Peminjaman Ruangan",
+                    'url' => "/jadwal-ruangan"
+                ],
+                [
+                    'nama' => "Riwayat",
+                    'url' => "/jadwal-ruangan-history"
+                ],
             ];
 
             return view('Qrgad/jadwal_ruangan/history', [

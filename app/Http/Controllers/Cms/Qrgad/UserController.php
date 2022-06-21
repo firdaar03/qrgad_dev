@@ -82,28 +82,9 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $user = User::all()->where('username', $id);
-
-        // $update = [
-        //     'username' => $id,
-        //     'password' => $user->password,
-        //     'nama'=> $user->nama,
-        //     'jabatan' => $user->jabatan,
-        //     'divisi' => $user->divisi,
-        //     'departemen' => $user->departemen,
-        //     'status'=> $user->status,
-        //     'level' => $user->level,
-        //     'created_at' => $user->created_at,
-        //     'created_by' => $user->created_by,
-        //     'updated_by' => Auth::user()->nama
-        // ];
-
-
-        $array = json_decode(json_encode($user), true);
-
-        $array['whatsapp'] = $request->nomor;
-
-        User::all()->where('username', $id)->first()->update($array);
+        User::where('username', $id)->update([
+            "whatsapp" => $request->nomor
+        ]);
 
     }
 

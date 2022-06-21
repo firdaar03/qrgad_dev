@@ -22,9 +22,12 @@ class KendaraanController extends Controller
         // });
 
         $this->middleware(function ($request, $next) {
+            
             $level = Auth::user()->level;
             if($level != "LV00000001" && $level != "LV00000002") {
-                return redirect("/dashboard")->with("error_msg", "Anda tidak memiliki akses");
+                return redirect("/dashboard")->with("data", [
+                    "alert" => "danger-notallowed-Anda tidak memiliki akses"
+                ]);
             }
             return $next($request);
         });
@@ -41,7 +44,10 @@ class KendaraanController extends Controller
 
             $kendaraans = MsKendaraan::all()->where('status', 1);
             $breadcrumb = [
-                'menu' => "Kendaraan"
+                [
+                    'nama' => "Kendaraan",
+                    'url' => "/kendaraan"
+                ],
             ];
             $data = array(
                 // "actionmenu" => $this->permissionActionMenu('aplikasi-management')
@@ -67,8 +73,14 @@ class KendaraanController extends Controller
         // if($this->permissionActionMenu('aplikasi-management')->c==1){
 
             $breadcrumb = [
-                'menu' => "Kendaraan",
-                'sub-menu' => "Tambah"
+                [
+                    'nama' => "Kendaraan",
+                    'url' => "/kendaraan"
+                ],
+                [
+                    'nama' => "Tambah",
+                    'url' => "/kendaraan/create"
+                ],
             ];
             $data = array(
                 // "actionmenu" => $this->permissionActionMenu('aplikasi-management')
@@ -151,8 +163,14 @@ class KendaraanController extends Controller
         // if($this->permissionActionMenu('aplikasi-management')->u==1){
             
             $breadcrumb = [
-                "menu" => "Kendaraan",
-                "sub-menu" => "Edit"
+                [
+                    'nama' => "Kendaraan",
+                    'url' => "/kendaraan"
+                ],
+                [
+                    'nama' => "Edit",
+                    'url' => "/kendaraan/".$id."/edit"
+                ],
             ];
     
             return view('Qrgad/kendaraan/edit', [

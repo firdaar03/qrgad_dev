@@ -23,9 +23,12 @@ class KeranjangKonsumableController extends Controller
         // });
 
         $this->middleware(function ($request, $next) {
+            
             $level = Auth::user()->level;
-            if($level != "LV00000001" && $level != "LV00000002") {
-                return redirect("/dashboard")->with("error_msg", "Anda tidak memiliki akses");
+            if($level != "LV00000001" && $level != "LV00000002" ) {
+                return redirect("/dashboard")->with("data", [
+                    "alert" => "danger-notallowed-Anda tidak memiliki akses"
+                ]);
             }
             return $next($request);
         });
@@ -87,33 +90,33 @@ class KeranjangKonsumableController extends Controller
         // if($this->permissionActionMenu('aplikasi-management')->c==1){
             
             $kode = TbKeranjangKonsumable::idOtomatis();
-            $konsumable = TbKonsumable::findOrFail($request->konsumable);
+            $konsumable = TbKonsumable::where('id', $request->konsumable)->first();
             $keranjang = TbKeranjangKonsumable::where([
                 "username" => Auth::user()->username,
                 "id_konsumable" => $request->konsumable
             ])->first();
 
-            if($keranjang == ''){
+            if($keranjang != ''){
+                echo 'err_add_konsumable';
+            } else {
                 $create = TbKeranjangKonsumable::create([
                     'id' => $kode,
                     'keluhan' => $request->keluhan,
                     'id_konsumable' => $request->konsumable,
-                    'konsumable' => $konsumable->nama_konsumable,
+                    'konsumable' => $konsumable->nama,
                     'jumlah' => $request->jumlah,
                     'username' => Auth::user()->username
                 ]);
-            } else {
-                echo 'err_add_konsumable';
             }
     
-            $create = TbKeranjangKonsumable::create([
-                'id' => $kode,
-                'keluhan' => $request->keluhan,
-                'id_konsumable' => $request->konsumable,
-                'konsumable' => $konsumable->nama,
-                'jumlah' => $request->jumlah,
-                'username' => Auth::user()->username
-            ]);
+            // $create = TbKeranjangKonsumable::create([
+            //     'id' => $kode,
+            //     'keluhan' => $request->keluhan,
+            //     'id_konsumable' => $request->konsumable,
+            //     'konsumable' => $konsumable->nama_konsumable,
+            //     'jumlah' => $request->jumlah,
+            //     'username' => Auth::user()->username
+            // ]);
 
 
         // } else {
