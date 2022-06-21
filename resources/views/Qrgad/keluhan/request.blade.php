@@ -3,18 +3,33 @@
         <thead class="bg-primary text-white">
             <tr>
                 <td class="text-center">#</td>
-                <td>Informasi Keluhan</td>
+                <td>Kode keluhan</td>
+                <td>Keluhan</td>
                 <td class="text-center">Lokasi</td>
                 <td class="text-center">Waktu</td>
                 <td class="text-center">Pelapor</td>
-                <td class="text-center">Status</td>
-                <td class="text-center">Aksi</td>                                               
+                <td class="text-center">Status</td>                                            
             </tr>
         </thead>
         <tbody>
             @foreach ($keluhan as $k)
                 <tr>
                     <td class="text-center">{{ $loop->iteration }}</td>
+                    <td>
+                        <button class="btn btn-border dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                            {{ $k->id }}
+                        </button>
+                        <div id="dropdown" class="dropdown-menu" x-placement="top-start" style="position: absolute; transform: translate3d(-79px, -104px, 0px); top: 0px; left: 0px; will-change: transform;">
+                            {{-- requested --}}
+                            <a class="dropdown-item" onclick="confirmResponse('{{ $k->id }}')">
+                                Response
+                            </a>
+                            
+                            <a class="dropdown-item" href="{{ url('/keluhan') }}/{{ $k->id }}">
+                                Show
+                            </a>
+                        </div>
+                    </td>
                     <td class="fill">{{ $k->keluhan }}</td>
                     <td class="fit">
                         {{ $k->lokasi }}
@@ -36,16 +51,6 @@
                                     break;
                             } 
                         @endphp
-                    </td>
-                    <td class="text-center">
-                        <div class="form-button-action">
-                            <a onclick="confirmResponse('{{ $k->id }}')" type="button" data-toggle="tooltip" rel="tooltip" title="Response" class="btn btn-link btn-warning btn-lg">
-                                <i class="fa fa-reply"></i>
-                            </a>
-                            <a href="{{ url('/keluhan') }}/{{ $k->id }}" type="button" data-toggle="tooltip" rel="tooltip" title="Show" class="btn btn-link btn-info btn-lg">
-                                <i class="fa fa-eye"></i>
-                            </a>
-                        </div>
                     </td>
                 </tr>
             @endforeach

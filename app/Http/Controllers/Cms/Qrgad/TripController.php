@@ -413,18 +413,18 @@ class TripController extends Controller
             $validated = $request->validate([
                 "id" => "",
                 "jenis_perjalanan" => "required",
+                "keperluan" => "required",
                 "tujuan" => "required",
                 "wilayah" => "required",
-                "agenda" => "required",
             ]);
 
             if($request->jenis_perjalanan == 2){
                 $validated = $request->validate([
                     "id" => "",
+                    "keperluan" => "required",
                     "jenis_perjalanan" => "required",
                     "tujuan" => "required",
                     "wilayah" => "required",
-                    "agenda" => "required",
                     "waktu_berangkat" => "required",
                     "waktu_pulang" => "required",
                 ]);
@@ -432,10 +432,10 @@ class TripController extends Controller
             } else {
                 $validated = $request->validate([
                     "id" => "",
+                    "keperluan" => "required",
                     "jenis_perjalanan" => "required",
                     "tujuan" => "required",
                     "wilayah" => "required",
-                    "agenda" => "required",
                     "waktu_berangkat" => "required",
                 ]);
 
@@ -455,11 +455,10 @@ class TripController extends Controller
             
             $create = TbTripRequest::create([
                 "id" => $kode,
+                "keperluan" => $validated['keperluan'],
                 "jenis_perjalanan" => $validated['jenis_perjalanan'],
                 "tujuan" => $validated['tujuan'],
                 "wilayah" => $validated['wilayah'],
-                "agenda" => $validated['agenda'],
-                "kebutuhan" => $request->kebutuhan, 
                 "penumpang" => $request->penumpang,
                 "count_people" => count(explode(',', $request->penumpang)),
                 "waktu_berangkat" => $validated['waktu_berangkat'],

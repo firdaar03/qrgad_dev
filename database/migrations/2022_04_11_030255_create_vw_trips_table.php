@@ -25,7 +25,7 @@ class CreateVwTripsTable extends Migration
             u.nama as pemohon,
             tr.departemen,
             tr.wilayah,
-            tr.agenda,
+            tr.keperluan,
             tr.waktu_berangkat,
             tr.waktu_pulang,
             tr.penumpang,

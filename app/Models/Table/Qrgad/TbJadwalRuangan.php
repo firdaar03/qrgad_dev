@@ -23,7 +23,6 @@ class TbJadwalRuangan extends Model
         'ruangan',
         'start',
         'end',
-        'kebutuhan',
         'color'
     ];
 

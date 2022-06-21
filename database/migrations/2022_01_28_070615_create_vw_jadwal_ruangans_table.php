@@ -24,7 +24,6 @@ class CreateVwJadwalRuangansTable extends Migration
             u.divisi,
             p.nama as perusahaan, 
             jr.agenda,
-            jr.kebutuhan,
             jr.start,
             jr.end,
             jr.color,
