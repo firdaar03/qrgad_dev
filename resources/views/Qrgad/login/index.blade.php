@@ -3,28 +3,32 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Log in QRGAD</title>
+  <title>QRGAD - Quick Response General Affair Dept</title>
+  <link rel="icon" href="{{ URL::asset('assets/Atlantis-Lite-master/img/icon.ico') }} " type="image/x-icon"/>
 
+  {{-- public\assets\AdminLTE-3.1.0 --}}
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
   <!-- Font Awesome -->
-  <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
+  <link rel="stylesheet" href="{{ URL::asset('assets/AdminLTE-3.1.0/plugins/fontawesome-free/css/all.min.css') }}">
   <!-- icheck bootstrap -->
-  <link rel="stylesheet" href="plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+  <link rel="stylesheet" href="{{ URL::asset('assets/AdminLTE-3.1.0/plugins/icheck-bootstrap/icheck-bootstrap.min.css') }}">
   <!-- Theme style -->
-  <link rel="stylesheet" href="dist/css/adminlte.min.css">
+  <link rel="stylesheet" href="{{ URL::asset('assets/AdminLTE-3.1.0/dist/css/adminlte.min.css') }}">
+  <style>
+    *{
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana
+    }
+  </style>
 </head>
 <body class="hold-transition login-page">
-    <div class="login-box" >
-        <!-- /.login-logo -->
-        <img src="{{ URL::asset('assets/Atlantis-Lite-master/img/qrgad.png') }}" height="100" width="350"/>
-        <br>
-        <br>
-        <div class="card card-outline card-primary">
-            
+    <div class="login-box">
+        <div class="card shadow card-primary">
+            <div class="card-header bg-primary text-center">
+                <img src="{{ URL::asset('assets/Atlantis-Lite-master/img/qrgad.png') }}" class="navbar-brand img-fluid"/>
+            </div>
             <div class="card-body">
-                <h3 class="login-box-msg">Sign in QRGAD</h3>
-        
+                <p class="login-box-msg">Sign in to QRGAD</p>
                 <form action="{{ url('/login') }}" method="post">
                     @csrf
                     <div class="input-group mb-3">
@@ -71,20 +75,15 @@
                         </button>
                     </div>
                 @endif
-                
             </div>
-        <!-- /.card-body -->
         </div>
-        <!-- /.card -->
     </div>
 
-<!-- /.login-box -->
-
 <!-- jQuery -->
-<script src="plugins/jquery/jquery.min.js"></script>
+<script src="{{ URL::asset('assets/AdminLTE-3.1.0/plugins/jquery/jquery.min.js') }}"></script>
 <!-- Bootstrap 4 -->
-<script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="{{ URL::asset('assets/AdminLTE-3.1.0/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 <!-- AdminLTE App -->
-<script src="dist/js/adminlte.min.js"></script>
+<script src="{{ URL::asset('assets/AdminLTE-3.1.0/dist/js/adminlte.min.js') }}"></script>
 </body>
 </html>
