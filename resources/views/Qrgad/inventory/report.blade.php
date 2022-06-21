@@ -54,6 +54,7 @@
                                     <td style="text-align: center">Kategori</td>
                                     <td style="text-align: center">Sub Kategori</td>
                                     <td style="text-align: center">Stock</td>
+                                    <td style="display: none">Minimal Stock</td>
                                     <td style="text-align: center">Last Entry</td>
                                 </tr>
                             </thead>
@@ -77,6 +78,7 @@
                                             @endif
                                             
                                         </td>
+                                        <td style="display: none">{{ $ti->minimal_stock }} {{ $ti->satuan }}</td>
                                         <td style="text-align: center">{{ $ti->last_entry }}</td>
                                     </tr>
                                 @endforeach
@@ -118,10 +120,12 @@
                         text: 'excel',
                         extend: 'excelHtml5',
                         type: 'hidden',
+                        messageTop: 'Report Inventory'
                     },
                     {
                         text: 'pdf',
                         extend: 'pdfHtml5',
+                        title: 'QRGAD - Quick Response General Affair Dept' + '\n' + '\n' + 'Report Inventory'
                     }, 
                 ],
                 columnDefs: [{
