@@ -33,9 +33,12 @@ class TripController extends Controller
         // });
 
         $this->middleware(function ($request, $next) {
+            
             $level = Auth::user()->level;
-            if($level != "LV00000001" && $level != "LV00000002" && $level != "LV00000003" && $level != "LV00000004") {
-                return redirect("/dashboard")->with("error_msg", "Anda tidak memiliki akses");
+            if($level != "LV00000001" && $level != "LV00000002" && $level != "LV00000003" && $level != "LV00000004" ) {
+                return redirect("/dashboard")->with("data", [
+                    "alert" => "danger-notallowed-Anda tidak memiliki akses"
+                ]);
             }
             return $next($request);
         });
@@ -51,7 +54,10 @@ class TripController extends Controller
         // if($this->permissionActionMenu('aplikasi-management')->r==1){
 
             $breadcrumb = [
-                'menu' => "TMS"
+                [
+                    'nama' => "TMS",
+                    'url' => "/trip"
+                ],
             ];
             
             $data = array(
@@ -73,8 +79,10 @@ class TripController extends Controller
         // if($this->permissionActionMenu('aplikasi-management')->r==1){
 
             $breadcrumb = [
-                'menu' => "TMS",
-                'sub-menu' => "Jadwal"
+                [
+                    'nama' => "Jadwal TMS",
+                    'url' => "/trip-schedule"
+                ],
             ];
             
             $data = array(
@@ -171,8 +179,14 @@ class TripController extends Controller
         // if($this->permissionActionMenu('aplikasi-management')->c==1){
 
             $breadcrumb = [
-                "menu" => "Perjalanan",
-                "sub-menu" => "Request Kendaraan"
+                [
+                    'nama' => "TMS",
+                    'url' => "/trip"
+                ],
+                [
+                    'nama' => "Form TMS",
+                    'url' => "/trip/create"
+                ],
             ];
 
             $data = array(
@@ -195,8 +209,14 @@ class TripController extends Controller
         // if($this->permissionActionMenu('aplikasi-management')->c==1){
 
             $breadcrumb = [
-                "menu" => "TMS",
-                "sub-menu" => "Pilih Kendaraan"
+                [
+                    'nama' => "TMS",
+                    'url' => "/trip"
+                ],
+                [
+                    'nama' => "Pilih Kendaraan",
+                    'url' => "/trip-pick-car/".$id
+                ],
             ];
 
             //status
@@ -258,8 +278,14 @@ class TripController extends Controller
         // if($this->permissionActionMenu('aplikasi-management')->c==1){
 
             $breadcrumb = [
-                "menu" => "TMS",
-                "sub-menu" => "Check Trip"
+                [
+                    'nama' => "Jadwal TMS",
+                    'url' => "/trip-schedule"
+                ],
+                [
+                    'nama' => "Pilih Kendaraan",
+                    'url' => "/trip-check"
+                ],
             ];
 
             $data = array(
@@ -283,8 +309,14 @@ class TripController extends Controller
         // if($this->permissionActionMenu('aplikasi-management')->c==1){
 
             $breadcrumb = [
-                "menu" => "TMS",
-                "sub-menu" => "Check Trip"
+                [
+                    'nama' => "Jadwal TMS",
+                    'url' => "/trip-schedule"
+                ],
+                [
+                    'nama' => "Check Trip",
+                    'url' => "/trip-check/".$id
+                ],
             ];
 
             $data = array(
@@ -319,8 +351,18 @@ class TripController extends Controller
         // if($this->permissionActionMenu('aplikasi-management')->c==1){
 
             $breadcrumb = [
-                "menu" => "TMS",
-                "sub-menu" => "Check Trip"
+                [
+                    'nama' => "Jadwal TMS",
+                    'url' => "/trip-schedule"
+                ],
+                [
+                    'nama' => "Check Trip",
+                    'url' => "/trip-check"
+                ],
+                [
+                    'nama' => "Scan",
+                    'url' => "/trip-check-scan"
+                ],
             ];
 
             $data = array(
@@ -538,8 +580,14 @@ class TripController extends Controller
         // if($this->permissionActionMenu('aplikasi-management')->r==1){           
             
             $breadcrumb = [
-                "menu" => "TMS",
-                "sub-menu" => "Detil Trip"
+                [
+                    'nama' => "TMS",
+                    'url' => "/trip"
+                ],
+                [
+                    'nama' => "Detail Trip",
+                    'url' => "/trip/".$id
+                ],
             ];
 
             $data = array(
@@ -554,20 +602,13 @@ class TripController extends Controller
 
             $pa =  $trip->penumpang_aktual;
             $penumpang_aktual = User::all()->whereIn('username', explode("," , $pa));
-
-            if($trip->id_trip != ''){
-                $qrcode = QrCode::size(200)->generate($trip->id_trip);
-            } else {
-                $qrcode = '';
-            }
             
-            return view('Qrgad/trip/showAdmin' , [
+            return view('Qrgad/trip/show' , [
                 "trip" => $trip,
                 "vouchers" => $voucher,
                 "penumpangs" => $penumpang,
                 "penumpang_aktuals" => $penumpang_aktual,
                 "breadcrumbs" => $breadcrumb,
-                "qrcode" => $qrcode
             ])->with('data', $data);
 
         // } else {
@@ -580,8 +621,14 @@ class TripController extends Controller
         // if($this->permissionActionMenu('aplikasi-management')->r==1){           
             
             $breadcrumb = [
-                "menu" => "TMS",
-                "sub-menu" => "Detil Jadwal Trip"
+                [
+                    'nama' => "Jadwal TMS",
+                    'url' => "/trip-schedule"
+                ],
+                [
+                    'nama' => "Detail",
+                    'url' => "/trip-schedule/".$id
+                ],
             ];
 
             $data = array(
@@ -613,8 +660,14 @@ class TripController extends Controller
         // if($this->permissionActionMenu('aplikasi-management')->r==1){           
 
             $breadcrumb = [
-                "menu" => "TMS",
-                "sub-menu" => "Ticket"
+                [
+                    'nama' => "TMS",
+                    'url' => "/trip"
+                ],
+                [
+                    'nama' => "Ticket",
+                    'url' => "/trip-ticket/".$id
+                ],
             ];
 
             $data = array(

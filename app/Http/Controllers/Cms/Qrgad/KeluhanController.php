@@ -38,9 +38,12 @@ class KeluhanController extends Controller
         // });
 
         $this->middleware(function ($request, $next) {
+            
             $level = Auth::user()->level;
-            if($level != "LV00000001" && $level != "LV00000002" && $level != "LV00000004") {
-                return redirect("/dashboard")->with("error_msg", "Anda tidak memiliki akses");
+            if($level != "LV00000001" && $level != "LV00000002" && $level != "LV00000004" ) {
+                return redirect("/dashboard")->with("data", [
+                    "alert" => "danger-notallowed-Anda tidak memiliki akses"
+                ]);
             }
             return $next($request);
         });
@@ -57,7 +60,10 @@ class KeluhanController extends Controller
 
             $keluhan = VwKeluhan::all()->where('username', Auth::user()->username);
             $breadcrumb = [
-                'menu' => "Keluhan"
+                [
+                    'nama' => "Keluhan",
+                    'url' => "/keluhan"
+                ],
             ];
             $data = array(
                 // "actionmenu" => $this->permissionActionMenu('aplikasi-management')
@@ -78,7 +84,10 @@ class KeluhanController extends Controller
         // if($this->permissionActionMenu('aplikasi-management')->r==1){
 
             $breadcrumb = [
-                'menu' => "Dashboard Keluhan"
+                [
+                    'nama' => "Dashboard Keluhan",
+                    'url' => "/keluhan-dashboard"
+                ],
             ];
             $data = array(
                 // "actionmenu" => $this->permissionActionMenu('aplikasi-management')
@@ -129,8 +138,14 @@ class KeluhanController extends Controller
         // if($this->permissionActionMenu('aplikasi-management')->c==1){
 
             $breadcrumb = [
-                "menu" => "Keluhan",
-                "sub-menu" => "Tambah"
+                [
+                    'nama' => "Keluhan",
+                    'url' => "/keluhan"
+                ],
+                [
+                    'nama' => "Tambah",
+                    'url' => "/keluhan/create"
+                ],
             ];
             $data = array(
                 // "actionmenu" => $this->permissionActionMenu('aplikasi-management')
@@ -163,8 +178,14 @@ class KeluhanController extends Controller
         // if($this->permissionActionMenu('aplikasi-management')->c==1){
 
             $breadcrumb = [
-                "menu" => "Keluhan",
-                "sub-menu" => "Aksi Keluhan"
+                [
+                    'nama' => "Dashboard Keluhan",
+                    'url' => "/keluhan-dashboard"
+                ],
+                [
+                    'nama' => "Aksi",
+                    'url' => "/keluhan-dashboard-input-action/".$id
+                ],
             ];
             $data = array(
                 // "actionmenu" => $this->permissionActionMenu('aplikasi-management')
@@ -188,8 +209,14 @@ class KeluhanController extends Controller
         // if($this->permissionActionMenu('aplikasi-management')->c==1){
 
             $breadcrumb = [
-                "menu" => "Dashboard Keluhan",
-                "sub-menu" => "Tutup Keluhan"
+                [
+                    'nama' => "Dashboard Keluhan",
+                    'url' => "/keluhan-dashboard"
+                ],
+                [
+                    'nama' => "Tutup Keluhan",
+                    'url' => "/keluhan-dashboard-input-close/".$id
+                ],
             ];
             $data = array(
                 // "actionmenu" => $this->permissionActionMenu('aplikasi-management')
@@ -450,8 +477,14 @@ class KeluhanController extends Controller
             $keluhan = VwKeluhan::findOrFail($id);
             $konsumables = VwItemOut::all()->where('keluhan', $id);
             $breadcrumb = [
-                "menu" => "Keluhan",
-                "sub-menu" => "Lihat"
+                [
+                    'nama' => "Keluhan",
+                    'url' => "/keluhan"
+                ],
+                [
+                    'nama' => "Lihat",
+                    'url' => "/keluhan/".$id
+                ],
             ];
 
             if(Auth::user()->level == "LV00000001" || Auth::user()->level == "LV00000002") {

@@ -12,6 +12,28 @@ use Illuminate\Support\Facades\Auth;
 
 class KonsumableController extends Controller
 {
+    public function __construct()
+    {
+        // hak akses : admin dan super gad
+        // $this->middleware(function ($request, $next) {
+        //     if($this->permissionMenu('aplikasi-management') == 0) {
+        //         return redirect("/")->with("error_msg", "Akses ditolak");
+        //     }
+        //     return $next($request);
+        // });
+
+        $this->middleware(function ($request, $next) {
+            
+            $level = Auth::user()->level;
+            if($level != "LV00000001" && $level != "LV00000002" ) {
+                return redirect("/dashboard")->with("data", [
+                    "alert" => "danger-notallowed-Anda tidak memiliki akses"
+                ]);
+            }
+            return $next($request);
+        });
+    }
+    
     /**
      * Display a listing of the resource.
      *
@@ -19,22 +41,7 @@ class KonsumableController extends Controller
      */
     public function index()
     {
-        // hak akses : admin dan super gad
-
-        // $this->middleware(function ($request, $next) {
-        //     if($this->permissionMenu('aplikasi-management')) {
-        //         return redirect("/")->with("error_msg", "Akses ditolak");
-        //     }
-        //     return $next($request);
-        // });
-
-        $this->middleware(function ($request, $next) {
-            $level = Auth::user()->level;
-            if($level != "LV00000001" && $level != "LV00000002") {
-                return redirect("/dashboard")->with("error_msg", "Anda tidak memiliki akses");
-            }
-            return $next($request);
-        });
+        // 
     }
 
     /**
@@ -60,10 +67,11 @@ class KonsumableController extends Controller
     public function create()
     {
         // if($this->permissionActionMenu('aplikasi-management')->c==1){
-
             $breadcrumb = [
-                "menu" => "Konsumable",
-                "sub-menu" => "Tambah"
+                [
+                    'nama' => "Tambah Konsumable",
+                    'url' => "/konsumable/create"
+                ],
             ];
 
             $data = array(
@@ -152,8 +160,10 @@ class KonsumableController extends Controller
             $sub_kategori_konsumable = MsSubKategoriKonsumable::all()->where('status', 1);
 
             $breadcrumb = [
-                "menu" => "Konsumable",
-                "sub-menu" => "Edit"
+                [
+                    'nama' => "Edit Konsumable",
+                    'url' => "/konsumable/create"
+                ],
             ];
 
             $data = array(

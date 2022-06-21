@@ -22,9 +22,12 @@ class SupirController extends Controller
         // });
 
         $this->middleware(function ($request, $next) {
+            
             $level = Auth::user()->level;
-            if($level != "LV00000001" && $level != "LV00000002") {
-                return redirect("/dashboard")->with("error_msg", "Anda tidak memiliki akses");
+            if($level != "LV00000001" && $level != "LV00000002" ) {
+                return redirect("/dashboard")->with("data", [
+                    "alert" => "danger-notallowed-Anda tidak memiliki akses"
+                ]);
             }
             return $next($request);
         });
@@ -41,7 +44,10 @@ class SupirController extends Controller
 
             $supirs = MsSupir::all()->where('status', 1);
             $breadcrumb = [
-                'menu' => "Driver"
+                [
+                    'nama' => "Driver",
+                    'url' => "/supir"
+                ],
             ];
             $data = array(
                 // "actionmenu" => $this->permissionActionMenu('aplikasi-management')
@@ -67,8 +73,14 @@ class SupirController extends Controller
         // if($this->permissionActionMenu('aplikasi-management')->c==1){
 
             $breadcrumb = [
-                'menu' => "Driver",
-                'sub-menu' => "Tambah"
+                [
+                    'nama' => "Driver",
+                    'url' => "/supir"
+                ],
+                [
+                    'nama' => "Tambah",
+                    'url' => "/supir/create"
+                ],
             ];
             $data = array(
                 // "actionmenu" => $this->permissionActionMenu('aplikasi-management')
@@ -151,8 +163,14 @@ class SupirController extends Controller
         // if($this->permissionActionMenu('aplikasi-management')->u==1){
             
             $breadcrumb = [
-                "menu" => "Kendaraan",
-                "sub-menu" => "Edit"
+                [
+                    'nama' => "Driver",
+                    'url' => "/supir"
+                ],
+                [
+                    'nama' => "Edit",
+                    'url' => "/supir/".$id."/edit"
+                ],
             ];
     
             return view('Qrgad/supir/edit', [

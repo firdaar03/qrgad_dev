@@ -23,9 +23,12 @@ class SubKategoriKonsumableController extends Controller
         // });
 
         $this->middleware(function ($request, $next) {
+            
             $level = Auth::user()->level;
-            if($level != "LV00000001" && $level != "LV00000002") {
-                return redirect("/dashboard")->with("error_msg", "Anda tidak memiliki akses");
+            if($level != "LV00000001" && $level != "LV00000002" ) {
+                return redirect("/dashboard")->with("data", [
+                    "alert" => "danger-notallowed-Anda tidak memiliki akses"
+                ]);
             }
             return $next($request);
         });
@@ -42,7 +45,10 @@ class SubKategoriKonsumableController extends Controller
 
             $subkategori = VwSubKategoriKonsumable::all()->where('status', 1);
             $breadcrumb = [
-                'menu' => "Sub Kategori Konsumable"
+                [
+                    'nama' => "Sub Kategori Konsumable",
+                    'url' => "/sub-kategori-konsumable"
+                ],
             ];
             $data = array(
                 // "actionmenu" => $this->permissionActionMenu('aplikasi-management')
@@ -69,8 +75,14 @@ class SubKategoriKonsumableController extends Controller
         // if($this->permissionActionMenu('aplikasi-management')->c==1){
 
             $breadcrumb = [
-                "menu" => "Sub Kategori Konsumable",
-                "sub-menu" => "Tambah"
+                [
+                    'nama' => "Sub Kategori Konsumable",
+                    'url' => "/sub-kategori-konsumable"
+                ],
+                [
+                    'nama' => "Tambah",
+                    'url' => "/sub-kategori-konsumable/create"
+                ],
             ];
             $data = array(
                 // "actionmenu" => $this->permissionActionMenu('aplikasi-management')
@@ -158,9 +170,16 @@ class SubKategoriKonsumableController extends Controller
 
             $sub_kategori_konsumable = MsSubKategoriKonsumable::findOrFail($id);
             $breadcrumb = [
-                "menu" => "Sub Kategori Konsumable",
-                "sub-menu" => "Edit"
+                [
+                    'nama' => "Sub Kategori Konsumable",
+                    'url' => "/sub-kategori-konsumable"
+                ],
+                [
+                    'nama' => "Edit",
+                    'url' => "/sub-kategori-konsumable/".$id."/edit"
+                ],
             ];
+
             $data = array(
                 // "actionmenu" => $this->permissionActionMenu('aplikasi-management')
             );

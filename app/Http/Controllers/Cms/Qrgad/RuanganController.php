@@ -28,9 +28,12 @@ class RuanganController extends Controller
         // });
 
         $this->middleware(function ($request, $next) {
+            
             $level = Auth::user()->level;
             if($level != "LV00000001" && $level != "LV00000002" ) {
-                return redirect("/dashboard")->with("error_msg", "Anda tidak memiliki akses");
+                return redirect("/dashboard")->with("data", [
+                    "alert" => "danger-notallowed-Anda tidak memiliki akses"
+                ]);
             }
             return $next($request);
         });
@@ -47,7 +50,10 @@ class RuanganController extends Controller
 
             $ruangan = VwRuanganLokasi::all();
             $breadcrumb = [
-                'menu' => "Ruangan"
+                [
+                    'nama' => "Ruangan",
+                    'url' => "/ruangan"
+                ],
             ];
             $data = array(
                 // "actionmenu" => $this->permissionActionMenu('aplikasi-management')
@@ -73,8 +79,14 @@ class RuanganController extends Controller
         // if($this->permissionActionMenu('aplikasi-management')->c==1){
 
             $breadcrumb = [
-                "menu" => "Ruangan",
-                "sub-menu" => "Tambah"
+                [
+                    'nama' => "Ruangan",
+                    'url' => "/ruangan"
+                ],
+                [
+                    'nama' => "Tambah",
+                    'url' => "/ruangan/create"
+                ],
             ];
             $data = array(
                 // "actionmenu" => $this->permissionActionMenu('aplikasi-management')
@@ -168,8 +180,14 @@ class RuanganController extends Controller
             $lokasi = MsLokasi::all()->where('status', 1);
             $dtruang = DtRuangan::all()->where("ruangan", $ruangan->id);
             $breadcrumb = [
-                "menu" => "Ruangan",
-                "sub-menu" => "Lihat"
+                [
+                    'nama' => "Ruangan",
+                    'url' => "/ruangan"
+                ],
+                [
+                    'nama' => "Lihat",
+                    'url' => "/ruangan/".$ruangan->id
+                ],
             ];
     
             return view('Qrgad/ruangan/show', [
@@ -200,8 +218,14 @@ class RuanganController extends Controller
             $lokasi = MsLokasi::all()->where('status', 1);
             $dtruang = DtRuangan::all()->where("ruangan", $ruangan->id);
             $breadcrumb = [
-                "menu" => "Ruangan",
-                "sub-menu" => "Edit"
+                [
+                    'nama' => "Ruangan",
+                    'url' => "/ruangan"
+                ],
+                [
+                    'nama' => "Edit",
+                    'url' => "/ruangan/".$ruangan->id."/edit"
+                ],
             ];
     
             return view('Qrgad/ruangan/edit', [
@@ -320,7 +344,10 @@ class RuanganController extends Controller
     {
         // if($this->permissionActionMenu('aplikasi-management')->r==1){
             $breadcrumb = [
-                'menu' => "Report Ruangan"
+                [
+                    'nama' => "Report Ruangan",
+                    'url' => "/ruangan-report"
+                ],
             ];
 
             $ruangan = VwRuanganLokasi::all();
