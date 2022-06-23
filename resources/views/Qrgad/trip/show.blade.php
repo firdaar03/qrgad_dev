@@ -140,16 +140,18 @@
 										@endif
 									</div>
 								</div>
-								<a href="/trip-ticket/{{ $trip->id_trip }}" class="my-2 btn btn-info">
-									<div class="d-flex">
-										<div>
-											<i class="fas fa-ticket-alt"></i>
+								@if ($trip->kendaraan != '')
+									<a href="{{ url('/trip-ticket/'. $trip->id_trip) }}" class="my-2 btn btn-info">
+										<div class="d-flex">
+											<div>
+												<i class="fas fa-ticket-alt"></i>
+											</div>
+											<div class="ml-2">
+												Lihat Tiket
+											</div>
 										</div>
-										<div class="ml-2">
-											Lihat Tiket
-										</div>
-									</div>
-								</a>
+									</a>
+								@endif
 							</span>
 						</li>
 					@endif

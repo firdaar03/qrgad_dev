@@ -525,6 +525,13 @@ class TripController extends Controller
                 "waktu_pulang" => "required",
             ]);
 
+            //status
+            // 0 - rejected
+            // 1 - Waiting Head
+            // 2 - Waiting GAD
+            // 3 - Responded
+            // 4 - Closed
+
             $trip_histori = TbTripHistori::where('id', $request->trip_histori)->first();
 
             $updateTripHistory = $trip_histori->update([
@@ -534,7 +541,7 @@ class TripController extends Controller
             ]);
 
             $trip = VwTrip::where('id_trip_histori', $request->trip_histori)->first();
-            $updateTripRequest = TbTripRequest::where('id', $trip->id_request)->update([
+            $updateTripRequest = TbTripRequest::where('id', $trip->id_trip_request)->update([
                 "status" => 4
             ]);
 
@@ -586,8 +593,15 @@ class TripController extends Controller
 
             $pa =  $trip->penumpang_aktual;
             $penumpang_aktual = User::all()->whereIn('username', explode("," , $pa));
+
+            $view = '';
+            if(Auth::user()->level == 'LV00000001' || Auth::user()->level == 'LV00000002' ){
+                $view = "showAdmin";
+            } else {
+                $view = "show";
+            }
             
-            return view('Qrgad/trip/show' , [
+            return view('Qrgad/trip/'.$view , [
                 "trip" => $trip,
                 "vouchers" => $voucher,
                 "penumpangs" => $penumpang,
@@ -757,6 +771,7 @@ class TripController extends Controller
     public function confirmSetTrip(Request $request, $id)
     {
         // if($this->permissionActionMenu('aplikasi-management')->u==1){
+            echo $request->kendaraan;
 
             if($request->kendaraan != ''){
                 $kendaraan = MsKendaraan::where('id', $request->kendaraan)->first();
@@ -770,6 +785,7 @@ class TripController extends Controller
                 $kendaraan = '';
                 $trips = '';
             }
+
 
             return view('Qrgad/trip/confirmSetTrip', [
                 "trip" => VwTrip::where('id_trip', $id)->first(),

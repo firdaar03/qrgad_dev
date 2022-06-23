@@ -6,7 +6,7 @@
         <div class="">
             <div class="card-header">
                 <div class="d-flex">
-                    <h4 class="mr-3">Data Kategori Konsumable</h4>
+                    <h4 class="mr-3">Data Kategori Consumable</h4>
                     <button class="btn btn-primary btn-round ml-auto" onclick="create()">
                         <i class="fa fa-plus mr-1"></i>
                         Tambah

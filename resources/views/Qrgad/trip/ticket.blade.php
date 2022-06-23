@@ -86,7 +86,7 @@
     <div class="card-body">
         <div class="d-flex float-right my-3">
             <div class="d-inline mr-2">
-                <a href="/trip" class="btn btn-secondary float-right">Kembali</a>
+                <a href="{{ url('/trip') }}" class="btn btn-secondary float-right">Kembali</a>
             </div>
         </div>
     </div>

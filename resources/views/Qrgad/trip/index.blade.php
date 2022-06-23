@@ -130,11 +130,11 @@
                 success:function(data){
                     $('.close').click();
                     read();
-                    showAlert('success', 'Approve Request', 'Berhasil meng-approve request');
+                    showAlert('success', 'Approve Request', 'Berhasil menyetujui request');
                 },error: function(xhr, status, error) {
                     var err = eval("(" + xhr.responseText + ")");
                     $('.close').click();
-                    showAlert('danger', 'Approve Request', 'Gagal meng-approve request');
+                    showAlert('danger', 'Approve Request', 'Gagal menyetujui request');
                 }
             }); 
         }
@@ -147,7 +147,7 @@
             });
         }
 
-        //update status trip request menjadi waiting GAD
+        //update status trip request menjadi Rejected
         function reject(id){
             var note = $('#note').val();
                 
@@ -167,11 +167,11 @@
                     success:function(data){
                         $('.close').click();
                         read();
-                        showAlert('success', 'Respon Request', 'Berhasil merespon request');
+                        showAlert('success', 'Reject Request', 'Berhasil me-reject request');
                     },error: function(xhr, status, error) {
                         var err = eval("(" + xhr.responseText + ")");
                         $('.close').click();
-                        showAlert('danger', 'Respon Request', 'Gagal merespon request');
+                        showAlert('danger', 'Reject Request', 'Gagal me-reject request');
                     }
                 });
                 
@@ -179,7 +179,7 @@
             
         }
 
-        //load modal konfirmasi approve head
+        //load modal konfirmasi respon GAD
         function confirmResponse(id){
             $.get("{{ url('/trip-confirm-response') }}/"+id, {}, function(data, status){
                 $('.modal-content').html(data);
@@ -187,7 +187,7 @@
             });
         }
 
-        //update status trip request menjadi waiting GAD
+        //update status trip request menjadi Responsed
         function response(id){
             $.ajax({
                 type:"get",

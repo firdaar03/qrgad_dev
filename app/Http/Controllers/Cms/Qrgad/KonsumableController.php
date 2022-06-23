@@ -52,11 +52,14 @@ class KonsumableController extends Controller
 
     public function filterSubKategori($id){
         // if($this->permissionActionMenu('aplikasi-management')->c==1){
-            $sub_kategori_konsumable = MsSubKategoriKonsumable::all()->where('kategori_konsumable', $id);
+            $sub_kategori_konsumable = MsSubKategoriKonsumable::all()->where('kategori_konsumable', $id)->where('status', 1);
 
-            foreach($sub_kategori_konsumable as $skk){
-                echo "<option value=".$skk->id." >".$skk->nama."</option>";
-            }
+            // foreach($sub_kategori_konsumable as $skk){
+            //     echo "<option value=".$skk->id." {!! old('sub_kategori_konsumable') != $skk->id ?  : selected !!} >".$skk->nama."</option>";
+            // }
+            
+            $data = $sub_kategori_konsumable;
+            return $data;
 
         // } else {
         //     return redirect("/")->with("error_msg", "Akses ditolak");
@@ -108,14 +111,21 @@ class KonsumableController extends Controller
                 "minimal_stock" => "required|min:1"
             ]);
 
-            $validated['id'] = $kode;
-            $create = TbKonsumable::create($validated);
+            $create = TbKonsumable::create([
+                "id" => $kode,
+                "nama" => $validated['nama'],
+                "kategori_konsumable" => $validated['kategori_konsumable'],
+                "sub_kategori_konsumable" => $validated['sub_kategori_konsumable'],
+                "jenis_satuan" => $validated['jenis_satuan'],
+                "minimal_stock" => $validated['minimal_stock']
+            ]);
 
             if($create){
-                return redirect('/inventory/create', [
+                return redirect('/inventory/create')->with([
+                    "id" => $kode,
                     "konsumable" => $request->nama,
-                    "id" => $kode
-                ])->with('alert', 'success-add-konsumable');
+                    "alert", 'success-add-konsumable'
+                ]);
 
             } else{
 

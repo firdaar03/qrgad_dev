@@ -12,12 +12,12 @@
                         @csrf
 
                         <input name="konsumable" id="konsumable" type="text" class="form-control @error('konsumable') is-invalid @enderror"
-                        value="{{ old('konsumable', $id ) }}" placeholder="Nama Konsumable" hidden>
+                        value="{{ session()->get('id') != ''? session()->get('id') : $id }}" hidden>
 
                         <div class="form-group">
-                            <label for="nama_konsumable" class="mandatory">Nama Konsumable</label>
+                            <label for="nama_konsumable" class="mandatory">Nama Consumable</label>
                             <input name="nama_konsumable" id="nama_konsumable" type="text" class="form-control @error('nama_konsumable') is-invalid @enderror"
-                            value="{{ old('nama_konsumable', $konsumable) }}" placeholder="Nama Konsumable" readonly>
+                            value="{{ session()->get('konsumable') != ''? session()->get('konsumable') : $konsumable }}" placeholder="Nama Consumable" readonly>
                             @error('nama_konsumable')
                                 <div class="invalid-feedback">
                                     {{ $message }}
@@ -26,9 +26,9 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="jumlah_stock" class="mandatory">Jumlah Ketersediaan</label>
+                            <label for="jumlah_stock" class="mandatory">Jumlah</label>
                             <input name="jumlah_stock" id="jumlah_stock" type="number" class="form-control @error('jumlah_stock') is-invalid @enderror"
-                            value="{{ old('jumlah_stock') }}" min="1" placeholder="jumlah barang yang akan masuk" onkeyup="nominal()" onmouseup="nominal()">
+                            value="{{ old('jumlah_stock') }}" min="1" onkeyup="nominal()" placeholder="Jumlah Barang yang akan Masuk" >
                             @error('jumlah_stock')
                                 <div class="invalid-feedback">
                                     {{ $message }}
@@ -39,17 +39,30 @@
                         <div class="form-group">
                             <label for="harga_item" class="mandatory">Harga Barang</label>
                             <div class="input-group">
-                                <input type="hidden" id="total" >
-                                <input name="harga_item" id="harga_item" type="number" min="1"  class="form-control @error('harga_item') is-invalid @enderror"
-                                value="{{ old('harga_item') }}" class="form-control" onkeyup="nominal()" onmouseup="nominal()" placeholder="Harga Satuan Barang " required />
-                                <span class="input-group-text" id="temp">Rp 0 ,-</span>
+                                <input hidden id="temp_input" name="harga_item" value="{{ old('harga_item') }}" >
+                                <input hidden id="temp_total" name="total" value="{{ old('total') }}" >
+
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text"> <span class="input-group-text">Rp.</span></div>
+                                </div>
+                                
+                                <input id="harga_item"  min="1"  class="form-control @error('harga_item') is-invalid @enderror"
+                                value="" class="form-control" onkeyup="nominal()" placeholder="Harga Satuan Barang " required />
+                                
+                                <div class="input-group-append">
+                                    <span class="input-group-text"  >
+                                        <div>Rp. </div>
+                                        <div id="total"></div>
+                                    </span>
+                                </div>
+                                
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label for="nama_toko" class="mandatory">Nama Toko</label>
                             <input name="nama_toko" id="nama_toko" type="text" class="form-control @error('nama_toko') is-invalid @enderror"
-                            value="{{ old('nama_toko') }}" placeholder="Nama toko tempat membeli barang">
+                            value="{{ old('nama_toko') }}" placeholder="Nama Toko Pembelian Barang">
                             @error('nama_toko')
                                 <div class="invalid-feedback">
                                     {{ $message }}
@@ -57,9 +70,11 @@
                             @enderror
                         </div>
 
-                        <div class="mt-4 mb-4">
-                            <div>
-                                <a href="{{ url('/inventory') }}" class="btn btn-secondary float-right ">Batal</a>
+                        <div class="d-flex float-right mt-5 mb-5">
+                            <div class="d-inline mr-2">
+                                <a href="{{ url('/inventory') }}" class="btn btn-secondary float-right">Batal</a>
+                            </div>
+                            <div class="d-inline">
                                 <button type="submit" class="btn btn-primary float-right mr-3">Simpan</button>
                             </div>
                         </div>
@@ -70,32 +85,70 @@
         </div>
     </div>
 
+    <script>
+
+        $(document).ready(function(){
+            harga_item.value = thousands_separators(temp_input.value);
+            total.innerHTML = thousands_separators(temp_total.value);
+        });
+
+        function thousands_separators(num){
+            var num_parts = num.toString().split(".");
+            num_parts[0] = num_parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            return num_parts.join(".");
+        }
+
+        function nominal(){
+            // var biaya = document.getElementById('biaya');
+            // var temp = document.getElementById('temp');
+            // var harga 	= document.getElementById("harga_item").value;
+            // var stock   = document.getElementById("jumlah_stock").value;
+            // var price	= harga * stock;
+            // var total   = document.getElementById("total").value;
+            // total = price;
+            // var jml     = total.length;
+
+            // while(jml > 3)
+            // {
+            //     var rupiah = "." + total.substr(-3) + rupiah;
+            //     var decimal = total.length - 3;
+            //     var total = total.substr(0,decimal);
+            //     var jml = total.length;
+            // }
+            
+            // var rupiah = "Rp " + total + rupiah + ",-";
+            // var res = rupiah.replace("undefined", "");
+            // var temp = document.getElementById("temp").innerHTML = res;
+
+
+            // baru
+
+            var temp_input = document.getElementById('temp_input');
+            var temp_total = document.getElementById('temp_total');
+            var harga_item = document.getElementById('harga_item');
+            var total = document.getElementById('total');
+            var stock   = document.getElementById("jumlah_stock");
+            var jumlah = '';
+            var nominal = '';
+            
+            nominal = harga_item.value.replace(/,/g,"");
+            temp_input.value = nominal;
+            harga_item.value = thousands_separators(temp_input.value);
+
+            // jumlahin total harga
+
+            jumlah = stock.value * temp_input.value;
+            temp_total.value = jumlah;
+            total.innerHTML = thousands_separators(jumlah);
+        }
+
+        
+    </script>
+
 @endsection
 
 @section('script')
-    <script>
-        function nominal(){
-            var harga 	= document.getElementById("harga_item").value;
-            var stock   = document.getElementById("jumlah_stock").value;
-            var price	= harga * stock;
-            document.getElementById("total").value = price;
-            var total   = document.getElementById("total").value;
-            var jml     = total.length;
-
-            while(jml > 3)
-            {
-                var rupiah = "." + total.substr(-3) + rupiah;
-                var decimal = total.length - 3;
-                var total = total.substr(0,decimal);
-                var jml = total.length;
-            }
-            
-            var rupiah = "Rp " + total + rupiah + ",-";
-            var res = rupiah.replace("undefined", "");
-            var temp = document.getElementById("temp").innerHTML = res;
-            
-        }
-    </script>
+    
 
     @if (session()->has('data'))
     @php

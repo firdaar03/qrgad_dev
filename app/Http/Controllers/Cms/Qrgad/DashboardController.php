@@ -94,9 +94,17 @@ class DashboardController extends Controller
             }
         }
 
+        $view = "";
+        if (Auth::user()->level == "LV00000001" || Auth::user()->level == "LV00000002"){
+            $view = "dashboard";
+        } else if (Auth::user()->level == "LV00000003") { 
+            $view = "dashboardSecurity";
+        } else {
+            $view = "dashboard";
+        }
 
         if(Auth::user()->whatsapp == '' || Auth::user()->whatsapp == null){
-            return view("Qrgad/dashboard/dashboard", [
+            return view("Qrgad/dashboard/".$view, [
                 "ruangan" => $ruangan,
                 "jadwal" => $jadwal,
                 "breadcrumbs" => $breadcrumb,
@@ -104,7 +112,7 @@ class DashboardController extends Controller
                 "user" => $user,
             ])->with('data', $data);
         } else {
-            return view("Qrgad/dashboard/dashboard", [
+            return view("Qrgad/dashboard/".$view, [
                 "ruangan" => $ruangan,
                 "jadwal" => $jadwal,
                 "breadcrumbs" => $breadcrumb,

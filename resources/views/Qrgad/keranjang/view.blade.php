@@ -17,7 +17,7 @@
                         <input type="" name="konsumable[]" value="{{ $k->id_konsumable }}" hidden>
                     </td>
                     <td class="d-flex justify-content-center">
-                        <input name="jumlah[]" value="{{ $k->jumlah }}">
+                        <input name="jumlah[]" value="{{ $k->jumlah }}" hidden>
                         <div class="d-flex d-inline">
                             <div class="align-self-center mx-3">
                                 <span class="">{{ $k->jumlah }}</span>

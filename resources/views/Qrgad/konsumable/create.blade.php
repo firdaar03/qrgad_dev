@@ -4,16 +4,16 @@
     <div class="card show">
         <div class="">
             <div class="card-header">
-                <h3><b>Tambah Konsumable</b></h3>
+                <h3><b>Tambah Consumable</b></h3>
             </div>
             <div class="card-body">
                 <div class="container">
                     <form action="{{ url('/konsumable') }}" method="post" enctype="multipart/form-data">
                         @csrf
                         <div class="form-group">
-                            <label for="nama" class="mandatory">Nama Konsumable</label>
+                            <label for="nama" class="mandatory">Nama Consumable</label>
                             <input name="nama" id="nama" type="text" class="form-control @error('nama') is-invalid @enderror"
-                            value="{{ old('nama') }}" placeholder="Nama Konsumable">
+                            value="{{ old('nama') }}" placeholder="Nama Consumable">
                             @error('nama')
                                 <div class="invalid-feedback">
                                     {{ $message }}
@@ -22,9 +22,9 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="kategori_konsumable" class="mandatory">Kategori Konsumable</label>
+                            <label for="kategori_konsumable" class="mandatory">Kategori Consumable</label>
                             <select name="kategori_konsumable" id="kategori_konsumable" class="form-control @error('kategori_konsumable') is-invalid @enderror"  onchange="filterOption()">
-                                <option value="">--Pilih kategori konsumable--</option>
+                                <option value="" selected disabled>--Pilih Kategori Consumable--</option>
                                 @foreach ($kategori_konsumable as $kk)    
                                     <option value="{{ $kk->id }}" {{ old('kategori_konsumable') == $kk->id ? 'selected' : '' }}>{{ $kk->nama }}</option>
                                 @endforeach
@@ -37,9 +37,9 @@
                         </div>
 
                         <div class="form-group" id="skk_container">
-                            <label for="sub_kategori_konsumable" class="mandatory">Sub Kategori Konsumable</label>
+                            <label for="sub_kategori_konsumable" class="mandatory">Sub Kategori Consumable</label>
                             <select name="sub_kategori_konsumable" id="sub_kategori_konsumable" class="form-control @error('sub_kategori_konsumable') is-invalid @enderror">
-                                <option value="" selected>--Pilih sub kategori konsumable--</option>
+                                <option value="" selected disabled>--Pilih Sub Kategori Consumable--</option>
                                 {{-- @foreach ($sub_kategori_konsumable as $skk)    
                                     <option value="{{ $skk->id }}" {{ old('sub_kategori_konsumable') == $skk->id ? 'selected' : '' }}>{{ $skk->nama }}</option>
                                 @endforeach --}}
@@ -54,8 +54,11 @@
                         <div class="form-group">
                             <label for="jenis_satuan" class="mandatory">Jenis Satuan</label>
                             <select name="jenis_satuan" id="jenis_satuan" class="form-control @error('jenis_satuan') is-invalid @enderror">
-                                <option value="">--Pilih jenis satuan--</option>   
-                                    <option value="PCS" {{ old('jenis_satuan') == 'PCS' ? 'selected' : '' }}>PCS</option>
+                                <option value="">--Pilih Jenis Satuan--</option>   
+                                    <option value="Pcs" {{ old('jenis_satuan') == 'Pcs' ? 'selected' : '' }}>Pieces</option>
+                                    <option value="Unit" {{ old('jenis_satuan') == 'Unit' ? 'selected' : '' }}>Unit</option>
+                                    <option value="Pak" {{ old('jenis_satuan') == 'Pak' ? 'selected' : '' }}>Pak</option>
+                                    <option value="Rim" {{ old('jenis_satuan') == 'Rim' ? 'selected' : '' }}>Rim</option>
                             </select>
                             @error('jenis_satuan')
                                 <div class="invalid-feedback">
@@ -67,7 +70,7 @@
                         <div class="form-group">
                             <label for="minimal_stock" class="mandatory">Minimal Stock</label>
                             <input name="minimal_stock" id="minimal_stock" type="number" class="form-control @error('minimal_stock') is-invalid @enderror"
-                            value="{{ old('minimal_stock') }}" min="1" placeholder="minimal stock">
+                            value="{{ old('minimal_stock') }}" min="1" placeholder="Minimal Stock">
                             @error('minimal_stock')
                                 <div class="invalid-feedback">
                                     {{ $message }}
@@ -75,10 +78,11 @@
                             @enderror
                         </div>
 					
-
-                        <div class="mt-4 mb-4">
-                            <div>
-                                <a href="{{ url('/inventory') }}" class="btn btn-secondary float-right ">Batal</a>
+                        <div class="d-flex float-right mt-5 mb-5">
+                            <div class="d-inline mr-2">
+                                <a href="{{ url('/inventory') }}" class="btn btn-secondary float-right">Batal</a>
+                            </div>
+                            <div class="d-inline">
                                 <button type="submit" class="btn btn-primary float-right mr-3">Simpan</button>
                             </div>
                         </div>
@@ -89,25 +93,10 @@
         </div>
     </div>
     <script>
-        // var skk_array = @json($sub_kategori_konsumable); 
-    
-        // function filterOption(){
-        //     var kategori_konsumable = document.getElementById('kategori_konsumable');
-        //     var sub_kategori_konsumable = document.getElementById('sub_kategori_konsumable');
-        //     var skk_container = document.getElementById('skk_container');
-        //     clearOption();
-        //     Array.from(skk_array).forEach(skk => {
-        //         if(skk['kategori_konsumable'] == kategori_konsumable.value){
-        //             var opt = document.createElement('option');
-        //             opt.value = skk['id'];
-        //             skk.innerHTML = skk['nama'];
-        //             sub_kategori_konsumable.appendChild(opt);
-        //         }
-        //     });
-            
-        //     skk_container.style.display = 'block';
-                
-        // }
+
+        $(document).ready(function(){
+            {{ old('kategori_konsumable') != ''?  'filterOption();' : ''}}
+        });
     
         function clearOption(){
             $('#sub_kategori_konsumable')
@@ -120,11 +109,25 @@
         function filterOption(){
             clearOption();
             var kategori_konsumable = $('#kategori_konsumable').val();
-            $.get("{{ url('/konsumable-filter') }}/"+kategori_konsumable, {}, function(data, status){
-                $('#sub_kategori_konsumable').append(data);
+            $.get("{{ url('/konsumable-filter') }}/"+kategori_konsumable, {}, function(response){
+                // alert(data.length);
+                for(var item in response){
+                    console.log(response[item]);
+                    var old = '{{ old('sub_kategori_konsumable') }}';
+                    var selected = '';
+                    if(response[item]['id'] == old){
+                        selected = "selected";
+                    } 
+                    $('#sub_kategori_konsumable').append("<option value="+response[item]['id']+" "+selected+" >"+response[item]['nama']+"</option>")
+                }
             }) 
         }
+
+        
+
     </script>
+
+   
 
 @endsection
 

@@ -161,7 +161,7 @@
 
               {{-- table inventory --}}
                 @if (Auth::user()->level == "LV00000001" || Auth::user()->level == "LV00000002" )
-                    <li class="{{ Request::is('inventory') || Request::is('inventory-tambah*') || Request::is('konsumable/*')? 'active' : '' }}">
+                    <li class="{{ Request::is('inventory') || Request::is('inventory-tambah*') || Request::is('konsumable/KS*')? 'active' : '' }}">
                       <a href="{{ url('/inventory') }}">
                           <span class="sub-item ">Table Inventory</span>
                       </a>
@@ -265,7 +265,7 @@
               @endif
 
               {{-- jadwal TMS --}}
-              @if (Auth::user()->level == "LV00000001"|| Auth::user()->level == "LV00000002")
+              @if (Auth::user()->level == "LV00000001"|| Auth::user()->level == "LV00000002" || Auth::user()->level == "LV00000003")
                 <li class="{{ Request::is('trip-schedule*')? 'active' : '' }}">
                   <a href="{{ url('/trip-schedule') }}">
                     <span class="sub-item ">Jadwal TMS</span>

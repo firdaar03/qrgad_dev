@@ -8,7 +8,10 @@
 </div>
 <div class="modal-body">
     <div class="form-group">
-        <label for="nama" class="mandatory">Perusahaan</label>
+        <label for="nama" class="mandatory">
+            Perusahaan
+            <span style="color:red">*</span>
+        </label>
         <input name="nama" id="nama" type="text" class="form-control mb-3" placeholder="Nama Perusahaan">
         <div id="message" class="invalid-feedback mb-3">Wajib diisi</div>
     </div>
@@ -20,5 +23,5 @@
 </div>
 
 <script>
-    mandatory();
+    // mandatory();
 </script>

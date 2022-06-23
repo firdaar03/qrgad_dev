@@ -3,16 +3,16 @@
 @section('content')
     <div class="card show">
         <div class="card-header">
-            <h3><b>Tambah Sub Kategori Konsumable</b></h3>
+            <h3><b>Tambah Sub Kategori Consumable</b></h3>
         </div>
         <div class="card-body">
             <div class="container">
                 <form action="{{ url('/sub-kategori-konsumable') }}" method="post">
                     @csrf
                     <div class="form-group">
-                        <label for="nama" class="mandatory">Nama Sub Kategori Konsumable</label>
+                        <label for="nama" class="mandatory">Nama Sub Kategori Consumable</label>
                         <input name="nama" id="nama" type="text" class="form-control @error('nama') is-invalid @enderror"
-                        value="{{ old('nama') }}" placeholder="Nama Sub Kategori Konsumable">
+                        value="{{ old('nama') }}" placeholder="Nama Sub Kategori Consumable">
                         @error('nama')
                             <div class="invalid-feedback">
                                 {{ $message }}
@@ -21,9 +21,9 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="nama" class="mandatory">Kategori Konsumable</label>
+                        <label for="nama" class="mandatory">Kategori Consumable</label>
                         <select name="kategori_konsumable" id="kategori_konsumable" class="form-control @error('kategori_konsumable') is-invalid @enderror">
-                            <option value="">--Pilih Kategori Konsumable--</option>
+                            <option value="">--Pilih Kategori Consumable--</option>
                             @foreach ($kategori_konsumable as $k)    
                                 <option value="{{ $k->id }}" {{ old('kategori_konsumable') == $k->id ? 'selected' : '' }}>{{ $k->nama }}</option>
                             @endforeach

@@ -40,16 +40,16 @@
                                     echo "<div class='badge badge-danger'> Rejected </div>" ;
                                     break;
                                 case 1:
-                                    echo "<div class='badge badge-primary'> Waiting Head </div>" ;
+                                    echo "<div class='badge badge-secondary'> Waiting Head </div>" ;
                                     break;
                                 case 2:
-                                    echo "<div class='badge badge-warning'> Waiting GAD </div>" ;
+                                    echo "<div class='badge badge-primary'> Waiting GAD </div>" ;
                                     break;
                                 case 3:
-                                    echo "<div class='badge badge-success'> Responded </div>" ;
+                                    echo "<div class='badge badge-warning'> Responded </div>" ;
                                     break;
                                 case 4:
-                                    echo "<div class='badge badge-second'> Closed </div>" ;
+                                    echo "<div class='badge badge-success'> Closed </div>" ;
                                     break;
                             } 
                         @endphp

@@ -62,32 +62,30 @@
                             <label for="fasilitas">Fasilitas</label>
                         </div>
 
-                        <div class="form-group">
-                            <div class="table-responsive">
-                                <table id="table" class="display table table-striped table-hover dataTable" >
-                                    <thead class="bg-primary text-white">
-                                        <tr>
-                                            <th class="fit text-center">#</th>
-                                            <th class="fit text-center">Fasilitas</th>
-                                            <th class="fit text-center">Jumlah</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach ($fasilitas as $f)
-                                        <tr>
-                                            <td class="fit text-center">{{ $loop->iteration }}</td>
-                                            <td class="fit">{{ $f->nama }}</td>
-                                            <td class="fit text-center">
-                                                <input type='hidden' id='idf[]' name='idf[]' value='{{ $f->id }}'>
-                                                <div class="form-group d-flex justify-content-center">
-                                                    <input type='number' id='jumlah[]' name='jumlah[]' class="form-control col-sm-3 shadow" value="{{ old('jumlah.'.$loop->index, 0 )}}" min="0">
-                                                </div>
-                                            </td>
-                                          </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
-                            </div>
+                        <div class="table-responsive">
+                            <table id="table" class="display table table-striped table-hover dataTable" >
+                                <thead class="bg-primary text-white">
+                                    <tr>
+                                        <th class="fit text-center">#</th>
+                                        <th class="fit text-center">Fasilitas</th>
+                                        <th class="fit text-center">Jumlah</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($fasilitas as $f)
+                                    <tr>
+                                        <td class="fit text-center">{{ $loop->iteration }}</td>
+                                        <td class="">{{ $f->nama }}</td>
+                                        <td class="fill text-center">
+                                            <input type='hidden' id='idf[]' name='idf[]' value='{{ $f->id }}'>
+                                            <div class="form-group d-flex justify-content-center">
+                                                <input placeholder="Jumlah" type='number' id='jumlah[]' name='jumlah[]' class="form-control shadow col-lg-2" value="{{ old('jumlah.'.$loop->index, 0 )}}" min="0">
+                                            </div>
+                                        </td>
+                                      </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
                         </div>
 
                         <div class="d-flex float-right mt-5 mb-5">

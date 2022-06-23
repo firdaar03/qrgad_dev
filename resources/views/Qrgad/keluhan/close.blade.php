@@ -80,11 +80,6 @@
                                             </div>
                                         @enderror
                                     </div>
-                                    <div class="">
-                                        <div class="btn btn-primary" onclick="createPerusahaan()">
-                                            <i class="fas fa-plus"></i>
-                                        </div>
-                                    </div>
                                 </div>
                                 @error('kategori')
                                     <div class="invalid-feedback">
@@ -186,6 +181,7 @@
         
         $(document).ready(function(){
             temp.value = thousands_separators(biaya.value);
+            {{ old('grup_aset') != ''? 'filterOption()' : '' }}
         });
 
         
@@ -256,9 +252,17 @@
             var grubAset = $('#grup_aset').val();
 
             clearOption();
-            $.get("{{ url('/keluhan-dashboard-filter-sub-grup-aset') }}/"+grubAset, {}, function(data, status){
+            $.get("{{ url('/keluhan-dashboard-filter-sub-grup-aset') }}/"+grubAset, {}, function(response, status){
                 // alert(data);
-                $('#sub_grup_aset').append(data);
+                for(var item in response){
+                    console.log(response[item]);
+                    var old = '{{ old('sub_grup_aset') }}';
+                    var selected = '';
+                    if(response[item]['id'] == old){
+                        selected = "selected";
+                    } 
+                    $('#sub_grup_aset').append("<option value="+response[item]['id']+" "+selected+" >"+response[item]['nama']+"</option>")
+                }
                 $('#sga_container').show();
             }) 
 
