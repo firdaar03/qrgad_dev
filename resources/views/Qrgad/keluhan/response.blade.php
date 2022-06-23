@@ -22,18 +22,18 @@
                         <div id="dropdown" class="dropdown-menu" x-placement="top-start" style="position: absolute; transform: translate3d(-79px, -104px, 0px); top: 0px; left: 0px; will-change: transform;">
                             {{-- responsed --}}
                             @if ($k->status == 1)
-                                <a onclick="editResponse('{{ $k->id }}')" class="dropdown-item">
+                                <a onclick="editResponse('{{ $k->id }}')" class="dropdown-item text-warning">
                                     Update Progress
                                 </a>
-                                <a href="{{ url('/keluhan-dashboard-input-action') }}/{{ $k->id }}" class="dropdown-item">
+                                <a href="{{ url('/keluhan-dashboard-input-action') }}/{{ $k->id }}" class="dropdown-item text-warning">
                                     Action
                                 </a>
-                                <a href="{{ url('/keluhan-dashboard-input-close') }}/{{ $k->id }}" class="dropdown-item">
+                                <a href="{{ url('/keluhan-dashboard-input-close') }}/{{ $k->id }}" class="dropdown-item text-success">
                                     Close 
                                 </a>
                             @endif
                             
-                            <a href="{{ url('/keluhan') }}/{{ $k->id }}" class="dropdown-item">
+                            <a href="{{ url('/keluhan') }}/{{ $k->id }}" class="dropdown-item text-info">
                                 Show
                             </a>
                         </div>

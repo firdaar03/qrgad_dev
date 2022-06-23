@@ -159,8 +159,7 @@ Route::middleware('auth')->group(function () {
     // Route::get('/trip-view/{id}',[TripController::class,'viewTrip']);
     Route::post('/trip-check-out',[TripController::class,'checkOut']);
     Route::post('/trip-check-in',[TripController::class,'checkIn']);
-    Route::get('/trip-schedule-show/{id}',[TripController::class,'showSchedule']);
-    
+    Route::get('/trip-schedule/{id}',[TripController::class,'showSchedule']);
 
 });
 

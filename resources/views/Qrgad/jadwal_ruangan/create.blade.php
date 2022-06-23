@@ -41,11 +41,11 @@
                         @enderror
                     </div>
                     <div class="form-group">
-                        <label for="perusahaan">Perusahaan</label>
+                        <label class="mandatory" for="perusahaan">Perusahaan</label>
                         <div class="d-flex">
                             <div class="d-inline flex-fill mr-1" id="input-perusahaan">
                                 <select name="perusahaan" id="perusahaan" class="form-control @error('perusahaan') is-invalid @enderror">
-                                    <option value="">-- pilih perusahaan --</option>
+                                    <option value="">-- Pilih Perusahaan --</option>
                                     @foreach ($perusahaans as $perusahaan)
                                         <option value="{{ $perusahaan->id }}" {{ (old('perusahaan') == $perusahaan->id )? 'selected' : '' }}>{{ $perusahaan->nama }}</option>
                                     @endforeach
@@ -82,7 +82,7 @@
                     <div class="form-group">
                         <label for="ruangan" class="mandatory">Ruangan</label>
                         <select  name="ruangan" id="ruangan" class="form-control @error('ruangan') is-invalid @enderror">
-                            <option value="">-- pilih ruangan --</option>
+                            <option value="">-- Pilih Ruangan --</option>
                             @foreach ($ruangans as $ruangan)
                                 <option value="{{ $ruangan->id }}" {{ (old('ruangan') == $ruangan->id)? 'selected' : '' }}>
                                     {{ $ruangan->nama }} (Kapasitas :  {{ $ruangan->kapasitas }} orang)

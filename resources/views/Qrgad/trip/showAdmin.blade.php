@@ -81,7 +81,7 @@
 					</div>
 				</div>
 
-				<div class="d-flex float-right">
+				<div class="d-flex float-right my-3">
 					<div class="d-inline mr-2">
 						<a href="{{ url('/trip') }}" class="btn btn-secondary float-right">Kembali</a>
 					</div>

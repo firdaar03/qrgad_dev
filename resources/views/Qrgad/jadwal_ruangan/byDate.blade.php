@@ -40,7 +40,8 @@
                 </div>
             </div>
         </div>
-    @elseif($jadwals != null && $jadwals != '[]')
+    @endif
+    @if($jadwals != null && $jadwals != '[]')
         @foreach ($jadwals as $jadwal)
             {{-- <p>{{ $jadwal->agenda }}</p> --}}
             <div class="card shadow mt-3">

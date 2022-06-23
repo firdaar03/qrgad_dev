@@ -274,7 +274,7 @@
             },error: function(xhr, status, error) {
                 var err = eval("(" + xhr.responseText + ")");
                 // alert(err.Message);
-                showAlert('danger', 'Tambah Data', 'Gagal menambahkan data');
+                showAlert('danger', 'Show Modal', 'Gagal menampilkan modal');
             }
         });
     }

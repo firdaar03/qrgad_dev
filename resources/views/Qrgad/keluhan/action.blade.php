@@ -42,7 +42,7 @@
                                 <select id="konsumable" class="form-control" onchange="createAmountInput()">
                                     <option value="">--Pilih Konsumable--</option>
                                     @foreach ($konsumable as $k)    
-                                        <option value="{{ $k->id_konsumable }}">{{ $k->nama }} ( available stock : {{ $k->stock - $k->minimal_stock }}) </option>
+                                        <option value="{{ $k->id_konsumable }}">{{ $k->nama_konsumable }} ( available stock : {{ $k->stock - $k->minimal_stock }}) </option>
                                     @endforeach
                                 </select>
                                 <div id="konsumable_error" class="invalid-feedback">
@@ -62,7 +62,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="flex-fill align-self-center">
+                        <div class="flex-fill align-self-end mb-3">
                             <a class="btn btn-success ml-auto text-white" onclick="store()">
                                 <div class="row">
                                     <div class="col-1">
@@ -92,30 +92,30 @@
                     {{-- modal --}}
                     <div class="modal" id="modal" tabindex="-1">
                         <div class="modal-dialog modal-dialog-scrollable">
-                        <div class="modal-content" data-background-color="bg3">
-                            <div class="modal-header">
-                                <h5 class="modal-title">
-                                    Tambah Item Out
-                                </h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                  <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div id="modal-body">
-                                <div class="container">
-                                    <div class="mt-3 mb-3">
-                                        <span >Yakin menambahkan konsumable berikut untuk keluhan ini ?</span>
+                            <div class="modal-content" data-background-color="bg3">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">
+                                        Tambah Item Out
+                                    </h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div id="modal-body">
+                                    <div class="container">
+                                        <div class="mt-3 mb-3">
+                                            <span >Yakin menambahkan konsumable berikut untuk keluhan ini ?</span>
+                                        </div>
+                                        <div id="confirm_table" class="table" ></div>
                                     </div>
-                                    <div class="table"></div>
+                                </div>
+                                <div class="modal-footer">
+                                    <div class="inline">
+                                        <button class="btn btn-success float-right" type="submit">Tambah</button>
+                                        <button class="btn btn-secondary float-right mr-1" data-dismiss="modal">Batal</button>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="modal-footer">
-                                <div class="inline">
-                                    <button class="btn btn-success float-right" type="submit">Tambah</button>
-                                    <button class="btn btn-secondary float-right mr-1" data-dismiss="modal">Batal</button>
-                                </div>
-                            </div>
-                        </div>
                         </div>
                     </div>
                     
@@ -192,31 +192,48 @@
             var total = $('#jumlah').val();
             var complaint = String($('#complain').val());
             
-            // alert(consumable+"-"+total+"-"+complaint);
-        
             $.ajaxSetup({
                 headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}
             });
 
-            if(consumable == "" || jumlah == ""){
+            if(consumable == "" && total == ""){
                 // alert('tidal boleh kosong');
                 $('#konsumable').addClass('is-invalid');
                 $('#konsumable_error').show();
                 $('#jumlah').addClass('is-invalid');
                 $('#jumlah_error').show();
+                
+            } else if(consumable == "" ){
+                // alert('tidal boleh kosong');
+                $('#konsumable').addClass('is-invalid');
+                $('#konsumable_error').show();
+                $('#jumlah').removeClass('is-invalid');
+                $('#jumlah_error').hide();
+                
+            } else if(total == ""){
+                // alert('tidal boleh kosong');
+                $('#konsumable').removeClass('is-invalid');
+                $('#konsumable_error').hide();
+                $('#jumlah').addClass('is-invalid');
+                $('#jumlah_error').show();
+                
             } else {
+                // alert(consumable+"-"+total+"-"+complaint);
                 $.ajax({
                     type:"post",
                     url:"{{ url('/keranjang') }}",
                     data : {konsumable: consumable, jumlah: total, keluhan: complaint},
                     success:function(data){
-
+                        
                         if(data == 'err_add_konsumable'){
                             showAlert('warning', 'Tambah Data' , 'Konsumable sudah ada, silahkan menambah jumlah item');
                         } else {
                             read();
                             showAlert('success', 'Tambah Data', 'Berhasil menambahkan item konsumable');
                         }
+
+                        $('#konsumable').val('');
+                        $('#jumlah').val('');
                         
                     },error: function(xhr, status, error) {
                         var err = eval("(" + xhr.responseText + ")");
@@ -272,8 +289,8 @@
         function confirmStore(){
             $.get("{{ url('/keranjang-view') }}", {}, function(data, status){
                 // alert(data);
-                $('.modal-title').html('Tambah Data');
-                $('.table').html(data);
+                $('.modal-title').html('Tambah Action');
+                $('#confirm_table').html(data);
                 $('#modal').modal('show');
             }) 
         }

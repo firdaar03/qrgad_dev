@@ -9,7 +9,7 @@
 
 <div class="modal-body">
     {{-- {{ $trips }} --}}
-    @if ($trips != '[]' )
+    @if ($trips != '[]' && $trips != '' )
         <div class="card shadow">
             <h5 class="card-header fw-bold">
                 Jadwal Perjalan {{ $kendaraan->nama.' ('.$kendaraan->nopol.')' }}

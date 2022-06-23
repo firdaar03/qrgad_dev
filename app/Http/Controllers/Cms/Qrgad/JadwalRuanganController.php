@@ -160,6 +160,7 @@ class JadwalRuanganController extends Controller
 
             $validated = $request->validate([
                 "agenda" => "required",
+                "perusahaan" => "required",
                 "ruangan" => "required",
                 "tanggal" => "required",
                 "start" => "required",

@@ -21,11 +21,11 @@
                         </button>
                         <div id="dropdown" class="dropdown-menu" x-placement="top-start" style="position: absolute; transform: translate3d(-79px, -104px, 0px); top: 0px; left: 0px; will-change: transform;">
                             {{-- requested --}}
-                            <a class="dropdown-item" onclick="confirmResponse('{{ $k->id }}')">
+                            <a class="dropdown-item text-danger" onclick="confirmResponse('{{ $k->id }}')">
                                 Response
                             </a>
                             
-                            <a class="dropdown-item" href="{{ url('/keluhan') }}/{{ $k->id }}">
+                            <a class="dropdown-item text-info" href="{{ url('/keluhan') }}/{{ $k->id }}">
                                 Show
                             </a>
                         </div>

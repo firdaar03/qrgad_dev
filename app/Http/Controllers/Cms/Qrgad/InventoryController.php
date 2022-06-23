@@ -151,7 +151,13 @@ class InventoryController extends Controller
             $validated['username'] = Auth::user()->username;
             $validated['id'] = $kode;
 
-            $create = TbInventory::create($validated);
+            $create = TbInventory::create([
+                "id" => $kode,
+                "konsumable" => $validated['konsumable'],
+                "jumlah_stock" =>$validated['jumlah_stock'],
+                "nama_toko" => $validated['nama_toko'],
+                "harga_item" => $validated['harga_item']
+            ]);
 
             $alert = '';
 

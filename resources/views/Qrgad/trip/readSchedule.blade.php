@@ -28,7 +28,7 @@
                                 
                                 $diff = date_diff($datetime1, $datetime2);
                                 
-                                $interval = $diff->format('%R%H:%I ');
+                                $interval = $diff->format('%R%h.%i ');
                                 echo date("d M Y H:i",strtotime($tr->waktu_berangkat_aktual))." (".$interval.")";
                             } else {
                                 echo '-';
@@ -48,11 +48,12 @@
                     </td>
                     <td class="text-center">
                         <div class="form-button-action">
-                            <a href="{{ url('/trip-schedule-show') }}/{{ $tr->id_trip }}" type="button" data-toggle="tooltip" rel="tooltip" title="Show" class="btn btn-link btn-info btn-lg">
+                            {{-- ubah aksi --}}
+                            <a href="{{ url('/trip-schedule/'.$tr->id_trip) }}" type="button" data-toggle="tooltip" rel="tooltip" title="Show" class="btn btn-link btn-info btn-lg">
                                 <i class="fa fa-eye"></i>
                             </a>
 
-                            <a href="{{ url('/trip-check') }}/{{ $tr->id_trip }}" type="button" data-toggle="tooltip" rel="tooltip" title="Check Trip" class="btn btn-link btn-warning btn-lg">
+                            <a href="{{ url('/trip-check/'.$tr->id_trip) }}" type="button" data-toggle="tooltip" rel="tooltip" title="Check Trip" class="btn btn-link btn-warning btn-lg">
                                 <i class="fas fa-exchange-alt"></i>
                             </a>
                             @if ($tr->status == '3')

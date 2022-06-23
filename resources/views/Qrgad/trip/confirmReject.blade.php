@@ -21,8 +21,8 @@
 					</div>
 					<br>
 					<div>
-						<h4 class="fw-bold">Agenda</h4>
-						<span>{{ $trip_request->agenda }}</span>
+						<h4 class="fw-bold">Keperluan</h4>
+						<span>{{ $trip_request->keperluan }}</span>
 					</div>
 					<br>
 					<div>
@@ -31,25 +31,25 @@
 							@php 
 								switch ($trip_request->jenis_perjalanan) {
 									case 1:
-										echo "One Way" ;
-										break;
+									echo "One Way" ;
+									break;
 									case 2:
-										echo "Round Trip" ;
-										break;
+									echo "Round Trip" ;
+									break;
 								} 
-							@endphp
+								@endphp
 						</span>
 					</div>
 					<br>
 					<div>
 						<h4 class="fw-bold">Penumpang</h4>
 						@foreach ($penumpangs as $p)
-							<span>{{ $p->nama }}</span><br>
+						<span>{{ $p->nama }}</span><br>
 						@endforeach
 					</div>
+					<br>
 				</div>
 				<div class="col d-flex flex-column justify-content-around">
-					<br>
 					<div>
 						<h4 class="fw-bold">Tujuan</h4>
 						<span>{{ $trip_request->tujuan.", ".$trip_request->wilayah }}</span>

@@ -1,6 +1,6 @@
 <div class="modal-header">
     <h5 class="modal-title">
-        Edit Kategori Konsumable
+        Edit Kategori Consumable
     </h5>
     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
       <span aria-hidden="true">&times;</span>
@@ -9,8 +9,8 @@
 
 <div class="modal-body">
     <div class="form-group">
-        <label for="nama" class="mandatory">Nama Kategori Konsumable</label>
-        <input name="nama" id="nama" type="text" class="form-control mb-3" value="{{ $kategori_konsumable->nama }} " placeholder="nama kategori konsumable">
+        <label for="nama" class="mandatory">Nama Kategori Consumable</label>
+        <input name="nama" id="nama" type="text" class="form-control mb-3" value="{{ $kategori_konsumable->nama }} " placeholder="Nama Kategori Consumable">
         <div id="message" class="invalid-feedback mb-3">Wajib diisi</div>
     </div>
 </div>

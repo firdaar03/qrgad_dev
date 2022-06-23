@@ -42,7 +42,7 @@ class KategoriKonsumableController extends Controller
         // if($this->permissionActionMenu('aplikasi-management')->r==1){
             $breadcrumb = [
                 [
-                    'nama' => "Kategori Konsumable",
+                    'nama' => "Kategori Consumable",
                     'url' => "/kategori-konsumable"
                 ],
             ];
@@ -164,10 +164,10 @@ class KategoriKonsumableController extends Controller
     {
         // if($this->permissionActionMenu('aplikasi-management')->u==1){
 
-            $kategori_konsumable = MsKategoriKonsumable::findOrFail($id);
-            $kategori_konsumable->nama = $request->nama;
-            $kategori_konsumable->updated_by = Auth::user()->nama;
-            $kategori_konsumable->save();
+            MsKategoriKonsumable::where('id', $id)->update([
+                "nama" => $request->nama,
+                "updated_by" => Auth::user()->nama,
+            ]);
 
         // } else {
         //     return redirect("/")->with("error_msg", "Akses ditolak");

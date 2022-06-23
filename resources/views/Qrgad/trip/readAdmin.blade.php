@@ -9,8 +9,7 @@
                 <td>Berangkat</td>
                 <td>Pulang</td>
                 <td>Tujuan</td>
-                <td>Status</td>
-                <td class="text-center">Aksi</td>                                               
+                <td>Status</td>                                            
             </tr>
         </thead>
         <tbody>
@@ -25,18 +24,18 @@
       
                             {{-- Waiting Head --}}
                             @if ($tr->status == '1')
-                                <a onclick="confirmReject('{{ $tr->id_trip_request }}')" class="dropdown-item">
+                                <a onclick="confirmReject('{{ $tr->id_trip_request }}')" class="dropdown-item text-danger">
                                     Reject
                                 </a>
                                 
-                                <a onclick="confirmApprove('{{ $tr->id_trip_request }}')" class="dropdown-item">
+                                <a onclick="confirmApprove('{{ $tr->id_trip_request }}')" class="dropdown-item text-secondary">
                                     Approve
                                 </a>
                             @endif
 
                             {{-- Waiting GAD --}}
                             @if ($tr->status == '2')
-                                <a onclick="confirmResponse('{{ $tr->id_trip_request }}')" class="dropdown-item">
+                                <a onclick="confirmResponse('{{ $tr->id_trip_request }}')" class="dropdown-item text-primary">
                                     Response
                                 </a>
                             @endif
@@ -44,21 +43,21 @@
                             {{-- Responded --}}
                             @if ($tr->status == '3')
                                 @if ($tr->kendaraan == '')
-                                    <a href="{{ url('/trip-pick-car') }}/{{ $tr->id_trip_request }}" class="dropdown-item">
+                                    <a href="{{ url('/trip-pick-car') }}/{{ $tr->id_trip_request }}" class="dropdown-item text-warning">
                                        Pilih Kendaraan
                                     </a>
                                 @else
-                                    <a href="{{ url('/trip-ticket') }}/{{ $tr->id_trip }}" class="dropdown-item">
+                                    {{-- <a href="{{ url('/trip-ticket') }}/{{ $tr->id_trip }}" class="dropdown-item text-info">
                                         Ticket
-                                    </a>
+                                    </a> --}}
                                     
-                                    <a href="{{ url('/trip-check') }}/{{ $tr->id_trip }}" class="dropdown-item">
+                                    <a href="{{ url('/trip-check') }}/{{ $tr->id_trip }}" class="dropdown-item text-warning">
                                         Trip Check
                                     </a>
                                 @endif
                             @endif
 
-                            <a href="{{ url('/trip') }}/{{ $tr->id_trip_request }}" class="dropdown-item">
+                            <a href="{{ url('/trip') }}/{{ $tr->id_trip_request }}" class="dropdown-item text-info">
                                 Show
                             </a>
                         </div>
@@ -100,49 +99,6 @@
                                     break;
                             } 
                         @endphp
-                    </td>
-                    <td class="text-center">
-                        <div class="form-button-action">
-                            <a href="{{ url('/trip') }}/{{ $tr->id_trip_request }}" type="button" data-toggle="tooltip" rel="tooltip" title="Show" class="info btn-lg">
-                                <i class="fa fa-eye"></i>
-                            </a>
-
-                            {{-- Waiting Head --}}
-                            @if ($tr->status == '1')
-                                <a onclick="confirmReject('{{ $tr->id_trip_request }}')" type="button" data-toggle="tooltip" rel="tooltip" title="Reject" class="danger btn-lg">
-                                    <i class="fas fa-times"></i>
-                                </a>
-                                
-                                <a onclick="confirmApprove('{{ $tr->id_trip_request }}')" type="button" data-toggle="tooltip" rel="tooltip" title="Approve" class="secondary btn-lg">
-                                    <i class="fas fa-check"></i>
-                                </a>
-                            @endif
-
-                            {{-- Waiting GAD --}}
-                            @if ($tr->status == '2')
-                                <a onclick="confirmResponse('{{ $tr->id_trip_request }}')" type="button" data-toggle="tooltip" rel="tooltip" title="Response" class="primary btn-lg">
-                                    <i class="fas fa-check"></i>
-                                </a>
-                            @endif
-
-                            {{-- Responded --}}
-                            @if ($tr->status == '3')
-                                @if ($tr->kendaraan != '')
-                                    <a href="{{ url('/trip-pick-car') }}/{{ $tr->id_trip_request }}" type="button" data-toggle="tooltip" rel="tooltip" title="Pilih Kendaraan" class="warning btn-lg">
-                                        <i class="fas fa-car-side"></i>
-                                    </a>
-
-                                    <a href="{{ url('/trip-ticket') }}/{{ $tr->id_trip }}" type="button" data-toggle="tooltip" rel="tooltip" title="Ticket" class="info btn-lg">
-                                        <i class="fas fa-ticket-alt"></i>
-                                    </a>
-                                    
-                                    <a href="{{ url('/trip-check') }}/{{ $tr->id_trip }}" type="button" data-toggle="tooltip" rel="tooltip" title="Check Trip" class="warning btn-lg">
-                                        <i class="fas fa-exchange-alt"></i>
-                                    </a>
-                                @endif
-                            @endif
-                            
-                        </div>
                     </td>
                 </tr>
             @endforeach

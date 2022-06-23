@@ -109,12 +109,12 @@ class KeluhanController extends Controller
             $keluhan = '';
 
             if($type == 'request'){
-                $keluhan = VwKeluhan::all()->where('status', 0);
+                $keluhan = VwKeluhan::where('status', 0)->orderBy('input_time', 'DESC')->get();
                 return view('Qrgad/keluhan/request', [
                     "keluhan" => $keluhan
                 ]);
             } else {
-                $keluhan = VwKeluhan::where('status', 1)->orWhere('status', 2)->get();
+                $keluhan = VwKeluhan::where('status', 1)->orWhere('status', 2)->orderBy('input_time', 'DESC')->get();
                 return view('Qrgad/keluhan/response', [
                     "keluhan" => $keluhan
                 ]);
@@ -239,14 +239,8 @@ class KeluhanController extends Controller
 
             $sub_grup_aset = MsSubGrupAset::all()->where('grup_aset', $id
             )->where('status', 1);
-            // $sub_grup_aset = MsSubGrupAset::all()->where([
-            //     'status'=> 1,
-            //     'grup_aset' => $id, 
-            // ]);
 
-            foreach($sub_grup_aset as $sga){
-                echo '<option value='.$sga->id.'>'.$sga->nama.'</option>';
-            }
+            return $sub_grup_aset;
 
         // } else {
         //     return redirect("/")->with("error_msg", "Akses ditolak");
@@ -316,10 +310,10 @@ class KeluhanController extends Controller
 
             // dd($request);
 
-            $create = "";
+            // $create = "";
 
             if(!empty($konsumables) && !empty($jumlahs)){
-                for($i=0; $i<count((array)$konsumables); $i++){
+                for($i=1; $i<count((array)$konsumables); $i++){
 
                     //insert data item out
                     $create = TbItemOut::create([
@@ -330,14 +324,15 @@ class KeluhanController extends Controller
                         "username" => Auth::user()->username 
                     ]);
 
+                    
                     $inventory = TbInventory::where('konsumable', $konsumables[$i])->orderBy('date_in', 'ASC')->get();
 
                     // dd($inventory);
-
+                    
                     $tempJumlah = $jumlahs[$i];
-
+                    
                     foreach($inventory as $inv){
-
+                        
                         if($tempJumlah != 0){
                             if($inv->jumlah_stock <= $tempJumlah){
                                 $update = TbInventory::where('id', $inv->id)->update([
@@ -349,28 +344,29 @@ class KeluhanController extends Controller
                                 $update = TbInventory::where('id', $inv->id)->update([
                                     "jumlah_stock" => $inv->jumlah_stock - $tempJumlah
                                 ]);
-    
+                                
                                 $tempJumlah = 0 ;
                             }
                         }
                     }
-
+                    
                 }
+                
+                $alert = '';
+                
+                if($create){
+                    $alert = 'success-add-konsumable out';
+                } else {
+                    $alert = 'danger-add-konsumable out';
+                }
+
+                return redirect('/keluhan-dashboard')->with('alert', $alert);
+
             } else {
                 $alert = 'warning-add-, item konsumable harus dipilih!';
                 return back()->with('alert', $alert);
             }
-
             
-            $alert = '';
-    
-            if($create){
-                $alert = 'success-add-konsumable out';
-            } else {
-                $alert = 'danger-add-konsumable out';
-            }
-            
-            return redirect('/keluhan-dashboard')->with('alert', $alert);
             
         // } else {
         //     return redirect("/")->with("error_msg", "Akses ditolak");
