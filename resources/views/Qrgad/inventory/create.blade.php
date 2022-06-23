@@ -47,7 +47,7 @@
                                 </div>
                                 
                                 <input id="harga_item"  min="1"  class="form-control @error('harga_item') is-invalid @enderror"
-                                value="" class="form-control" onkeyup="nominal()" placeholder="Harga Satuan Barang " required />
+                                value="" class="form-control" onkeypress="return angka(event)" onkeyup="nominal()" placeholder="Harga Satuan Barang " required />
                                 
                                 <div class="input-group-append">
                                     <span class="input-group-text"  >
@@ -140,6 +140,14 @@
             jumlah = stock.value * temp_input.value;
             temp_total.value = jumlah;
             total.innerHTML = thousands_separators(jumlah);
+        }
+
+        function angka(evt){
+            var charCode = (evt.which) ? evt.which : event.keyCode
+            if ((charCode < 48 || charCode > 57)&&charCode>32){
+                return false;
+            }
+            return true;
         }
 
         

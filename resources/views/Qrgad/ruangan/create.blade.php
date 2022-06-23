@@ -39,7 +39,7 @@
                         <div class="form-group">
                             <label for="lantai" class="mandatory">Lantai</label>
                             <input name="lantai" id="lantai" type="number" class="form-control @error('lantai') is-invalid @enderror"
-                            value="{{ old('lantai') }}" min="1" placeholder="Lantai">
+                            value="{{ old('lantai') }}" min="1" placeholder="Lantai" onkeypress="return angka(event)">
                             @error('lantai')
                                 <div class="invalid-feedback">
                                     {{ $message }}
@@ -50,7 +50,7 @@
                         <div class="form-group">
                             <label for="kapasitas" class="mandatory">Kapasitas</label>
                             <input name="kapasitas" id="kapasitas" type="number" class="form-control @error('kapasitas') is-invalid @enderror"
-                            value="{{ old('kapasitas') }}" min="1" placeholder="Kapasitas">
+                            value="{{ old('kapasitas') }}" min="1" placeholder="Kapasitas" onkeypress="return angka(event)">
                             @error('kapasitas')
                                 <div class="invalid-feedback">
                                     {{ $message }}
@@ -79,7 +79,8 @@
                                         <td class="fill text-center">
                                             <input type='hidden' id='idf[]' name='idf[]' value='{{ $f->id }}'>
                                             <div class="form-group d-flex justify-content-center">
-                                                <input placeholder="Jumlah" type='number' id='jumlah[]' name='jumlah[]' class="form-control shadow col-lg-2" value="{{ old('jumlah.'.$loop->index, 0 )}}" min="0">
+                                                <input placeholder="Jumlah" type='number' id='jumlah[]' name='jumlah[]' class="form-control shadow col-lg-2" value="{{ old('jumlah.'.$loop->index, 0 )}}" min="0"
+                                                onkeypress="return angka(event)">
                                             </div>
                                         </td>
                                       </tr>
@@ -104,3 +105,13 @@
     </div>
 
 @endsection
+
+<script>
+    function angka(evt){
+        var charCode = (evt.which) ? evt.which : event.keyCode
+        if ((charCode < 48 || charCode > 57)&&charCode>32){
+            return false;
+        }
+        return true;
+    }
+</script>
