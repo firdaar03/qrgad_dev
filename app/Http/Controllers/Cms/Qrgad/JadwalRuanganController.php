@@ -5,11 +5,13 @@ namespace App\Http\Controllers\Cms\Qrgad;
 use App\Http\Controllers\Controller;
 use App\Models\Table\Qrgad\MsPerusahaan;
 use App\Models\Table\Qrgad\MsRuangan;
+use App\Models\Table\Qrgad\MsToken;
 use App\Models\View\Qrgad\VwJadwalRuangan;
 use App\Models\Table\Qrgad\TbJadwalRuangan;
 use App\Models\View\Qrgad\VwKeluhan;
 use App\Models\View\Qrgad\VwTabelInventory;
 use App\Models\View\Qrgad\VwTrip;
+use Exception;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Route;
@@ -199,7 +201,7 @@ class JadwalRuanganController extends Controller
     
             // cek apakah inputan jam berselisih dengan jadwal peminjaman ruangan lain
             foreach($jadwals as $j){
-              
+            
                 if(
                     ($start >= $j->start && $start <= $j->end)  // start_input nya berada di antara start dan end yang sudah ada
                     || ($end >= $j->start and $end <= $j->end) // end_input nya berada di antara start dan end yang sudah ada
@@ -212,9 +214,10 @@ class JadwalRuanganController extends Controller
                 }
             }
     
-    
-           if($isValidTime && !$isConflict){
-                $id = TbJadwalRuangan::idOtomatis();
+            $kode = TbJadwalRuangan::idOtomatis();
+            if($isValidTime && !$isConflict){
+
+                $id = $kode;
                 $create = TbJadwalRuangan::create([
                     "id" => $id,
                     "peminjam" => Auth::user()->username,
@@ -226,39 +229,61 @@ class JadwalRuanganController extends Controller
                     "color" => $validated['color']
                 ]);
 
-                $alert = '';
-
                 if($create){
-                    $alert = 'success-add-jadwal ruangan';
-                } else {
-                    $alert = 'danger-add-jadwal ruangan';
-                }
+                    $token = MsToken::orderBy('created_at', 'DESC')->first();
+                    $jadwal_ruangan = VwJadwalRuangan::where('id', $kode)->first();
 
-                // $headers = [
-                //     'Content-Type' => 'application/json',
-                //     'AccessToken' => 'key',
-                //     'Authorization' => 'Bearer EAANZBWZCFRFLsBAN2AeHBZAC51CRQacggzaBLy3A9RVZCC2CZCrrVsR8w3wpZCKX7cqKSxED0VF7TeKTvhZAo0nKzZBZBPat7FSFsuEdqEZATljlFAH1qMOZCLhwZAB92bdpsFtDZCUv7FgIuTkCXp5Mu3PRF7LeK4Wlx4ndStawL9HLsLGHz37y9XNDOONSTYEH1vZC1HJ4XSTUx1ZBQZDZD',
-                // ];
+                    if(date("Y-m-d",strtotime($jadwal_ruangan->start)) == date("Y-m-d",strtotime($jadwal_ruangan->end))){
+                        $waktu = date("d M Y H:i",strtotime($jadwal_ruangan->start))." - ".date("H:i",strtotime($jadwal_ruangan->end));
+                    }
+                    else{
+                        $waktu = date("d M Y H:i",strtotime($jadwal_ruangan->start))." - ".date("d M Y H:i",strtotime($jadwal_ruangan->end));
+                    }
+
+                    try {
+                        $response = Http::withToken($token->token)->post('https://graph.facebook.com/v13.0/101439039293669/messages', [
+                            "messaging_product"=> "whatsapp", 
+                            "to"=> Auth::user()->whatsapp, 
+                            "type"=> "template",
+                            "template"=> [ 
+                                "name"=> "test_jadwal_ruangan", 
+                                "language"=> [ "code"=> "id" ],
+                                "components" => [
+                                    0 => [
+                                        "type" => "body",
+                                        "parameters" => [
+                                            0 => [
+                                                "type" => "text",
+                                                "text" => $jadwal_ruangan->ruangan
+                                            ],
+                                            1 => [
+                                                "type" => "text",
+                                                "text" => $jadwal_ruangan->perusahaan
+                                            ],
+                                            2 => [
+                                                "type" => "date_time",
+                                                "date_time" => [
+                                                    "fallback_value" => $waktu
+                                                ] 
+                                            ]
+                                        ]
+                                    ]
                 
-                // $client = new Client([
-                //     'header' => $headers
-                // ]);
+                                ]
+                                
+                            ]
+                            
+                        ]);
 
-                // $response = $client->request('POST', 'https://graph.facebook.com/v13.0/103151642415253/messages', [
-                //     'query' => [
-                //         "messaging_product"=> "whatsapp", 
-                //         "to"=> "628972178381", 
-                //         "type"=> "template", 
-                //         "template"=> [ 
-                //             "name"=> "jadwal_ruangan_confirm", 
-                //             "language"=> [ "code"=> "id" ]
-                //         ] 
-                //     ]
-                // ]);
+                    } catch (Exception $e){
+                        // return redirect('/jadwal-ruangan')->with('alert', 'danger-sendwhatsapp-');
+                    }
+                    
+                    return redirect('/jadwal-ruangan')->with('alert', 'success-add-jadwal ruangan');
 
-                // $response = Http::post('');
-
-                return redirect('/jadwal-ruangan')->with('alert', $alert);
+                } else {
+                    return redirect('/jadwal-ruangan')->with('alert', 'danger-add-jadwal ruangan');
+                }
                 
            } else {
                 return back()->withInput($request->input())->with('errorDate', 'error date');
@@ -270,18 +295,164 @@ class JadwalRuanganController extends Controller
 
     }
 
-    public function testWa(Request $request){
+    public function testWa(){
 
-        // $token = 'EAAdL407EfqUBABd31kNkm0ZBnF61lLsmU81nwc7gMMkI4v25rZAlLHllfXrkRwuN1QGLvzOrl4LOC6HScKR17F32tuCTpCF3uwtWQOQKN65TkEy1ovNDyZA46HBJeT8KRSS4ypmUX0azGbxun59RKhOHLVTi2b32kb5g9DoKodgcD6bvgNL';
+        // TWILIO
+
+        // $response = Http::withBasicAuth("AC458589511822f57cc1d6b66f985ceeaa" , "0a53498123fb95a8e7d687561d885800")
+        // ->asForm()->post("https://api.twilio.com/2010-04-01/Accounts/AC458589511822f57cc1d6b66f985ceeaa/Messages.json", [
+        //     "To" => "whatsapp:+628972178381",
+        //     "From" => "whatsapp:+14155238886",
+        //     "Body" => Auth::user()->nama." Peminjaman ruangan telah berhasil"
+        // ]);
+
+        // return $response->throw()->json();
+
+        // -------
+        
+        // WHATSAPP
+
+        $token = MsToken::orderBy('created_at', 'DESC')->first();
+        $no = Auth::user()->whatsapp;
+
         // $headers = [
         //     'Content-Type' => 'application/json',
         //     'AccessToken' => 'key',
-        //     'Authorization' => 'Bearer EAANZBWZCFRFLsBAN2AeHBZAC51CRQacggzaBLy3A9RVZCC2CZCrrVsR8w3wpZCKX7cqKSxED0VF7TeKTvhZAo0nKzZBZBPat7FSFsuEdqEZATljlFAH1qMOZCLhwZAB92bdpsFtDZCUv7FgIuTkCXp5Mu3PRF7LeK4Wlx4ndStawL9HLsLGHz37y9XNDOONSTYEH1vZC1HJ4XSTUx1ZBQZDZD',
+        //     'Authorization' => 'Bearer '.$token,
         // ];
         
         // $client = new Client([
         //     'header' => $headers
         // ]);
+        
+        // $response = $client->request('POST', 'https://graph.facebook.com/v13.0/101439039293669/messages', [
+        //     [
+        //         "messaging_product"=> "whatsapp", 
+        //         "to"=> $no, 
+        //         "type"=> "template", 
+        //         "template"=> [ 
+        //             "name"=> "jadwal_ruangan_confirm", 
+        //             "language"=> [ "code"=> "id" ]
+        //         ] 
+        //     ]
+        // ]);
+
+
+        $json = '{
+            "messaging_product"=> "whatsapp", 
+            "to"=> "6281389414947", 
+            "type": "template",
+            "template": {
+                  "name": "jadwal_ruangan_confirm",
+                  "language": {
+                      "code": "id",
+                  },
+                  "components": [{
+                      "type": "body",
+                      "parameters": [
+                          {
+                              "type": "text",
+                              "text": "Ruang 1"
+                          },
+                          {
+                              "type": "text",
+                              "text": "PT UTPE"
+                          },
+                          {
+                              "type": "text",
+                              "text": "Selasa, 8 Agustus 2022 10.00 - 13.00"
+                          },
+                          {
+                              "type": "text",
+                              "text": "http://localhost:8080/qrgad_dev/public/"
+                          },
+                      ]
+                  }]
+              }
+          }';
+
+          // template
+        //   $response = Http::withToken($token->token)->post('https://graph.facebook.com/v13.0/101439039293669/messages', [
+        //       "messaging_product"=> "whatsapp", 
+        //       "to"=> "628972178381", 
+        //       "type"=> "template", 
+        //       "template"=> [ 
+        //           "name"=> "jadwal_ruangan_confirm", 
+        //           "language"=> [ "code"=> "id" ],
+        //           "components" => [
+        //               "type" => "body",
+        //               "parameters" => [
+        //                   0 => [
+        //                       "type" => "text",
+        //                       "text" => "Ruang Innovative 1"
+        //                   ],
+        //                   1 => [
+        //                       "type" => "text",
+        //                       "text" => "PT UTPE"
+        //                   ],
+        //                   2 => [
+        //                       "type" => "text",
+        //                       "text" => "Selasa, 8 Agustus 2022 10.00 - 13.00"
+        //                   ],
+        //                   3 => [
+        //                       "type" => "url",
+        //                       "text" => "http://localhost:8080/qrgad_dev/public/"
+        //                   ],
+        //               ]
+        //           ]
+        //       ] 
+        //   ]);
+          $response = Http::withToken($token->token)->post('https://graph.facebook.com/v13.0/101439039293669/messages', [
+              "messaging_product"=> "whatsapp", 
+              "to"=> "6281389414947", 
+              "type"=> "template", 
+              "template"=> [ 
+                  "name"=> "test_jadwal_ruangan", 
+                  "language"=> [ "code"=> "id" ],
+                  "components" => [
+                    0 => [
+                        "type" => "body",
+                        "parameters" => [
+                            0 => [
+                                "type" => "text",
+                                "text" => "Ruang Innovative 1"
+                            ],
+                            1 => [
+                                "type" => "text",
+                                "text" => "PT UTPE"
+                            ],
+                            2 => [
+                                "type" => "date_time",
+                                "date_time" => [
+                                    "fallback_value" => "2022-01-26 09:58:44"
+                                ] 
+                            ]
+                        ]
+                    ]
+
+                  ]
+                  
+              ]
+            
+          ]);
+        
+        // message
+        // $response = Http::withToken($token->token)->post('https://graph.facebook.com/v13.0/101439039293669/messages', [
+        //     "messaging_product"=> "whatsapp", 
+        //     "to"=> "628972178381", 
+        //     "recipient_type" => "individual",
+        //     "type"=> "text", 
+        //     "text"=> [ 
+        //         "preview_url"=> "false", 
+        //         "body"=> "Peminjaman ruangan berhasil"
+        //     ] 
+        // ]);
+
+        return $response;
+        
+        // -------
+        
+        
 
         // dd($client);
 
@@ -320,25 +491,6 @@ class JadwalRuanganController extends Controller
         //     "to" => "whatsapp: 628972178381",      
         //     "body" => "Hello! This is an editable text message. You are free to change it and write whatever you like." 
         // ]);
-
-        // $response = $client->request('POST', 'https://graph.facebook.com/v13.0/109548925100001/messages', [
-        //     "messaging_product"=> "whatsapp", 
-        //     "to"=> "6289664467845", 
-        //     "type"=> "template", 
-        //     "template"=> [ 
-        //         "name"=> "jadwal_ruangan_confirm", 
-        //         "language"=> [ "code"=> "id" ]
-        //     ]
-        //     // 'form_params' => [
-        //     //     // "type"=> "text",
-        //     //     // "text"=> [
-        //     //     //     "preview_url"=> false,
-        //     //     //     "body"=> "hello world"
-        //     //     // ]
-        //     // ]
-        // ]);
-
-        // return $response;
 
         // return $response;
         // return Http::get('https://graph.facebook.com/v13.0/103151642415253/messages?messaging_product=whatsapp&to=628972178381&type=template&template%5Bname%5D=jadwal_ruangan_confirm&template%5Blanguage%5D%5Bcode%5D=id');

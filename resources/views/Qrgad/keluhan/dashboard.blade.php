@@ -14,7 +14,7 @@
                       <button class="nav-link active btn-block" id="requested-tab" data-toggle="tab" data-target="#requested" type="button" role="tab" aria-controls="requested" aria-selected="true">Requested</button>
                     </li>
                     <li class="nav-item" role="presentation" >
-                      <button class="nav-link btn-block" id="responded-tab" data-toggle="tab" data-target="#responded" type="button" role="tab" aria-controls="responded" aria-selected="false">Responded</button>
+                      <button class="nav-link btn-block" id="responded-tab" data-toggle="tab" data-target="#responded" type="button" role="tab" aria-controls="responded" aria-selected="false">Responsed</button>
                     </li>
                 </ul>
                 <div class="tab-content" id="myTabContent">
@@ -68,7 +68,7 @@
             });
         }
 
-        //update status keluhan menjadi responded
+        //update status keluhan menjadi responsed
         function response(id){
             var note = $('#note').val();
                 
@@ -128,11 +128,11 @@
                     success:function(data){
                         $('.close').click();
                         read();
-                        showAlert('success', 'Respon Keluhan', 'Berhasil merespon keluhan');
+                        showAlert('success', 'Respon Keluhan', 'Berhasil update progres keluhan');
                     },error: function(xhr, status, error) {
                         var err = eval("(" + xhr.responseText + ")");
                         $('.close').click();
-                        showAlert('danger', 'Respon Keluhan', 'Gagal merespon keluhan');
+                        showAlert('danger', 'Respon Keluhan', 'Gagal update progres keluhan');
                     }
                 });
                 

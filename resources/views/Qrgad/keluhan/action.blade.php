@@ -3,7 +3,7 @@
 @section('content')
     <div class="card show">
         <div class="card-header">
-            <h3><b>Closing Keluhan</b></h3>
+            <h3><b>Action Keluhan</b></h3>
         </div>
         <div class="card-body">
             <div class="container">
@@ -38,15 +38,15 @@
                     <div class="d-flex d-inline">
                         <div class="flex-fill">
                             <div class="form-group">
-                                <label class="mandatory">Konsumble</label>
+                                <label class="mandatory">Consumable</label>
                                 <select id="konsumable" class="form-control" onchange="createAmountInput()">
-                                    <option value="">--Pilih Konsumable--</option>
+                                    <option value="">--Pilih Consumable--</option>
                                     @foreach ($konsumable as $k)    
                                         <option value="{{ $k->id_konsumable }}">{{ $k->nama_konsumable }} ( available stock : {{ $k->stock - $k->minimal_stock }}) </option>
                                     @endforeach
                                 </select>
                                 <div id="konsumable_error" class="invalid-feedback">
-                                    Konsumable wajib dipilih
+                                    Consumable wajib dipilih
                                 </div>
                             </div>
                         </div>
@@ -84,8 +84,8 @@
                         <div class="d-inline mr-2">
                             <a href="{{ url('/keluhan-dashboard') }}" class="btn btn-secondary float-right">Batal</a>
                         </div>
-                        <div class="d-inline">
-                            <a class="btn btn-primary float-right mr-3 text-white" onclick="confirmStore()">Simpan</a>
+                        <div  class="d-inline">
+                            <a id="simpan" class="btn btn-primary float-right mr-3 text-white" onclick="confirmStore()" >Simpan</a>
                         </div>
                     </div>
 
@@ -138,9 +138,11 @@
         //     }
         // });
 
+        var complaint = $('#complain').val();
+
         $(document).ready(function(){
-                read();
-            });
+            read(complaint);
+        });
 
 
         function createAmountInput(){
@@ -180,9 +182,18 @@
 
         }
 
-        function read(){
-            $.get("{{ url('/keranjang') }}",{}, function(data, status){
+        function read(id){
+            $.get("{{ url('/keranjang-read') }}/"+id,{}, function(data, status){
                 $('#table_keranjang').html(data);
+                // alert(data);
+            })
+
+            $.get("{{ url('/keranjang-check') }}",{}, function(data, status){
+                if(data){
+                    $('#simpan').show();
+                } else {
+                    $('#simpan').hide();
+                }
                 // alert(data);
             })
         }
@@ -228,7 +239,7 @@
                         if(data == 'err_add_konsumable'){
                             showAlert('warning', 'Tambah Data' , 'Konsumable sudah ada, silahkan menambah jumlah item');
                         } else {
-                            read();
+                            read(complaint);
                             showAlert('success', 'Tambah Data', 'Berhasil menambahkan item konsumable');
                         }
 
@@ -246,6 +257,7 @@
         }
 
         function update(id, amount){
+    
             $.ajaxSetup({
                 headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}
             });
@@ -255,7 +267,7 @@
                 url:"{{ url('/keranjang') }}/"+id,
                 data : "amount="+ amount,
                 success:function(data){
-                    read();
+                    read(complaint);
                     if(data == 'err_add_amount'){
                         showAlert('warning', 'Update Jumlah' , 'Jumlah item yang ditambahkan melebihi stok yang tersedia');
                     } else {
@@ -277,7 +289,7 @@
                 type:"delete",
                 url:"{{ url('/keranjang') }}/"+id,
                 success:function(data){
-                    read();
+                    read(complaint);
                     showAlert('success', 'Hapus Data', 'Berhasil menghapus item konsumable');
                 },error: function(xhr, status, error) {
                     var err = eval("(" + xhr.responseText + ")");
@@ -300,12 +312,13 @@
 
 @section('script')
     
-    @if (session()->has('data'))
+       
+    @if (session()->has('alert'))
         @php
-            $data = session()->get('data');
-            $state = explode('-', $data['alert'])[0];
-            $action = explode('-', $data['alert'])[1];
-            $menu = explode('-', $data['alert'])[2];
+            $alert = session()->get('alert');
+            $state = explode('-', $alert)[0];
+            $action = explode('-', $alert)[1];
+            $menu = explode('-', $alert)[2];
         @endphp
 
         <script>
@@ -315,6 +328,6 @@
 
             getAlert(state, action, menu);
         </script>
-    @endif
-
-@endsection
+    @endif  
+       
+ @endsection   

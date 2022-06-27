@@ -17,6 +17,7 @@ use App\Http\Controllers\Cms\Qrgad\LokasiMaintainController;
 use App\Http\Controllers\Cms\Qrgad\RuanganController;
 use App\Http\Controllers\Cms\Qrgad\SubKategoriKonsumableController;
 use App\Http\Controllers\Cms\Qrgad\SupirController;
+use App\Http\Controllers\Cms\Qrgad\TokenController;
 use App\Http\Controllers\Cms\Qrgad\TripController;
 use App\Http\Controllers\Cms\Qrgad\UserController;
 use Illuminate\Support\Facades\Route;
@@ -99,7 +100,9 @@ Route::middleware('auth')->group(function () {
 
     // keranjang konsumable
     Route::resource('/keranjang', KeranjangKonsumableController::class);
+    Route::get('/keranjang-read/{id}', [KeranjangKonsumableController::class, 'read']);
     Route::get('/keranjang-view', [KeranjangKonsumableController::class, 'view']);
+    Route::get('/keranjang-check', [KeranjangKonsumableController::class, 'check']);
 
     // lokasi maintain
     Route::resource('/lokasi-maintain', LokasiMaintainController::class);
@@ -160,7 +163,10 @@ Route::middleware('auth')->group(function () {
     Route::post('/trip-check-out',[TripController::class,'checkOut']);
     Route::post('/trip-check-in',[TripController::class,'checkIn']);
     Route::get('/trip-schedule/{id}',[TripController::class,'showSchedule']);
-
+    
+    // token
+    Route::resource('/token', TokenController::class);
+    
 });
 
 

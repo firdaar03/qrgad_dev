@@ -305,31 +305,29 @@ class KeluhanController extends Controller
             //     "jumlah[]" => "required",
             // ]);
 
-            $konsumables = $request->konsumable;
-            $jumlahs = $request->jumlah;
+            $keranjangs = TbKeranjangKonsumable::all()->where("username", Auth::user()->username)->where('keluhan', $request->keluhan);
 
             // dd($request);
 
             // $create = "";
 
-            if(!empty($konsumables) && !empty($jumlahs)){
-                for($i=1; $i<count((array)$konsumables); $i++){
+            if($keranjangs != '' && $keranjangs != '[]'){
+                foreach($keranjangs as $k){
 
                     //insert data item out
                     $create = TbItemOut::create([
                         "id" => TbItemOut::idOtomatis(),
-                        "konsumable" => $konsumables[$i],
+                        "konsumable" => $k->id_konsumable,
                         "keluhan" => $request->keluhan,
-                        "jumlah" => $jumlahs[$i],
+                        "jumlah" => $k->jumlah,
                         "username" => Auth::user()->username 
                     ]);
-
                     
-                    $inventory = TbInventory::where('konsumable', $konsumables[$i])->orderBy('date_in', 'ASC')->get();
+                    $inventory = TbInventory::where('konsumable', $k->id_konsumable)->orderBy('date_in', 'ASC')->get();
 
                     // dd($inventory);
                     
-                    $tempJumlah = $jumlahs[$i];
+                    $tempJumlah =  $k->jumlah;
                     
                     foreach($inventory as $inv){
                         
@@ -355,9 +353,9 @@ class KeluhanController extends Controller
                 $alert = '';
                 
                 if($create){
-                    $alert = 'success-add-konsumable out';
+                    $alert = 'success-add-consumable out';
                 } else {
-                    $alert = 'danger-add-konsumable out';
+                    $alert = 'danger-add-consumable out';
                 }
 
                 return redirect('/keluhan-dashboard')->with('alert', $alert);
@@ -376,38 +374,26 @@ class KeluhanController extends Controller
     {
         // if($this->permissionActionMenu('aplikasi-management')->c==1){
 
-            $validated = $request->validate([
-                "id" => "",
-                "jenis_keluhan"=>"required",
-                "solusi" => "required",
-                "biaya" => "required",
-                "kategori" => "required",
-            ]);
-
-            
-            switch($validated['jenis_keluhan']){
-                case 'Aset' :                           //jika jenis keluhan aset 
-                    $validated = $request->validate([
-                        "grup_aset"=>"required", //required grup aset
-                        "sub_grup_aset" => "required", //required sub grup aset
-                        "jenis_keluhan"=>"required",
-                        "solusi" => "required",
-                        "biaya" => "required",
-                        "kategori" => "required",
-                    ]);
-                    $validated['non_aset'] = '';
-                    break;
-                case 'Non Aset' :                       //jika jenis keluhan non aset
-                    $validated = $request->validate([ 
-                        "non_aset"=>"required", //required non aset
-                        "jenis_keluhan"=>"required",
-                        "solusi" => "required",
-                        "biaya" => "required",
-                        "kategori" => "required",
-                    ]);
-                    $validated['grup_aset'] = '';
-                    $validated['sub_grup_aset'] = '';
-                    break;
+            if($request->jenis_keluhan == 'Aset'){
+                $validated = $request->validate([
+                    "grup_aset"=>"required", //required grup aset
+                    "sub_grup_aset" => "required", //required sub grup aset
+                    "jenis_keluhan"=>"required",
+                    "solusi" => "required",
+                    "biaya" => "required",
+                    "kategori" => "required",
+                ]);
+                $validated['non_aset'] = '';
+            } else {
+                $validated = $request->validate([ 
+                    "non_aset"=>"required", //required non aset
+                    "jenis_keluhan"=>"required",
+                    "solusi" => "required",
+                    "biaya" => "required",
+                    "kategori" => "required",
+                ]);
+                $validated['grup_aset'] = '';
+                $validated['sub_grup_aset'] = '';
             }
             
             // 0 - requested
@@ -430,9 +416,9 @@ class KeluhanController extends Controller
             $alert = '';
     
             if($update1 && $update2){
-                $alert = 'success-add-respon keluhan dan close keluhan';
+                $alert = 'success-add-close keluhan';
             } else {
-                $alert = 'danger-add-respon keluhan dan close keluhan';
+                $alert = 'danger-add-close keluhan';
             }
     
             return redirect('/keluhan-dashboard')->with('alert', $alert);

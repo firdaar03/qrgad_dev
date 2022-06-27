@@ -187,6 +187,14 @@ function getAlert(state, action, menu){
 			title = 'Filter Tanggal';
 			message = status + ' filter tanggal berhasil ' + menu;
 		break;
+		case 'notallowed' : 
+			title = 'Akses Ditolak';
+			message = "Anda tidak memiliki akses";
+		break;
+		case 'sendwhatsapp' : 
+			title = 'Notifikasi Whatsapp';
+			message = status + " mengirim notifikasi whatsapp";
+		break;
 	}
 
 	showAlert(state, title, message);

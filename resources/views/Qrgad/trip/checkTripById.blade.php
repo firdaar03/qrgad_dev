@@ -242,7 +242,7 @@
                                         <a href="{{ url('/trip') }}" class="btn btn-secondary float-right">Batal</a>
                                     </div>
                                     <div class="d-inline">
-                                        <button type="submit" class="btn btn-primary float-right mr-3">Simpan</button>
+                                        <button {{ $trip->kilometer_berangkat != ''? '' : 'disabled' }} type="submit" class="btn btn-primary float-right mr-3">Simpan</button>
                                     </div>
                                 </div>
                             </div>
