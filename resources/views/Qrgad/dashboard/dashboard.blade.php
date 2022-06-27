@@ -158,7 +158,7 @@
 
             $.ajax({
             type:'get',
-            url: "{{ url('/dashboard-ruangan-get-by-day') }}/"+id,
+            url: "{{ url('/ruangan-dashboard-get-by-day') }}/"+id,
             data : 'id='+id,
             success:function(data){
                 $('#body').html(data);
