@@ -23,14 +23,19 @@
 
                         <div class="form-group">
                             <label for="kontak" class="mandatory">Nomor HP</label>
-                            <input name="kontak" id="kontak" type="number" class="form-control @error('kontak') is-invalid @enderror"
-                            value="{{ old('kontak') }}" placeholder="Nomor HP">
-                            <small>Pastikan nomor HP yang diinputkan aktif dan terhubung dengan Whatsapp</small>
-                            @error('kontak')
-                                <div class="invalid-feedback">
-                                    {{ $message }}
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="basic-addon1">+62</span>
                                 </div>
-                            @enderror
+                                <input name="kontak" id="kontak" type="text" class="form-control @error('kontak') is-invalid @enderror"
+                                value="{{ old('kontak') }}" onkeypress="return isNumberKey(event)" maxlength="13" placeholder="Nomor HP">
+                                @error('kontak')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+                            <small>Pastikan nomor HP yang diinputkan aktif dan terhubung dengan Whatsapp</small>
                         </div>
 
                         <div class="d-flex float-right mt-5 mb-5">
@@ -50,3 +55,17 @@
     
 
 @endsection
+<script>
+    function isNumberKey(evt)
+        {
+            var charCode = (evt.which) ? evt.which : event.keyCode
+            if (charCode > 31 && (charCode < 48 || charCode > 57))
+            return false;
+            if (document.getElementById('kontak').value < 1) {
+                //alert(“Tidak boleh 0 dulu”);
+            if (charCode == 48)
+                return false;
+            }
+            return true;
+        }
+</script>

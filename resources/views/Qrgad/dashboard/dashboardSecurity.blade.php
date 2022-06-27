@@ -15,7 +15,7 @@
                 <div class="form-group">
                     <p>Silahkan untuk menambahkan nomor Whatsapp aktif anda</p>
                     {{-- <label for="nama">No Whatsapp</label> --}}
-                    <input name="number" id="number" type="text" class="form-control mb-3" placeholder="No Whatsapp">
+                    <input name="number" id="number" type="text" class="form-control mb-3" onkeypress="return isNumberKey(event)" maxlength="13" placeholder="No Whatsapp">
                     <div id="message" class="invalid-feedback mb-3">Wajib diisi</div>
                     {{-- <button class="btn btn-success float-right" onclick="store()">Tambah</button> --}}
                 </div>
@@ -85,5 +85,18 @@
             
                 
             }
+
+        function isNumberKey(evt)
+        {
+            var charCode = (evt.which) ? evt.which : event.keyCode
+            if (charCode > 31 && (charCode < 48 || charCode > 57))
+            return false;
+            if (document.getElementById('number').value < 1) {
+                //alert(“Tidak boleh 0 dulu”);
+            if (charCode == 48)
+                return false;
+            }
+            return true;
+        }
     </script>
 @endsection

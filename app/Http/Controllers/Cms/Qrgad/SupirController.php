@@ -115,7 +115,7 @@ class SupirController extends Controller
             $create = MsSupir::create([
                 "id" => $kode,
                 "nama" => $validated['nama'],
-                "kontak" =>  $validated['kontak'],
+                "kontak" =>  "+62".$validated['kontak'],
                 "status" => 1,
                 "created_by" => Auth::user()->nama, 
             ]);
@@ -197,7 +197,7 @@ class SupirController extends Controller
             
             $update = MsSupir::where('id', $id)->update([
                 "nama" => $validated['nama'],
-                "kontak" =>  $validated['kontak'],
+                "kontak" =>  "+62".$validated['kontak'],
                 "updated_by" => Auth::user()->nama, 
             ]);
     
