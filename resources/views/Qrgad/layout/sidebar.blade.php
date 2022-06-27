@@ -277,6 +277,31 @@
           </div>
         </li>
       @endif
+     
+      {{-- MODUL TOKEN --}}
+      @if (Auth::user()->level == "LV00000001" )
+        <li class="nav-item {{ Request::is('token*') ? 'active' : '' }}">
+          <a data-toggle="collapse" href="#token" class="collapsed" aria-expanded="false">
+            <i class="fas fa-key"></i>
+            <p>Token</p>
+            <span class="caret"></span>
+          </a>
+          <div class="collapse {{ Request::is('token*') ? 'show' : '' }}" id="token">
+            <ul class="nav nav-collapse">
+
+              {{-- token --}}
+              @if (Auth::user()->level == "LV00000001" )
+                <li class="{{ Request::is('token*') ? 'active' : '' }}">
+                  <a href="{{ url('/token/create') }}">
+                    <span class="sub-item ">Token</span>
+                  </a>
+                </li>
+              @endif
+
+            </ul>
+          </div>
+        </li>
+      @endif
 
     @endif
   </ul>

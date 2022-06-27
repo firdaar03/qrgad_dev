@@ -54,6 +54,21 @@ class KeranjangKonsumableController extends Controller
         // }
     }
 
+    public function read($id)
+    {
+        // if($this->permissionActionMenu('aplikasi-management')->r==1){
+
+            $keranjang = TbKeranjangKonsumable::all()->where("username", Auth::user()->username)->where('keluhan', $id);
+
+            return view('Qrgad/keranjang/index', [
+                "keranjang" => $keranjang,
+            ]);
+
+        // } else {
+        //     return redirect("/")->with("error_msg", "Akses ditolak");
+        // }
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -73,6 +88,23 @@ class KeranjangKonsumableController extends Controller
             return view('Qrgad/keranjang/view', [
                 "keranjang" => $keranjang,
             ]);
+
+        // } else {
+        //     return redirect("/")->with("error_msg", "Akses ditolak");
+        // }
+    }
+
+    public function check()
+    {
+         // if($this->permissionActionMenu('aplikasi-management')->r==1){
+
+            $keranjang = TbKeranjangKonsumable::all()->where("username", Auth::user()->username);
+
+            if($keranjang != '' && $keranjang != '[]'){
+                return true; 
+            } else { 
+                return false;
+            }
 
         // } else {
         //     return redirect("/")->with("error_msg", "Akses ditolak");

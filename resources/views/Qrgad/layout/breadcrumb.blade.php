@@ -3,7 +3,7 @@
 
     <ul class="breadcrumbs">
         <li class="nav-home">
-            <a href="/dashboard">
+            <a href="{{ url('/dashboard') }}">
                 <i class="flaticon-home"></i>
             </a>
         </li>

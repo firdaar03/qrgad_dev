@@ -14,10 +14,10 @@
                     <td class="text-center">{{ $loop->iteration }}</td>
                     <td >
                         {{ $k->konsumable }}
-                        <input type="" name="konsumable[]" value="{{ $k->id_konsumable }}" hidden>
+                        <input type="" name="konsumable[]" value="{{ $k->id_konsumable }}" >
                     </td>
                     <td class="d-flex justify-content-center">
-                        <input hidden name="jumlah[]" value="{{ $k->jumlah }}">
+                        <input name="jumlah[]" value="{{ $k->jumlah }}">
                         <div class="d-flex d-inline">
                             <a class="btn btn-sm btn-danger text-white align-self-center {{ $k->jumlah > 1? '' : 'disabled'  }}" onclick="update('{{ $k->id }}', -1 )"><i class="fas fa-minus"></i></a>
                             <div class="align-self-center mx-3">
