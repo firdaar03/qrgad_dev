@@ -27,8 +27,8 @@
                                 <div class="input-group-prepend">
                                     <span class="input-group-text" id="basic-addon1">+62</span>
                                 </div>
-                                <input name="kontak" id="kontak" type="text" class="form-control @error('kontak') is-invalid @enderror"
-                                value="{{ old('kontak') }}" onkeypress="return isNumberKey(event)" maxlength="13" placeholder="Nomor HP">
+                                <input pattern="[1-9]+[0-9]$" name="kontak" id="number" type="text" class="form-control @error('kontak') is-invalid @enderror"
+                                value="{{ old('kontak') }}" maxlength="13" placeholder="Nomor HP" title="contoh : 8121299503" >
                                 @error('kontak')
                                     <div class="invalid-feedback">
                                         {{ $message }}
@@ -55,17 +55,3 @@
     
 
 @endsection
-<script>
-    function isNumberKey(evt)
-        {
-            var charCode = (evt.which) ? evt.which : event.keyCode
-            if (charCode > 31 && (charCode < 48 || charCode > 57))
-            return false;
-            if (document.getElementById('kontak').value < 1) {
-                //alert(“Tidak boleh 0 dulu”);
-            if (charCode == 48)
-                return false;
-            }
-            return true;
-        }
-</script>

@@ -33,7 +33,10 @@
   
   <!-- Ajax Jquery -->
   <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
-
+</head>
+ <body>
+ </body>
+</html>
 </head>
   <body data-background-color="bg3">
     <div class="wrapper">
