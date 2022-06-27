@@ -53,7 +53,7 @@
                                     <div class="input-group-prepend">
                                         <div class="input-group-text"> <span>Rp.</span></div>
                                     </div>
-                                    <input name="temp" id="temp" type="text" class="form-control @error('biaya') is-invalid @enderror"
+                                    <input name="temp" id="temp" type="text"  onkeypress="return angka(event)" class="form-control @error('biaya') is-invalid @enderror"
                                      placeholder="Biaya" onkeyup="separator()" onload="">
                                 </div>
                                 @error('biaya')
@@ -266,6 +266,14 @@
                 $('#sga_container').show();
             }) 
 
+        }
+
+        function angka(evt){
+            var charCode = (evt.which) ? evt.which : event.keyCode
+            if ((charCode < 48 || charCode > 57)&&charCode>32){
+                return false;
+            }
+            return true;
         }
 
     </script>

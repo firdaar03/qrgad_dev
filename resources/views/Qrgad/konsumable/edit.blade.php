@@ -68,7 +68,7 @@
                         <div class="form-group">
                             <label for="minimal_stock" class="mandatory">Minimal Stock</label>
                             <input name="minimal_stock" id="minimal_stock" type="number" class="form-control @error('minimal_stock') is-invalid @enderror"
-                            value="{{ old('minimal_stock', $k->minimal_stock) }}" min="1" placeholder="Minimal Stock">
+                            value="{{ old('minimal_stock', $k->minimal_stock) }}" min="1" placeholder="Minimal Stock"  onkeypress="return angka(event)">
                             @error('minimal_stock')
                                 <div class="invalid-feedback">
                                     {{ $message }}
@@ -122,6 +122,13 @@
             }) 
         }
 
+        function angka(evt){
+            var charCode = (evt.which) ? evt.which : event.keyCode
+            if ((charCode < 48 || charCode > 57)&&charCode>32){
+                return false;
+            }
+            return true;
+        }
         
 
     </script>

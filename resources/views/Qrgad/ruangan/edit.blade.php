@@ -38,7 +38,7 @@
                         <div class="form-group">
                             <label for="lantai" class="mandatory">Lantai</label>
                             <input name="lantai" id="lantai" type="number" class="form-control @error('lantai') is-invalid @enderror"
-                            value="{{ old('lantai', $r->lantai) }}" min="1" placeholder="Lantai">
+                            value="{{ old('lantai', $r->lantai) }}" min="1" placeholder="Lantai"  onkeypress="return angka(event)">
                             @error('lantai')
                                 <div class="invalid-feedback">
                                     {{ $message }}
@@ -49,7 +49,7 @@
                         <div class="form-group">
                             <label for="kapasitas" class="mandatory">Kapasitas</label>
                             <input name="kapasitas" id="kapasitas" type="number" class="form-control @error('kapasitas') is-invalid @enderror"
-                            value="{{ old('kapasitas', $r->kapasitas) }}" min="1" placeholder="Kapasitas">
+                            value="{{ old('kapasitas', $r->kapasitas) }}" min="1" placeholder="Kapasitas"  onkeypress="return angka(event)">
                             @error('kapasitas')
                                 <div class="invalid-feedback">
                                     {{ $message }}
@@ -82,7 +82,8 @@
                                                     @if($f->id == $dt->fasilitas)
                                                         @php $istrue = true; @endphp 
                                                         <div class="form-group  d-flex justify-content-center">
-                                                            <input type='number' id='jumlah[]' name='jumlah[]' class="form-control col-md-3" value="{{ old('jumlah.'.$loop->iteration-1, $dt->jumlah )}}" min="0">
+                                                            <input type='number' id='jumlah[]' name='jumlah[]' class="form-control col-md-3" value="{{ old('jumlah.'.$loop->iteration-1, $dt->jumlah )}}" min="0"
+                                                            onkeypress="return angka(event)">
                                                         </div>
                                                     @endif
                                                 @endforeach
@@ -120,5 +121,15 @@
     </div>
 
 @endsection
+
+<script>
+    function angka(evt){
+        var charCode = (evt.which) ? evt.which : event.keyCode
+        if ((charCode < 48 || charCode > 57)&&charCode>32){
+            return false;
+        }
+        return true;
+    }
+</script>
 
 

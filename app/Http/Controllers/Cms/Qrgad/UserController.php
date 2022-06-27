@@ -83,7 +83,7 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
         User::where('username', $id)->update([
-            "whatsapp" => $request->nomor
+            "whatsapp" => "+62".$request->nomor
         ]);
 
     }

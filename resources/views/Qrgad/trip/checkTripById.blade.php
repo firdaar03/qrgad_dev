@@ -173,7 +173,7 @@
                             <div class="form-group">
                                 <label for="kilometer_berangkat" class="mandatory">Kilometer Berangkat</label>
                                 <div class="input-group">
-                                    <input type="number" min="0" name="kilometer_berangkat" class="form-control @error('kilometer_berangkat') is-invalid @enderror" value="{{ old('kilometer_berangkat', $trip->kilometer_berangkat) }}" placeholder="Kilometer Berangkat" {{ $trip->kilometer_berangkat != ''? 'disabled' : '' }} >
+                                    <input type="number" onkeypress="return angka(event)" min="0" name="kilometer_berangkat" class="form-control @error('kilometer_berangkat') is-invalid @enderror" value="{{ old('kilometer_berangkat', $trip->kilometer_berangkat) }}" placeholder="Kilometer Berangkat" {{ $trip->kilometer_berangkat != ''? 'disabled' : '' }} >
                                     <div class="input-group-append">
                                         <div class="input-group-text">
                                             km
@@ -268,7 +268,7 @@
                             <div class="form-group">
                                 <label for="kilometer_pulang" class="mandatory">Kilometer Pulang</label>
                                 <div class="input-group">
-                                    <input type="number" min="{{ $trip->kilometer_berangkat != ''? $trip->kilometer_berangkat : '0'}}" name="kilometer_pulang" class="form-control form-time-picker @error('kilometer_pulang') is-invalid @enderror" value="{{ old('kilometer_pulang', $trip->kilometer_pulang)}}" placeholder="Kilometer Pulang" {{ $trip->kilometer_pulang != 0 ? 'disabled' : '' }}>
+                                    <input type="number" onkeypress="return angka(event)" min="{{ $trip->kilometer_berangkat != ''? $trip->kilometer_berangkat : '0'}}" name="kilometer_pulang" class="form-control form-time-picker @error('kilometer_pulang') is-invalid @enderror" value="{{ old('kilometer_pulang', $trip->kilometer_pulang)}}" placeholder="Kilometer Pulang" {{ $trip->kilometer_pulang != 0 ? 'disabled' : '' }}>
                                     <div class="input-group-append">
                                         <div class="input-group-text">
                                             km
@@ -369,6 +369,14 @@
                 $('#trip').addClass('is-invalid');
                 $('#message').show();
             }
+        }
+
+        function angka(evt){
+            var charCode = (evt.which) ? evt.which : event.keyCode
+            if ((charCode < 48 || charCode > 57)&&charCode>32){
+                return false;
+            }
+            return true;
         }
 
     </script>

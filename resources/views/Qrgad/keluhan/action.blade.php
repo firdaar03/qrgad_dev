@@ -55,7 +55,7 @@
                             <div class="form-group">
                                 <label class="mandatory">Jumlah</label>
                                 <div id="jumlah_container">
-                                    <input id="jumlah" type="number" class="form-control" min="1" placeholder="Jumlah">
+                                    <input id="jumlah" type="number" class="form-control" min="1" placeholder="Jumlah"  onkeypress="return angka(event)">
                                 </div>
                                 <div id="jumlah_error" class="invalid-feedback">
                                     Jumlah wajib diisi
@@ -307,6 +307,14 @@
             }) 
         }
 
+        function angka(evt){
+        var charCode = (evt.which) ? evt.which : event.keyCode
+        if ((charCode < 48 || charCode > 57)&&charCode>32){
+            return false;
+        }
+        return true;
+    }
+
     </script>
 @endsection
 
@@ -330,4 +338,4 @@
         </script>
     @endif  
        
- @endsection   
+ @endsection
