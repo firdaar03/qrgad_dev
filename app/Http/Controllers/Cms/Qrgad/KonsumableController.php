@@ -124,7 +124,7 @@ class KonsumableController extends Controller
                 return redirect('/inventory/create')->with([
                     "id" => $kode,
                     "konsumable" => $request->nama,
-                    "alert", 'success-add-konsumable'
+                    "alert" => 'success-add-konsumable'
                 ]);
 
             } else{

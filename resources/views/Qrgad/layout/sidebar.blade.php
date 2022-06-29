@@ -161,7 +161,7 @@
 
               {{-- table inventory --}}
                 @if (Auth::user()->level == "LV00000001" || Auth::user()->level == "LV00000002" )
-                    <li class="{{ Request::is('inventory') || Request::is('inventory-tambah*') || Request::is('konsumable/KS*')? 'active' : '' }}">
+                    <li class="{{ Request::is('inventory') || Request::is('inventory-tambah*') || Request::is('konsumable/KS*') || Request::is('inventory/create')? 'active' : '' }}">
                       <a href="{{ url('/inventory') }}">
                           <span class="sub-item ">Table Inventory</span>
                       </a>

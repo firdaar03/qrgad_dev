@@ -38,7 +38,9 @@
                         <br>
                         <div>
                             <h4 class="fw-bold">Penumpang</h4>
-                            <span>{{ $trip->penumpang }}</span>
+                            @foreach ($penumpang as $p)
+                                <span>{{ $p->nama }}</span><br>
+                            @endforeach
                         </div>
                     </div>
                     <div class="col d-flex flex-column justify-content-around">
@@ -323,12 +325,13 @@
                         $('.close').click();
                         if(data.redirect_url){
                             window.location=data.redirect_url; // or {{url('login')}}
-                            // showAlert('success', 'Tambah Data', 'Berhasil mengatur perjalanan');
+                            // showAlert('success', 'Tambah Data', data);
                         }
                     },error: function(xhr, status, error) {
+                        $('.close').click();
                         var err = eval("(" + xhr.responseText + ")");
                         // alert(err.Message);
-                        showAlert('danger', 'Tambah Data', 'Gagal mengatur perjalanan');
+                        // showAlert('danger', 'Tambah Data', 'Gagal mengatur perjalanan');
                     }
                 });
             }

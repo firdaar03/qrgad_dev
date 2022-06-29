@@ -2,17 +2,17 @@
     <table id="table" class="table table-striped">
         <thead class="bg-primary text-white">
             <tr>
-                <th class="col-sm-1 text-center">#</th>
-                <th class="col-sm-3">Fasilitas</th>
-                <th class="col-sm-2 text-center">Aksi</th>
+                <th class="text-center">#</th>
+                <th class="fill">Fasilitas</th>
+                <th class="text-center">Aksi</th>
             </tr>
         </thead>
         <tbody>
             @foreach ($fasilitas as $f)
                 <tr>
-                    <td class="text-center">{{ $loop->iteration }}</td>
-                    <td >{{ $f->nama }}</td>
-                    <td class="">
+                    <td class="fit text-center">{{ $loop->iteration }}</td>
+                    <td class="fill">{{ $f->nama }}</td>
+                    <td class="fit text-center">
                         <div class="btn-group">
                             <a onclick="edit('{{ $f->id }}')" type="button" data-toggle="tooltip" title="Edit" class="btn btn-link btn-warning btn-lg" >
                                 <i class="fa fa-edit"></i>

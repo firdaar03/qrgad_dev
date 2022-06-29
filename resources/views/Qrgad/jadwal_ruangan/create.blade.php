@@ -85,7 +85,7 @@
                             <option value="">-- Pilih Ruangan --</option>
                             @foreach ($ruangans as $ruangan)
                                 <option value="{{ $ruangan->id }}" {{ (old('ruangan') == $ruangan->id)? 'selected' : '' }}>
-                                    {{ $ruangan->nama }} (Kapasitas :  {{ $ruangan->kapasitas }} orang)
+                                    {{ $ruangan->nama }} | Kapasitas :  {{ $ruangan->kapasitas }} orang
                                 </option>
                             @endforeach
                         </select>

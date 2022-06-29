@@ -193,7 +193,11 @@ function getAlert(state, action, menu){
 		break;
 		case 'sendwhatsapp' : 
 			title = 'Notifikasi Whatsapp';
-			message = status + " mengirim notifikasi whatsapp";
+			message = status + " mengirim notifikasi whatsapp" + menu;
+		break;
+		case 'settrip' : 
+			title = 'Pilih Kendaraan';
+			message = status + " mengatur perjalanan" + menu;
 		break;
 	}
 
