@@ -69,7 +69,7 @@
                                 <div class="d-flex d-inline">
                                     <div class=" flex-fill mr-1" id="input-kategori">
                                         <select name="kategori" id="kategori" class="form-control @error('kategori') is-invalid @enderror">
-                                            <option value="" disabled selected>-- pilih kategori --</option>
+                                            <option value="" disabled selected>-- Pilih Kategori --</option>
                                             <option value="0" {{ (old('kategori') == '0' )? 'selected' : '' }}>Ringan</option>
                                             <option value="1" {{ (old('kategori') == '1' )? 'selected' : '' }}>Sedang</option>
                                             <option value="2" {{ (old('kategori') == '2' )? 'selected' : '' }}>Berat</option>
@@ -97,7 +97,7 @@
                         <label for="jenis_keluhan" class="mandatory">Jenis Keluhan</label>
                         <select name="jenis_keluhan" id="jenis_keluhan" 
                         onchange="jenisKeluhanCheck()" class="form-control @error('jenis_keluhan') is-invalid @enderror">
-                            <option value="" disabled selected>-- pilih jenis keluhan --</option>
+                            <option value="" disabled selected>-- Pilih Jenis Keluhan --</option>
                             <option value="Aset" {{ (old('jenis_keluhan') == 'Aset' )? 'selected' : '' }}>Aset</option>
                             <option value="Non Aset" {{ (old('jenis_keluhan') == 'Non Aset' )? 'selected' : '' }}>Non Aset</option>
                         </select>
@@ -114,7 +114,7 @@
                                 <div class="form-group">
                                     <label class="mandatory" for="grup_aset">Grup Aset</label>
                                     <select name="grup_aset" id="grup_aset" class="form-control @error('grup_aset') is-invalid @enderror" onchange="filterOption()">
-                                        <option value="" >-- pilih grup aset --</option>
+                                        <option value="" >-- Pilih Grup Aset --</option>
                                         @foreach ($grup_asets as $ga)
                                             <option value="{{ $ga->id }}" {{ old('grup_aset') == $ga->id ? 'selected' : '' }} >{{ $ga->nama }}</option>
                                         @endforeach
@@ -130,7 +130,7 @@
                                 <div class="form-group">
                                     <label class="mandatory" for="sub_grup_aset">Sub Grup Aset</label>
                                     <select name="sub_grup_aset" id="sub_grup_aset" class="form-control @error('sub_grup_aset') is-invalid @enderror">
-                                        <option value=""  selected>-- pilih sub grup aset --</option>
+                                        <option value=""  selected>-- Pilih Sub Grup Aset --</option>
                                         {{-- @foreach ($sub_grup_asets as $sga)
                                         <option value="{{ $sga->id }}" {{ old('sub_grup_aset') == $sga->id? 'selected' : '' }} >{{ $sga->nama }}</option>
                                         @endforeach --}}

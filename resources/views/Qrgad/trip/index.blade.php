@@ -67,7 +67,7 @@
 @section('script')
     
        
-    @if (session()->has('alert'))
+    @if (session()->get('alert'))
         @php
             $alert = session()->get('alert');
             $state = explode('-', $alert)[0];
@@ -130,11 +130,11 @@
                 success:function(data){
                     $('.close').click();
                     read();
-                    showAlert('success', 'Approve Request', 'Berhasil menyetujui request');
+                    showAlert('success', 'Approve Request', 'Berhasil menyetujui request kendaraan');
                 },error: function(xhr, status, error) {
                     var err = eval("(" + xhr.responseText + ")");
                     $('.close').click();
-                    showAlert('danger', 'Approve Request', 'Gagal menyetujui request');
+                    showAlert('danger', 'Approve Request', 'Gagal menyetujui request kendaraan');
                 }
             }); 
         }
@@ -167,11 +167,11 @@
                     success:function(data){
                         $('.close').click();
                         read();
-                        showAlert('success', 'Reject Request', 'Berhasil me-reject request');
+                        showAlert('success', 'Reject Request', 'Berhasil menolak request kendaraan');
                     },error: function(xhr, status, error) {
                         var err = eval("(" + xhr.responseText + ")");
                         $('.close').click();
-                        showAlert('danger', 'Reject Request', 'Gagal me-reject request');
+                        showAlert('danger', 'Reject Request', 'Gagal menolak request kendaraan');
                     }
                 });
                 
@@ -195,11 +195,11 @@
                 success:function(data){
                     $('.close').click();
                     read();
-                    showAlert('success', 'Respon Keluhan', 'Berhasil merespon keluhan');
+                    showAlert('success', 'Respon Request', 'Berhasil merespon request kendaraan');
                 },error: function(xhr, status, error) {
                     var err = eval("(" + xhr.responseText + ")");
                     $('.close').click();
-                    showAlert('danger', 'Respon Keluhan', 'Gagal merespon keluhan');
+                    showAlert('danger', 'Respon Request', 'Gagal merespon request kendaraan');
                 }
             }); 
         }

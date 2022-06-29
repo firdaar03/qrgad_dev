@@ -42,7 +42,7 @@ class SupirController extends Controller
     {
         // if($this->permissionActionMenu('aplikasi-management')->r==1){
 
-            $supirs = MsSupir::all()->where('status', 1);
+            $supirs = MsSupir::all()->where('status', 1)->whereNotNull('kontak');
             $breadcrumb = [
                 [
                     'nama' => "Driver",

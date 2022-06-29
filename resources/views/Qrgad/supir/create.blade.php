@@ -27,7 +27,7 @@
                                 <div class="input-group-prepend">
                                     <span class="input-group-text" id="basic-addon1">+62</span>
                                 </div>
-                                <input pattern="[1-9]+[0-9]$" name="kontak" id="number" type="text" class="form-control @error('kontak') is-invalid @enderror"
+                                <input pattern="[1-9]+[0-9]*" name="kontak" id="number" type="text" class="form-control @error('kontak') is-invalid @enderror"
                                 value="{{ old('kontak') }}" maxlength="13" placeholder="Nomor HP" title="contoh : 8121299503" >
                                 @error('kontak')
                                     <div class="invalid-feedback">

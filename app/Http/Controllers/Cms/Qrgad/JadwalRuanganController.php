@@ -138,7 +138,7 @@ class JadwalRuanganController extends Controller
     
             return view('Qrgad/jadwal_ruangan/create', [
                 'perusahaans' => MsPerusahaan::all(),
-                'ruangans' => MsRuangan::all()->where('status', 1),
+                'ruangans' => MsRuangan::where('status', 1)->orderBy('lantai', 'ASC')->get(),
                 'tanggal' => $request->date,
                 'breadcrumbs' => $breadcrumb
             ])->with('data', $data);

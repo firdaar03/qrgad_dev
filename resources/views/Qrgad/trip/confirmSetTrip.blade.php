@@ -1,6 +1,5 @@
 <div class="modal-header">
     <h5 class="modal-title">
-        
     </h5>
     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
     <span aria-hidden="true">&times;</span>
@@ -114,7 +113,7 @@
         
             <div class="form-group">
                 <label for="departure_time" class="mandatory">Berangkat</label>
-                <input type="datetime-local" id ="departure_time" name ="departure_time" min="{{ date('Y-m-d\TH:i:s', strtotime($trip->waktu_berangkat)) }}" value="{{ date('Y-m-d\TH:i:s', strtotime($trip->waktu_berangkat)) }}" class="form-control form-time-picker">
+                <input type="datetime-local" id ="departure_time" pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}" name ="departure_time" min="{{ date('Y-m-d\TH:i:s', strtotime($trip->waktu_berangkat)) }}" value="" class="form-control form-time-picker">
                 <div id="message_departure_time" class="invalid-feedback">Wajib Diisi</div>
             </div>
         </div>

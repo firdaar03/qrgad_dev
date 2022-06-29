@@ -84,8 +84,8 @@
                         </div>
                         <br>
                         <div>
-                            <h4 class="fw-bold">Agenda</h4>
-                            <span>{{ $trip->agenda }}</span>
+                            <h4 class="fw-bold">Keperluan</h4>
+                            <span>{{ $trip->keperluan }}</span>
                         </div>
                         
                         <br>
@@ -173,19 +173,19 @@
                             <div class="form-group">
                                 <label for="kilometer_berangkat" class="mandatory">Kilometer Berangkat</label>
                                 <div class="input-group">
-                                    <input type="number" onkeypress="return angka(event)" min="0" name="kilometer_berangkat" class="form-control @error('kilometer_berangkat') is-invalid @enderror" value="{{ old('kilometer_berangkat', $trip->kilometer_berangkat) }}" placeholder="Kilometer Berangkat" {{ $trip->kilometer_berangkat != ''? 'disabled' : '' }} >
+                                    <input required type="number" onkeypress="return angka(event)" min="0" name="kilometer_berangkat" class="form-control @error('kilometer_berangkat') is-invalid @enderror" value="{{ old('kilometer_berangkat', $trip->kilometer_berangkat) }}" placeholder="Kilometer Berangkat" {{ $trip->kilometer_berangkat != ''? 'disabled' : '' }} >
                                     <div class="input-group-append">
                                         <div class="input-group-text">
                                             km
                                         </div>
                                     </div>
                                 </div>
-                                @error('kilometer_berangkat')
-                                    <div class="invalid-feedback">
-                                        {{ $message }}
-                                    </div>
-                                @enderror
                             </div>
+                            @error('kilometer_berangkat')
+                                <div class="invalid-feedback">
+                                    {{ $message }} jancuk
+                                </div>
+                            @enderror
             
                             <div class="form-group">
                                 <label for="waktu_berangkat" class="mandatory">Waktu Berangkat</label>
@@ -242,7 +242,7 @@
                                         <a href="{{ url('/trip') }}" class="btn btn-secondary float-right">Batal</a>
                                     </div>
                                     <div class="d-inline">
-                                        <button {{ $trip->kilometer_berangkat != ''? '' : 'disabled' }} type="submit" class="btn btn-primary float-right mr-3">Simpan</button>
+                                        <button type="submit" class="btn btn-primary float-right mr-3">Simpan</button>
                                     </div>
                                 </div>
                             </div>
@@ -268,7 +268,7 @@
                             <div class="form-group">
                                 <label for="kilometer_pulang" class="mandatory">Kilometer Pulang</label>
                                 <div class="input-group">
-                                    <input type="number" onkeypress="return angka(event)" min="{{ $trip->kilometer_berangkat != ''? $trip->kilometer_berangkat : '0'}}" name="kilometer_pulang" class="form-control form-time-picker @error('kilometer_pulang') is-invalid @enderror" value="{{ old('kilometer_pulang', $trip->kilometer_pulang)}}" placeholder="Kilometer Pulang" {{ $trip->kilometer_pulang != 0 ? 'disabled' : '' }}>
+                                    <input required type="number" onkeypress="return angka(event)" min="{{ $trip->kilometer_berangkat != ''? $trip->kilometer_berangkat : '0'}}" name="kilometer_pulang" class="form-control form-time-picker @error('kilometer_pulang') is-invalid @enderror" value="{{ old('kilometer_pulang', $trip->kilometer_pulang)}}" placeholder="Kilometer Pulang" {{ $trip->kilometer_pulang != 0 ? 'disabled' : '' }}>
                                     <div class="input-group-append">
                                         <div class="input-group-text">
                                             km
@@ -302,7 +302,7 @@
                                         <a href="{{ url('/trip') }}" class="btn btn-secondary float-right">Batal</a>
                                     </div>
                                     <div class="d-inline">
-                                        <button type="submit" class="btn btn-primary float-right mr-3">Simpan</button>
+                                        <button {{ $trip->kilometer_berangkat != ''? '' : 'disabled' }} type="submit" class="btn btn-primary float-right mr-3">Simpan</button>
                                     </div>
                                 </div>
                             </div>

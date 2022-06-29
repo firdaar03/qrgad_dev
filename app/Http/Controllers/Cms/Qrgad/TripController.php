@@ -136,7 +136,7 @@ class TripController extends Controller
     {
         // if($this->permissionActionMenu('aplikasi-management')->r==1){  
 
-            $trip = VwTrip::where('status', 3 ,)->whereNotNull('kendaraan')->orderBy('departure_time', 'DESC')->get();
+            $trip = VwTrip::where('status', 3 )->orWhere('status', 4 )->whereNotNull('kendaraan')->orderBy('departure_time', 'DESC')->get();
 
             if($request->awal != '' && $request->akhir != ''){
                 $trip = $trip->whereBetween('waktu_berangkat',[$request->awal,$request->akhir])->orWhereBetween('waktu_berangkat_aktual',[$request->awal,$request->akhir])->get();
@@ -198,7 +198,7 @@ class TripController extends Controller
            
             return view('Qrgad/trip/formTms', [
                 "tanggal" => Carbon::now(),
-                "penumpangs" => User::where('level', 'LV00000002')->orwhere('level', 'LV00000004'),
+                "penumpangs" => User::where('level', 'LV00000002')->orwhere('level', 'LV00000004')->get(),
                 "breadcrumbs" => $breadcrumb
             ])->with('data', $data);
 
@@ -236,7 +236,9 @@ class TripController extends Controller
             ->whereNotIn("status", 4); //yang status tripnya belum closed
             // ->where('departure_time', '>=', Carbon::now()->format('Y-m-d')); //yang waktu keberangkatannya hari ini atau lebih
 
-        
+            $trip = VwTrip::where('id_trip_request', $id)->first();
+            $p =  $trip->penumpang;
+            $penumpang = User::all()->whereIn('username', explode("," , $p));
 
             foreach($kendaraan as $k){
                 
@@ -264,7 +266,8 @@ class TripController extends Controller
             );
            
             return view('Qrgad/trip/pickCar', [
-                "trip" => VwTrip::where('id_trip_request', $id)->first(),
+                "trip" => $trip,
+                "penumpang" => $penumpang,
                 "kendaraans" => $kendaraan,
                 "supirs" => MsSupir::all()->where('status', 1),
                 "breadcrumbs" => $breadcrumb
@@ -339,7 +342,7 @@ class TripController extends Controller
                 "tanggal" => Carbon::now(),
                 "trips" => VwTrip::all()->whereNotNull('id_trip')->whereNotNull('set_trip_time')->whereNotNull('kendaraan'),
                 "trip" => $trip,
-                "penumpangs" => User::where('level', 'LV00000002')->orwhere('level', 'LV00000004'),
+                "penumpangs" => User::where('level', 'LV00000002')->orwhere('level', 'LV00000004')->get(),
                 "penumpangs_plan" => $penumpang_plan,
                 "penumpangs_aktual" => $penumpang_aktual,
             ])->with('data', $data);
@@ -500,9 +503,9 @@ class TripController extends Controller
             $alert = '';
     
             if($create){
-                $alert = 'success-add-check out';
+                $alert = 'success-add-check out kendaraan';
             } else {
-                $alert = 'danger-add-check out';
+                $alert = 'danger-add-check out kendaraan';
             }
             
             return redirect('/trip-schedule')->with('alert', $alert);
@@ -544,9 +547,9 @@ class TripController extends Controller
             $alert = '';
     
             if($updateTripHistory && $updateTripRequest){
-                $alert = 'success-add-check in';
+                $alert = 'success-add-check in kendaraan';
             } else {
-                $alert = 'danger-add-check in';
+                $alert = 'danger-add-check in kendaraan';
             }
             
             return redirect('/trip-schedule')->with('alert', $alert);
@@ -767,7 +770,7 @@ class TripController extends Controller
     public function confirmSetTrip(Request $request, $id)
     {
         // if($this->permissionActionMenu('aplikasi-management')->u==1){
-            echo $request->kendaraan;
+            // echo $request->kendaraan;
 
             if($request->kendaraan != ''){
                 $kendaraan = MsKendaraan::where('id', $request->kendaraan)->first();
@@ -887,6 +890,186 @@ class TripController extends Controller
         // }
     }
 
+    public function sendWhatsappDriver($id){
+        $token = MsToken::orderBy('created_at', 'DESC')->first();
+        $trip = VwTrip::where('id_trip', $id)->first();
+
+       try{
+        
+           $response = Http::withToken($token->token)->post('https://graph.facebook.com/v13.0/101439039293669/messages', [
+               "messaging_product"=> "whatsapp", 
+               "to"=> $trip->wa_supir, 
+               "type"=> "template",
+               "template"=> [ 
+                   "name"=> "test_driver_trip_confirm", 
+                   "language"=> [ "code"=> "id" ],
+                   "components" => [
+                       0 => [
+                           "type" => "body",
+                           "parameters" => [
+                               0 => [
+                                   "type" => "text",
+                                   "text" => $trip->id_trip
+                               ],
+                               1 => [
+                                   "type" => "text",
+                                   "text" => $trip->supir
+                               ],
+                               2 => [
+                                   "type" => "text",
+                                   "text" => $trip->kendaraan
+                               ],
+                               3 => [
+                                   "type" => "text",
+                                   "text" => $trip->nopol
+                               ],
+                               4 => [
+                                   "type" => "text",
+                                   "text" => $trip->tujuan.", ".$trip->wilayah
+                               ],
+                               5 => [
+                                   "type" => "date_time",
+                                   "date_time" => [
+                                       "fallback_value" => date('d M Y H:i', strtotime($trip->departure_time))
+                                   ] 
+                               ]
+                           ]
+                       ]
+   
+                   ]
+                   
+               ]
+               
+           ]);
+       }catch(Exception $e){
+
+       }
+
+        return $response;
+    }
+    
+    public function sendWhatsappPemohon($id){
+        $token = MsToken::orderBy('created_at', 'DESC')->first();
+        $trip = VwTrip::where('id_trip', $id)->first();
+        $wa = $trip->wa_supir != ''? "+".$trip->wa_supir : "-";
+       
+
+        try{
+            $response = Http::withToken($token->token)->post('https://graph.facebook.com/v13.0/101439039293669/messages', [
+                "messaging_product"=> "whatsapp", 
+                "to"=> $trip->wa_pemohon, 
+                "type"=> "template",
+                "template"=> [ 
+                    "name"=> "test_employee_trip_confirm", 
+                    "language"=> [ "code"=> "id" ],
+                    "components" => [
+                        0 => [
+                            "type" => "body",
+                            "parameters" => [
+                                0 => [
+                                    "type" => "text",
+                                    "text" => $trip->id_trip
+                                ],
+                                1 => [
+                                    "type" => "text",
+                                    "text" => $trip->supir
+                                ],
+                                2 => [
+                                    "type" => "text",
+                                    "text" => $wa
+                                ],
+                                3 => [
+                                    "type" => "text",
+                                    "text" => $trip->kendaraan
+                                ],
+                                4 => [
+                                    "type" => "text",
+                                    "text" => $trip->nopol
+                                ],
+                                5 => [
+                                    "type" => "date_time",
+                                    "date_time" => [
+                                        "fallback_value" => date('d M Y H:i', strtotime($trip->departure_time))
+                                    ] 
+                                ]
+                            ]
+                        ]
+    
+                    ]
+                    
+                ]
+                
+            ]);
+        
+        }catch(Exception $e){
+ 
+        }
+
+        return $response;
+    }
+
+    public function sendWhatsappPemohonGrab($id){
+        $token = MsToken::orderBy('created_at', 'DESC')->first();
+        $trip = VwTrip::where('id_trip', $id)->first();
+        $trip_voucher = TbTripVoucher::all()->where('trip', $id);
+        $voucher = '';
+        foreach($trip_voucher as $t){
+            if($trip_voucher->count() > 1){
+                $voucher = $t->kode_voucher.", ".$voucher;
+            } else {
+                $voucher = $t->kode_voucher;
+            }
+        }
+
+        // try{
+            
+            
+        
+        // }catch(Exception $e){
+
+        // }
+
+        $response = Http::withToken($token->token)->post('https://graph.facebook.com/v13.0/101439039293669/messages', [
+            "messaging_product"=> "whatsapp", 
+            "to"=> $trip->wa_pemohon, 
+            "type"=> "template",
+            "template"=> [ 
+                "name"=> "test_employee_grab_trip_confirm", 
+                "language"=> [ "code"=> "id" ],
+                "components" => [
+                    0 => [
+                        "type" => "body",
+                        "parameters" => [
+                            0 => [
+                                "type" => "text",
+                                "text" => $trip->id_trip
+                            ],
+                            1 => [
+                                "type" => "text",
+                                "text" => "GRAB"
+                            ],
+                            2 => [
+                                "type" => "date_time",
+                                "date_time" => [
+                                    "fallback_value" => date('Y-m-d H:i:s', strtotime($trip->departure_time))
+                                ] 
+                            ],
+                            3 => [
+                                "type" => "text",
+                                "text" => $voucher
+                            ]
+                        ]
+                    ]
+
+                ]
+                
+            ]
+            
+        ]);
+
+        return $response;
+    }
+    
     public function setTrip(Request $request, $id)
     {
         // if($this->permissionActionMenu('aplikasi-management')->u==1){
@@ -899,7 +1082,6 @@ class TripController extends Controller
             // 4 - Closed
 
             $trip = TbTrip::where('id', $id)->first();
-            $trip_request_update = '';
 
             if($request->kendaraan != null){
 
@@ -908,6 +1090,8 @@ class TripController extends Controller
                     "supir" => $request->supir,
                     "departure_time" => $request->departure_time
                 ]);
+
+                
 
             } else {
 
@@ -942,178 +1126,35 @@ class TripController extends Controller
                 "set_trip_time" => Carbon::now()
             ]);
 
-            if($trip_update && $update){
-                $token = MsToken::orderBy('created_at', 'DESC')->first();
-                $trip = VwTrip::where('id_trip', $id)->first();
-                $wa = $trip->wa_supir != ''? "+".$trip->wa_supir : "-";
+           
+            if($trip_update != null){
 
-                if($request->kendaraan != null){
-                    try {
-                        $response = Http::withToken($token->token)->post('https://graph.facebook.com/v13.0/101439039293669/messages', [
-                            "messaging_product"=> "whatsapp", 
-                            "to"=> $trip->wa_pemohon, 
-                            "type"=> "template",
-                            "template"=> [ 
-                                "name"=> "test_employee_trip_confirm", 
-                                "language"=> [ "code"=> "id" ],
-                                "components" => [
-                                    0 => [
-                                        "type" => "body",
-                                        "parameters" => [
-                                            0 => [
-                                                "type" => "text",
-                                                "text" => $trip->id_trip
-                                            ],
-                                            1 => [
-                                                "type" => "text",
-                                                "text" => $trip->supir
-                                            ],
-                                            2 => [
-                                                "type" => "text",
-                                                "text" => $wa
-                                            ],
-                                            3 => [
-                                                "type" => "text",
-                                                "text" => $trip->kendaraan
-                                            ],
-                                            4 => [
-                                                "type" => "text",
-                                                "text" => $trip->nopol
-                                            ],
-                                            5 => [
-                                                "type" => "date_time",
-                                                "date_time" => [
-                                                    "fallback_value" => date('Y-m-d H:i:s', strtotime($trip->departure_time))
-                                                ] 
-                                            ]
-                                        ]
-                                    ]
-                
-                                ]
-                                
-                            ]
-                            
-                        ]);
-    
-                    } catch (Exception $e){
-                        // return redirect('/jadwal-ruangan')->with('alert', 'danger-sendwhatsapp-');
-                    }
+                $trip_view = VwTrip::where('id_trip', $id)->first();
 
-                    if($request->supir != "SP00000000"){
-                        try {
-                            $response = Http::withToken($token->token)->post('https://graph.facebook.com/v13.0/101439039293669/messages', [
-                                "messaging_product"=> "whatsapp", 
-                                "to"=> $trip->wa_pemohon, 
-                                "type"=> "template",
-                                "template"=> [ 
-                                    "name"=> "test_driver_trip_confirm", 
-                                    "language"=> [ "code"=> "id" ],
-                                    "components" => [
-                                        0 => [
-                                            "type" => "body",
-                                            "parameters" => [
-                                                0 => [
-                                                    "type" => "text",
-                                                    "text" => $trip->id_trip
-                                                ],
-                                                1 => [
-                                                    "type" => "text",
-                                                    "text" => $trip->supir
-                                                ],
-                                                2 => [
-                                                    "type" => "text",
-                                                    "text" => $trip->kendaraan
-                                                ],
-                                                3 => [
-                                                    "type" => "text",
-                                                    "text" => $trip->nopol
-                                                ],
-                                                3 => [
-                                                    "type" => "text",
-                                                    "text" => $trip->tujuan.", ".$trip->wilayah
-                                                ],
-                                                4 => [
-                                                    "type" => "date_time",
-                                                    "date_time" => [
-                                                        "fallback_value" => date('Y-m-d H:i:s', strtotime($trip->departure_time))
-                                                    ] 
-                                                ]
-                                            ]
-                                        ]
+                if($request->kendaraan == null || $request->kendaraan == ''){
+                    $this->sendWhatsappPemohonGrab($id);
                     
-                                    ]
-                                    
-                                ]
-                                
-                            ]);
-        
-                        } catch (Exception $e){
-                            // return redirect('/jadwal-ruangan')->with('alert', 'danger-sendwhatsapp-');
-                        }
-                    }
-
                 } else {
-
-                    $trip_voucher = TbTripVoucher::where('trip', $id);
-
-                    $voucher = '';
-                    foreach($trip_voucher as $t){
-                        $voucher = $voucher.",".$t->kode_voucher;
-                    }
-
-                    try {
-                        $response = Http::withToken($token->token)->post('https://graph.facebook.com/v13.0/101439039293669/messages', [
-                            "messaging_product"=> "whatsapp", 
-                            "to"=> $trip->wa_pemohon, 
-                            "type"=> "template",
-                            "template"=> [ 
-                                "name"=> "test_employee_grab_trip_confirm", 
-                                "language"=> [ "code"=> "id" ],
-                                "components" => [
-                                    0 => [
-                                        "type" => "body",
-                                        "parameters" => [
-                                            0 => [
-                                                "type" => "text",
-                                                "text" => $trip->id_trip
-                                            ],
-                                            1 => [
-                                                "type" => "text",
-                                                "text" => "GRAB"
-                                            ],
-                                            2 => [
-                                                "type" => "date_time",
-                                                "date_time" => [
-                                                    "fallback_value" => date('Y-m-d H:i:s', strtotime($trip->departure_time))
-                                                ] 
-                                            ],
-                                            3 => [
-                                                "type" => "text",
-                                                "text" => $voucher
-                                            ]
-                                        ]
-                                    ]
-                
-                                ]
-                                
-                            ]
-                            
-                        ]);
+                    
+                    $this->sendWhatsappPemohon($id);
+                    if($trip_view->wa_supir != null){
     
-                    } catch (Exception $e){
-                        // return redirect('/jadwal-ruangan')->with('alert', 'danger-sendwhatsapp-');
+                        $this->sendWhatsappDriver($id);
                     }
                 }
 
-                session()->flash('alert', 'success-add-set perjalanan');
+
+                session()->flash('alert', 'success-add-set trip');
 
                 return response()->json([
                     'status'=>true,
                     "redirect_url"=>url('/trip'),
                     
                 ]);
+
             } else {
-                session()->flash('alert', 'danger-add-set perjalanan');
+
+                session()->flash('alert', 'danger-add-set trip');
 
                 return response()->json([
                     'status'=>true,

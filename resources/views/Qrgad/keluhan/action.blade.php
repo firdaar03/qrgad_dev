@@ -230,6 +230,12 @@
                 
             } else {
                 // alert(consumable+"-"+total+"-"+complaint);
+
+                $('#konsumable').removeClass('is-invalid');
+                $('#konsumable_error').hide();
+                $('#jumlah').removeClass('is-invalid');
+                $('#jumlah_error').hide();
+
                 $.ajax({
                     type:"post",
                     url:"{{ url('/keranjang') }}",
@@ -237,7 +243,7 @@
                     success:function(data){
                         
                         if(data == 'err_add_konsumable'){
-                            showAlert('warning', 'Tambah Data' , 'Konsumable sudah ada, silahkan menambah jumlah item');
+                            showAlert('warning', 'Tambah Data' , 'Konsumable sudah ditambah, silahkan menambah jumlah item');
                         } else {
                             read(complaint);
                             showAlert('success', 'Tambah Data', 'Berhasil menambahkan item konsumable');

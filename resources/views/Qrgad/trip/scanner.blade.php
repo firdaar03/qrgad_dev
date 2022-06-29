@@ -50,9 +50,10 @@
                 },error: function(xhr, status, error) {
                     var err = eval("(" + xhr.responseText + ")");
                     // alert(err.Message);
-                    showAlert('danger', 'Periksa Data', 'Gagal mengecek id trip!');
+                    showAlert('danger', 'Scan QR', 'Gagal scan QR, gunakan QR code yang valid!');
+                    // html5QrcodeScanner.pause();
                 }
-                });
+            });
         }
 
     </script>
