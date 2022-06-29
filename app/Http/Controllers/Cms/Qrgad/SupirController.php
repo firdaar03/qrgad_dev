@@ -115,7 +115,7 @@ class SupirController extends Controller
             $create = MsSupir::create([
                 "id" => $kode,
                 "nama" => $validated['nama'],
-                "kontak" =>  "+62".$validated['kontak'],
+                "kontak" =>  "62".$validated['kontak'],
                 "status" => 1,
                 "created_by" => Auth::user()->nama, 
             ]);

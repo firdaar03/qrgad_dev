@@ -152,7 +152,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/trip-response/{id}',[TripController::class,'response']);
     Route::get('/trip-pick-car/{id}',[TripController::class,'pickCar']);
     Route::post('/trip-confirm-set-trip/{id}',[TripController::class,'confirmSetTrip']);
-    Route::get('/testwa/{id}',[TripController::class,'sendWhatsappPemohonGrab']);
+    // Route::get('/testwa/{id}',[TripController::class,'sendWhatsappPemohonGrab']);
     Route::post('/trip-set-trip/{id}',[TripController::class,'setTrip']);
     Route::get('/trip-ticket/{id}',[TripController::class,'ticket']);
     Route::get('/trip-check',[TripController::class,'checkTrip']);
