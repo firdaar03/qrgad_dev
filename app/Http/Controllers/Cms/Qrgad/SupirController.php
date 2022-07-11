@@ -197,7 +197,7 @@ class SupirController extends Controller
             
             $update = MsSupir::where('id', $id)->update([
                 "nama" => $validated['nama'],
-                "kontak" =>  "+62".$validated['kontak'],
+                "kontak" =>  "62".$validated['kontak'],
                 "updated_by" => Auth::user()->nama, 
             ]);
     

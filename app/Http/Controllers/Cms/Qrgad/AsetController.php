@@ -6,6 +6,7 @@ use App\Exports\Qrgad\ExportAset;
 use App\Http\Controllers\Controller;
 use App\Imports\Qrgad\ImportAset;
 use App\Models\Table\Qrgad\TbAset;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
@@ -116,11 +117,17 @@ class AsetController extends Controller
         ]);
 
         TbAset::truncate();
+        $importAset = new ImportAset;
         
         $file = $request->file('file');
         $namafile = $file->getClientOriginalName();
         $file->move('DataAset', $namafile);
-        $import = Excel::import(new ImportAset, public_path('/DataAset/'.$namafile));
+        try{
+            $import = Excel::import($importAset, public_path('/DataAset/'.$namafile));
+        } catch (Exception $e){
+            return back()->withError('Template harus sesuai');
+        }
+        
 
         $alert = '';
 
