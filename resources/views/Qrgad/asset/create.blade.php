@@ -7,6 +7,7 @@
         </div>
         <div class="card-body">
             <div class="container">
+               
                 <form action="{{ url('/aset-import') }}" method="post" enctype="multipart/form-data">
                     @csrf
                     <div class="form-group">
@@ -19,6 +20,7 @@
                             </div>
                         @enderror
                     </div>
+                    
 
                     <div class="d-flex float-right mt-5 mb-5">
                         <div class="d-inline mr-2">
@@ -31,6 +33,12 @@
                             <a type="button" href="{{ url('/aset-export') }}" class="btn btn-success float-right mr-3">Download Template</a>
                         </div>
                     </div>
+
+                    @if (session('error'))
+                        <div class="form-group">
+                            <span style="color: red;"> {{ session('error') }}</span>
+                        </div>
+                    @endif
                     
                 </form>
             </div>
