@@ -37,11 +37,5 @@ class ImportAset implements ToModel, WithStartRow, SkipsOnError
         
     }
 
-    // public function rules(): array
-    // {
-    //     return [
-    //         'location' => "harus sesuai dengan template",
-    //         'code_asset' => ['max:10'],
-    //     ];
-    // }
+    
 }
