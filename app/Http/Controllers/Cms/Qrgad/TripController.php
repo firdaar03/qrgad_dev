@@ -388,9 +388,9 @@ class TripController extends Controller
     {
         // if($this->permissionActionMenu('aplikasi-management')->c==1){
            
-            $trip = TbTrip::findOrFail($id);
+            $trip = TbTrip::all()->where('id', $id)->first();
 
-            if ($trip != ''){
+            if ($trip != '' && $trip != '[]'){
                 $result = true;
             } else {
                 $result = false;

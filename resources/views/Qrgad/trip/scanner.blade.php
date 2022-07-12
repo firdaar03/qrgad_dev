@@ -7,6 +7,7 @@
 
 @section('script')
     <script>
+        var value = '';
         let config = {
             fps: 10,
             qrbox: 500,
@@ -25,6 +26,7 @@
             // console.log(`Scan result: ${decodedText}`, decodedResult);
             // alert(decodedText);
             // window.location.replace("{{ url('trip-check/') }}"+ "/" + decodedText);
+            
             checkIdTrip(decodedText);
             
         }
@@ -36,6 +38,9 @@
         
         html5QrcodeScanner.render(onScanSuccess, onScanError);
 
+
+        var value = '';
+
         function checkIdTrip(id){
             $.ajax({
                 type:"get",
@@ -43,14 +48,21 @@
                 success:function(data){
                     if (data){
                         window.location.replace("{{ url('trip-check/') }}"+ "/" + id);
+                        html5QrcodeScanner.clear();
                     } else { 
-                        showAlert('danger', 'Scan QR', 'Gagal scan QR, gunakan QR code yang valid!');
+                        // showAlert('danger', 'Scan QR', 'Gagal scan QR, gunakan QR code yang valid!');
+                        if(value == '' || value != id){
+                            value = id;
+                            showAlert('danger', 'Scan QR', 'Gagal scan QR, gunakan QR code yang valid!');
+                        }
                     }
-                    html5QrcodeScanner.clear();
                 },error: function(xhr, status, error) {
                     var err = eval("(" + xhr.responseText + ")");
                     // alert(err.Message);
-                    showAlert('danger', 'Scan QR', 'Gagal scan QR, gunakan QR code yang valid!');
+                    if(value == '' || value != id){
+                        value = id;
+                        showAlert('danger', 'Scan QR', 'Gagal scan QR, gunakan QR code yang valid!');
+                    }
                     // html5QrcodeScanner.pause();
                 }
             });
